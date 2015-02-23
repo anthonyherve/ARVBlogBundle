@@ -1,6 +1,6 @@
 <?php
 
-namespace AnthonyHerve\BlogBundle\Controller;
+namespace ARV\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

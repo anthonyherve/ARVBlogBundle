@@ -1,4 +1,4 @@
-# AnthonyHerveBlogBundle
+# ARVBlogBundle
 
 **THIS BUNDLE IS IN DEVELOPMENT.**
 
