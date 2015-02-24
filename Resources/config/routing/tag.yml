@@ -1,0 +1,30 @@
+tag:
+    path:     /
+    defaults: { _controller: "ARVBlogBundle:Tag:index" }
+
+tag_show:
+    path:     /{id}/show
+    defaults: { _controller: "ARVBlogBundle:Tag:show" }
+
+tag_new:
+    path:     /new
+    defaults: { _controller: "ARVBlogBundle:Tag:new" }
+
+tag_create:
+    path:     /create
+    defaults: { _controller: "ARVBlogBundle:Tag:create" }
+    requirements: { _method: post }
+
+tag_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ARVBlogBundle:Tag:edit" }
+
+tag_update:
+    path:     /{id}/update
+    defaults: { _controller: "ARVBlogBundle:Tag:update" }
+    requirements: { _method: post|put }
+
+tag_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ARVBlogBundle:Tag:delete" }
+    requirements: { _method: post|delete }
