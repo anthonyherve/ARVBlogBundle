@@ -1,6 +1,8 @@
-{% extends '::base.html.twig' %}
+{% extends 'ARVBlogBundle::blog.html.twig' %}
 
-{% block body -%}
+{% block body %}
+    {{ parent() }}
+
     <h1>Tag</h1>
 
     <table class="record_properties">

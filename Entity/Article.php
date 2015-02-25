@@ -2,15 +2,17 @@
 
 namespace ARV\BlogBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Post
+ * Article
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="ARV\BlogBundle\Entity\PostRepository")
+ * @ORM\Table(name = "article")
+ * @ORM\Entity(repositoryClass="ARV\BlogBundle\Repository\ArticleRepository")
  */
-class Post
+class Article
 {
     /**
      * @var integer
@@ -38,15 +40,27 @@ class Post
     /**
      * @var string
      *
+     * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
 
+    /**
+     * @var tags
+     *
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="articles", cascade={"persist"})
+     */
+    private $tags;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -57,7 +71,7 @@ class Post
      * Set title
      *
      * @param string $title
-     * @return Post
+     * @return Article
      */
     public function setTitle($title)
     {
@@ -69,7 +83,7 @@ class Post
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -80,7 +94,7 @@ class Post
      * Set content
      *
      * @param string $content
-     * @return Post
+     * @return Article
      */
     public function setContent($content)
     {
@@ -92,7 +106,7 @@ class Post
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -103,7 +117,7 @@ class Post
      * Set slug
      *
      * @param string $slug
-     * @return Post
+     * @return Article
      */
     public function setSlug($slug)
     {
@@ -115,10 +129,47 @@ class Post
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
         return $this->slug;
     }
+
+    /**
+     * Get tags
+     *
+     * @return ArrayCollection
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Set tags
+     *
+     * @param ArrayCollection $tags
+     * @return Article
+     */
+    public function setTags($tags)
+    {
+        foreach ($tags as $tag) {
+            $tag->addArticle($this);
+        }
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Add a tag to collection.
+     * @param Tag $tag
+     */
+    public function addTag(Tag $tag)
+    {
+        $tag->addArticle($this); // synchronously updating inverse side
+        $this->tags[] = $tag;
+    }
+
 }

@@ -2,68 +2,82 @@
 
 namespace ARV\BlogBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use ARV\BlogBundle\Entity\Post;
-use ARV\BlogBundle\Form\PostType;
+use ARV\BlogBundle\Entity\Article;
+use ARV\BlogBundle\Form\ArticleType;
 
 /**
- * Post controller.
+ * Article controller.
  *
  */
-class PostController extends Controller
+class ArticleController extends Controller
 {
 
     /**
-     * Lists all Post entities.
+     * Lists all Article entities.
      *
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('ARVBlogBundle:Post')->findAll();
+        $entities = $em->getRepository('ARVBlogBundle:Article')->findAll();
 
-        return $this->render('ARVBlogBundle:Post:index.html.twig', array(
+        return $this->render('ARVBlogBundle:Article:index.html.twig', array(
             'entities' => $entities,
         ));
     }
     /**
-     * Creates a new Post entity.
+     * Creates a new Article entity.
      *
      */
     public function createAction(Request $request)
     {
-        $entity = new Post();
+        $entity = new Article();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            // Check if tag already exists in database
+            $tags = new ArrayCollection();
+            foreach($entity->getTags() as $tag) {
+                $tagFromDB = $em->getRepository('ARVBlogBundle:Tag')->findOneByName(strtolower($tag->getName()));
+                if ($tagFromDB == null) {
+                    $tags[] = $tag;
+                } else {
+                    $tags[] = $tagFromDB;
+                }
+            }
+            $entity->setTags($tags);
+
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('post_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('article_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('ARVBlogBundle:Post:new.html.twig', array(
+        return $this->render('ARVBlogBundle:Article:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-     * Creates a form to create a Post entity.
+     * Creates a form to create a Article entity.
      *
-     * @param Post $entity The entity
+     * @param Article $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Post $entity)
+    private function createCreateForm(Article $entity)
     {
-        $form = $this->createForm(new PostType(), $entity, array(
-            'action' => $this->generateUrl('post_create'),
+        $form = $this->createForm(new ArticleType(), $entity, array(
+            'action' => $this->generateUrl('article_create'),
             'method' => 'POST',
         ));
 
@@ -73,60 +87,60 @@ class PostController extends Controller
     }
 
     /**
-     * Displays a form to create a new Post entity.
+     * Displays a form to create a new Article entity.
      *
      */
     public function newAction()
     {
-        $entity = new Post();
+        $entity = new Article();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('ARVBlogBundle:Post:new.html.twig', array(
+        return $this->render('ARVBlogBundle:Article:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-     * Finds and displays a Post entity.
+     * Finds and displays a Article entity.
      *
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ARVBlogBundle:Post')->find($id);
+        $entity = $em->getRepository('ARVBlogBundle:Article')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Post entity.');
+            throw $this->createNotFoundException('Unable to find Article entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('ARVBlogBundle:Post:show.html.twig', array(
+        return $this->render('ARVBlogBundle:Article:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-     * Displays a form to edit an existing Post entity.
+     * Displays a form to edit an existing Article entity.
      *
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ARVBlogBundle:Post')->find($id);
+        $entity = $em->getRepository('ARVBlogBundle:Article')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Post entity.');
+            throw $this->createNotFoundException('Unable to find Article entity.');
         }
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('ARVBlogBundle:Post:edit.html.twig', array(
+        return $this->render('ARVBlogBundle:Article:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -134,16 +148,16 @@ class PostController extends Controller
     }
 
     /**
-    * Creates a form to edit a Post entity.
+    * Creates a form to edit a Article entity.
     *
-    * @param Post $entity The entity
+    * @param Article $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Post $entity)
+    private function createEditForm(Article $entity)
     {
-        $form = $this->createForm(new PostType(), $entity, array(
-            'action' => $this->generateUrl('post_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new ArticleType(), $entity, array(
+            'action' => $this->generateUrl('article_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -152,17 +166,17 @@ class PostController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Post entity.
+     * Edits an existing Article entity.
      *
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ARVBlogBundle:Post')->find($id);
+        $entity = $em->getRepository('ARVBlogBundle:Article')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Post entity.');
+            throw $this->createNotFoundException('Unable to find Article entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -172,17 +186,17 @@ class PostController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('post_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('article_edit', array('id' => $id)));
         }
 
-        return $this->render('ARVBlogBundle:Post:edit.html.twig', array(
+        return $this->render('ARVBlogBundle:Article:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
     /**
-     * Deletes a Post entity.
+     * Deletes a Article entity.
      *
      */
     public function deleteAction(Request $request, $id)
@@ -192,21 +206,21 @@ class PostController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('ARVBlogBundle:Post')->find($id);
+            $entity = $em->getRepository('ARVBlogBundle:Article')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Post entity.');
+                throw $this->createNotFoundException('Unable to find Article entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('post'));
+        return $this->redirect($this->generateUrl('article'));
     }
 
     /**
-     * Creates a form to delete a Post entity by id.
+     * Creates a form to delete a Article entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -215,7 +229,7 @@ class PostController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('post_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('article_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

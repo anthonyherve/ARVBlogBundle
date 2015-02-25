@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class PostType extends AbstractType
+class ArticleType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -17,7 +17,13 @@ class PostType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('slug')
+            ->add('tags', 'collection', [
+                'label' => 'Tags',
+                'type' => new TagType(),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false
+            ])
         ;
     }
     
@@ -27,7 +33,7 @@ class PostType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'ARV\BlogBundle\Entity\Post'
+            'data_class' => 'ARV\BlogBundle\Entity\Article'
         ));
     }
 
@@ -36,6 +42,6 @@ class PostType extends AbstractType
      */
     public function getName()
     {
-        return 'arv_blogbundle_post';
+        return 'arv_blogbundle_article';
     }
 }

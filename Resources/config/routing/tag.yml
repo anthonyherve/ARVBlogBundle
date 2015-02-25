@@ -13,7 +13,7 @@ tag_new:
 tag_create:
     path:     /create
     defaults: { _controller: "ARVBlogBundle:Tag:create" }
-    requirements: { _method: post }
+    requirements: { _method: article }
 
 tag_edit:
     path:     /{id}/edit
@@ -22,9 +22,9 @@ tag_edit:
 tag_update:
     path:     /{id}/update
     defaults: { _controller: "ARVBlogBundle:Tag:update" }
-    requirements: { _method: post|put }
+    requirements: { _method: article|put }
 
 tag_delete:
     path:     /{id}/delete
     defaults: { _controller: "ARVBlogBundle:Tag:delete" }
-    requirements: { _method: post|delete }
+    requirements: { _method: article|delete }

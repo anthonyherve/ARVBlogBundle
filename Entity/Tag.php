@@ -2,13 +2,16 @@
 
 namespace ARV\BlogBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Tag
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="ARV\BlogBundle\Entity\TagRepository")
+ * @ORM\Table(name = "tag")
+ * @ORM\Entity(repositoryClass="ARV\BlogBundle\Repository\TagRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Tag
 {
@@ -28,11 +31,22 @@ class Tag
      */
     private $name;
 
+    /**
+     * @var articles
+     *
+     * @ORM\ManyToMany(targetEntity="Article", mappedBy="tags")
+     */
+    private $articles;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -55,10 +69,55 @@ class Tag
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
     }
+
+    /**
+     * Set articles
+     *
+     * @param ArrayCollection $articles
+     * @return Tag
+     */
+    public function setTags($articles)
+    {
+        foreach ($articles as $article) {
+            $article->addTag($this);
+        }
+        $this->articles = $articles;
+
+        return $this;
+    }
+
+    /**
+     * Get articles
+     *
+     * @return ArrayCollection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+    /**
+     * Add an article to collection.
+     * @param Article $article
+     */
+    public function addArticle(Article $article)
+    {
+        $this->articles[] = $article;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function lowerName()
+    {
+        $this->name = strtolower($this->name);
+    }
+
 }

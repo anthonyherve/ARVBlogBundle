@@ -2,7 +2,7 @@ arv_blog_tag:
     resource: "@ARVBlogBundle/Resources/config/routing/tag.yml"
     prefix:   /tag
 
-arv_blog_post:
-    resource: "@ARVBlogBundle/Resources/config/routing/post.yml"
-    prefix:   /post
+arv_blog_article:
+    resource: "@ARVBlogBundle/Resources/config/routing/article.yml"
+    prefix:   /article
 

@@ -1,0 +1,80 @@
+<h1>Article creation</h1>
+
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    <div>
+        {{ form_row(form.title) }}
+    </div>
+    <div>
+        {{ form_row(form.content) }}
+    </div>
+    <div id="tags" data-prototype="{{ form_widget(form.tags.vars.prototype) | e }}">
+        {% for tag in form.tags %}
+            <div class="tag">
+                {{ form_row(tag) }}
+            </div>
+        {% endfor %}
+    </div>
+
+{{ form_end(form) }}
+
+<script type="text/javascript">
+    // garde une trace du nombre de champs email qui ont été affichés
+    var tagCount = '{{ form.tags | length }}';
+    // Tag collection
+    var collectionTags = $('#tags');
+
+    var $addLink = $('<a id="add-tag" href="#">Add tag</a>');
+    var $newLink = $('#tags').before($addLink);
+
+    $(document).ready(function () {
+        jQuery(document).ready(function () {
+            $addLink.on('click', function (e) {
+                collectionTags.append($newLink);
+                // empêche le lien de créer un « # » dans l'URL
+                e.preventDefault();
+
+                // ajoute un nouveau formulaire tag (voir le prochain bloc de code)
+                addForm(collectionTags, $newLink);
+            });
+
+            collectionTags.find('.tag').each(function () {
+                addDeleteLink($(this), false);
+            });
+
+        });
+
+        function addForm(collectionTags, $newLink) {
+            // Récupère l'élément ayant l'attribut data-prototype comme expliqué plus tôt
+            var prototype = collectionTags.attr('data-prototype');
+
+            // Remplace '__name__' dans le HTML du prototype par un nombre basé sur
+            // la longueur de la collection courante
+            var length = collectionTags.children().length;
+            var newForm = prototype.replace(/__name__/g, length);
+
+            // Affiche le formulaire dans la page dans un li, avant le lien "ajouter un tag"
+            var $newFormLi = $('<li class="tag"></li>').append(newForm);
+            $newLink.append($newFormLi);
+
+            addDeleteLink($newFormLi, true);
+
+        }
+
+        function addDeleteLink($tagFormLi) {
+            var $removeFormA = $('<a href="#">Delete this tag</div>');
+            $tagFormLi.append($removeFormA);
+
+            $removeFormA.on('click', function (e) {
+                // empêche le lien de créer un « # » dans l'URL
+                e.preventDefault();
+
+                // supprime l'élément li pour le formulaire de tag
+                $tagFormLi.remove();
+                $removeFormA.remove();
+            });
+        }
+
+    })
+</script>

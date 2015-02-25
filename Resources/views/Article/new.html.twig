@@ -3,15 +3,14 @@
 {% block body %}
     {{ parent() }}
 
-    <h1>Tag creation</h1>
-
-    {{ form(form) }}
+    {% include 'ARVBlogBundle:Article:form.html.twig' with {'form': form} %}
 
     <ul class="record_actions">
         <li>
-            <a href="{{ path('tag') }}">
+            <a href="{{ path('article') }}">
                 Back to the list
             </a>
         </li>
     </ul>
+
 {% endblock %}
