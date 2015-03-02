@@ -19,6 +19,8 @@
 
 {{ form_end(form) }}
 
+{{ tinymce_init() }}
+
 <script type="text/javascript">
     // garde une trace du nombre de champs email qui ont été affichés
     var tagCount = '{{ form.tags | length }}';

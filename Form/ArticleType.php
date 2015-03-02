@@ -16,7 +16,7 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('content')
+            ->add('content', 'textarea', ['attr' => ['class' => 'tinymce', 'data-theme' => 'advanced']])
             ->add('tags', 'collection', [
                 'label' => 'Tags',
                 'type' => new TagType(),
