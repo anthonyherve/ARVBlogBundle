@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Article
  *
- * @ORM\Table(name = "article")
+ * @ORM\Table(name = "blog_article")
  * @ORM\Entity(repositoryClass="ARV\BlogBundle\Repository\ArticleRepository")
  */
 class Article
@@ -49,6 +49,7 @@ class Article
      * @var tags
      *
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="articles", cascade={"persist"})
+     * @ORM\JoinTable(name="blog_article_tag")
      */
     private $tags;
 

@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Tag
  *
- * @ORM\Table(name = "tag")
+ * @ORM\Table(name = "blog_tag")
  * @ORM\Entity(repositoryClass="ARV\BlogBundle\Repository\TagRepository")
  * @ORM\HasLifecycleCallbacks
  */
