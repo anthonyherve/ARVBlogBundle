@@ -3,34 +3,18 @@
 {% block body %}
     {{ parent() }}
 
-    <h1>Article</h1>
-
-    <table class="record_properties">
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Title</th>
-            <td>{{ entity.title }}</td>
-        </tr>
-        <tr>
-            <th>Content</th>
-            <td>{{ entity.content }}</td>
-        </tr>
-        <tr>
-            <th>Tags</th>
-            <td>
-                <ul>
-                    {% for tag in entity.tags %}
-                    <li>{{ tag.name }}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="article">
+        <h1>{{ entity.title }}</h1>
+        <div class="date">Ecrit le {{ entity.dateModification|date("d/m/Y \à H:i") }}</div>
+        <ul class="tags">
+            {% for tag in entity.tags %}
+                <li>{{ tag.name }}</li>
+            {% endfor %}
+        </ul>
+        <div class="content">
+            {{ entity.content|raw }}
+        </div>
+    </div>
 
     <ul class="record_actions">
         <li>

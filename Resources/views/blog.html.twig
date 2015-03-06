@@ -1,7 +1,6 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    {{ parent() }}
     {# Messages FLASH #}
     {% for type, messages in app.session.flashbag.all() %}
         {% for message in messages %}

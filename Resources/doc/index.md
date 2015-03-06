@@ -46,4 +46,10 @@ stfalcon_tinymce:
                 - "textcolor link preview autoresize"
             toolbar1:   "undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent"
             toolbar2:   "link | forecolor backcolor | preview"
+# Twig Extension
+services:
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
 ```

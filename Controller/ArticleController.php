@@ -25,9 +25,14 @@ class ArticleController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('ARVBlogBundle:Article')->findAll();
+        $deleteForms = array();
+        foreach ($entities as $entity) {
+            $deleteForms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
+        }
 
         return $this->render('ARVBlogBundle:Article:index.html.twig', array(
             'entities' => $entities,
+            'deleteForms' => $deleteForms
         ));
     }
     /**
