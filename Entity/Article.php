@@ -89,7 +89,7 @@ class Article
      */
     public function prePersist()
     {
-        if ($this->dateCreation == null) {
+        if ($this->dateCreation === null) {
             $this->dateCreation = new \DateTime('now');
             $this->dateModification = new \DateTime('now');
         }

@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ARV\BlogBundle\Entity\Article;
-use ARV\BlogBundle\Form\ArticleType;
+use ARV\BlogBundle\Form\Type\ArticleType;
 
 /**
  * Article controller.
@@ -52,7 +52,7 @@ class ArticleController extends Controller
             $tags = new ArrayCollection();
             foreach($entity->getTags() as $tag) {
                 $tagFromDB = $em->getRepository('ARVBlogBundle:Tag')->findOneByName(strtolower($tag->getName()));
-                if ($tagFromDB == null) {
+                if ($tagFromDB === null) {
                     $tags[] = $tag;
                 } else {
                     $tags[] = $tagFromDB;

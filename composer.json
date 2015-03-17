@@ -1,6 +1,7 @@
 {
     "name": "arv/blog-bundle",
     "description": "Provide features to create and manipulate a blog",
+    "license": "MIT",
     "authors": [
         {
             "name": "Anthony HERVE",
