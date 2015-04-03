@@ -1,0 +1,53 @@
+{% extends 'ARVBlogBundle::blog.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+
+    <h1>Liste d'articles</h1>
+
+    <ul>
+        <li>
+            <a href="{{ path('arv_blog_article_new') }}">
+                Ecrire un nouvel article
+            </a>
+        </li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Contenu</th>
+            <th>Tags</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.title }}</td>
+                <td>{{ article.content|striptags|truncate(50) }}...</td>
+                <td>
+                    <ul>
+                        {% for tag in article.tags %}
+                            <li>{{ tag.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('arv_blog_article_show', { 'id': article.id, 'slug': article.slug }) }}">Visualiser</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('arv_blog_article_edit', { 'id': article.id, 'slug': article.slug }) }}">Modifier</a>
+                        </li>
+                        <li>{{ form(delete_forms[article.id]) }}</li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

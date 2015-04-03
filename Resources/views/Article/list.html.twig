@@ -1,0 +1,37 @@
+{% for article in articles %}
+    <div>
+        {# Title #}
+        <h2>
+            <a href="{{ path('arv_blog_article_show', { 'id': article.id, 'slug': article.slug }) }}">{{ article.title }}</a>
+        </h2>
+
+        {# Metadata #}
+        <div>
+            {{ article.dateModification|date('d/m/Y') }} -
+            {% for tag in article.tags %}
+                <a href="">{{ tag.name }}</a>{% if loop.last == false %}, {% endif %}
+            {% endfor %}
+        </div>
+
+        {# Content #}
+        <div>
+            {{ article.content|striptags|truncate(50) }}...
+        </div>
+
+        {# Actions #}
+        <div>
+
+        </div>
+
+        <td>
+            <ul>
+                <li>
+                    <a href="{{ path('arv_blog_article_edit', { 'id': article.id, 'slug': article.slug }) }}">Modifier</a>
+                </li>
+                <li>
+                    {{ form(delete_forms[article.id]) }}
+                </li>
+            </ul>
+        </td>
+    </div>
+{% endfor %}

@@ -1,0 +1,43 @@
+{% extends 'ARVBlogBundle::blog.html.twig' %}
+
+{% block body %}
+
+    {{ parent() }}
+
+    <h1>Accueil blog</h1>
+
+    <div>
+        <div>
+            {# Articles list #}
+            {% block articles %}
+                {{ render(controller('ARVBlogBundle:Article:list')) }}
+            {% endblock %}
+        </div>
+        <div>
+            {# Search block #}
+            {% block search %}
+                {{ render(controller('ARVBlogBundle:Search:form')) }}
+            {% endblock %}
+            {# Global actions #}
+            <ul>
+                <li>
+                    <a href="">Ajouter un article</a>
+                </li>
+                <li>
+                    <a href="">Ajouter un tag</a>
+                </li>
+                <li>
+                    <a href="">Liste des articles</a>
+                </li>
+                <li>
+                    <a href="">Liste des tags</a>
+                </li>
+                <li>
+                    <a href="">Liste des commentaires</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+

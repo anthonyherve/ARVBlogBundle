@@ -5,37 +5,37 @@ namespace ARV\BlogBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use ARV\BlogBundle\Entity\Tag;
-use ARV\BlogBundle\Form\Type\TagType;
+use ARV\BlogBundle\Entity\Comment;
+use ARV\BlogBundle\Form\Type\CommentType;
 
 /**
- * Tag controller.
+ * Comment controller.
  *
  */
-class TagController extends Controller
+class CommentController extends Controller
 {
 
     /**
-     * Lists all Tag entities.
+     * Lists all Comment entities.
      *
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('ARVBlogBundle:Tag')->findAll();
+        $entities = $em->getRepository('ARVBlogBundle:Comment')->findAll();
 
-        return $this->render('ARVBlogBundle:Tag:manage.html.twig', array(
+        return $this->render('ARVBlogBundle:Comment:manage.html.twig', array(
             'entities' => $entities,
         ));
     }
     /**
-     * Creates a new Tag entity.
+     * Creates a new Comment entity.
      *
      */
     public function createAction(Request $request)
     {
-        $entity = new Tag();
+        $entity = new Comment();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -44,26 +44,26 @@ class TagController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tag_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('ARVBlogBundle:Tag:new.html.twig', array(
+        return $this->render('ARVBlogBundle:Comment:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-     * Creates a form to create a Tag entity.
+     * Creates a form to create a Comment entity.
      *
-     * @param Tag $entity The entity
+     * @param Comment $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Tag $entity)
+    private function createCreateForm(Comment $entity)
     {
-        $form = $this->createForm(new TagType(), $entity, array(
-            'action' => $this->generateUrl('tag_create'),
+        $form = $this->createForm(new CommentType(), $entity, array(
+            'action' => $this->generateUrl('comment_create'),
             'method' => 'POST',
         ));
 
@@ -73,60 +73,60 @@ class TagController extends Controller
     }
 
     /**
-     * Displays a form to create a new Tag entity.
+     * Displays a form to create a new Comment entity.
      *
      */
     public function newAction()
     {
-        $entity = new Tag();
+        $entity = new Comment();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('ARVBlogBundle:Tag:new.html.twig', array(
+        return $this->render('ARVBlogBundle:Comment:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-     * Finds and displays a Tag entity.
+     * Finds and displays a Comment entity.
      *
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ARVBlogBundle:Tag')->find($id);
+        $entity = $em->getRepository('ARVBlogBundle:Comment')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tag entity.');
+            throw $this->createNotFoundException('Unable to find Comment entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('ARVBlogBundle:Tag:show.html.twig', array(
+        return $this->render('ARVBlogBundle:Comment:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-     * Displays a form to edit an existing Tag entity.
+     * Displays a form to edit an existing Comment entity.
      *
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ARVBlogBundle:Tag')->find($id);
+        $entity = $em->getRepository('ARVBlogBundle:Comment')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tag entity.');
+            throw $this->createNotFoundException('Unable to find Comment entity.');
         }
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('ARVBlogBundle:Tag:edit.html.twig', array(
+        return $this->render('ARVBlogBundle:Comment:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -134,16 +134,16 @@ class TagController extends Controller
     }
 
     /**
-    * Creates a form to edit a Tag entity.
+    * Creates a form to edit a Comment entity.
     *
-    * @param Tag $entity The entity
+    * @param Comment $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Tag $entity)
+    private function createEditForm(Comment $entity)
     {
-        $form = $this->createForm(new TagType(), $entity, array(
-            'action' => $this->generateUrl('tag_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new CommentType(), $entity, array(
+            'action' => $this->generateUrl('comment_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -152,17 +152,17 @@ class TagController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Tag entity.
+     * Edits an existing Comment entity.
      *
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ARVBlogBundle:Tag')->find($id);
+        $entity = $em->getRepository('ARVBlogBundle:Comment')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tag entity.');
+            throw $this->createNotFoundException('Unable to find Comment entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -172,17 +172,17 @@ class TagController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tag_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('comment_edit', array('id' => $id)));
         }
 
-        return $this->render('ARVBlogBundle:Tag:edit.html.twig', array(
+        return $this->render('ARVBlogBundle:Comment:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
     /**
-     * Deletes a Tag entity.
+     * Deletes a Comment entity.
      *
      */
     public function deleteAction(Request $request, $id)
@@ -192,21 +192,21 @@ class TagController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('ARVBlogBundle:Tag')->find($id);
+            $entity = $em->getRepository('ARVBlogBundle:Comment')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Tag entity.');
+                throw $this->createNotFoundException('Unable to find Comment entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('tag'));
+        return $this->redirect($this->generateUrl('comment'));
     }
 
     /**
-     * Creates a form to delete a Tag entity by id.
+     * Creates a form to delete a Comment entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -215,7 +215,7 @@ class TagController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tag_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('comment_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

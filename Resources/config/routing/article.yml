@@ -1,30 +1,42 @@
-article:
+arv_blog_article_manage:
     path:     /
-    defaults: { _controller: "ARVBlogBundle:Article:index" }
+    defaults: { _controller: "ARVBlogBundle:Article:manage" }
 
-article_show:
-    path:     /{id}/show
+arv_blog_article_list:
+    path:     /liste-{search}
+    defaults: { _controller: "ARVBlogBundle:Article:list", search: '' }
+
+arv_blog_article_show:
+    path:     /{id}-{slug}
     defaults: { _controller: "ARVBlogBundle:Article:show" }
+    requirements:
+        id: \d+
 
-article_new:
-    path:     /new
+arv_blog_article_new:
+    path:     /nouveau
     defaults: { _controller: "ARVBlogBundle:Article:new" }
 
-article_create:
-    path:     /create
+arv_blog_article_create:
+    path:     /creer
     defaults: { _controller: "ARVBlogBundle:Article:create" }
-    requirements: { _method: post }
+    methods:  [POST]
 
-article_edit:
-    path:     /{id}/edit
+arv_blog_article_edit:
+    path:     /{id}-{slug}/modifier
     defaults: { _controller: "ARVBlogBundle:Article:edit" }
+    requirements:
+        id: \d+
 
-article_update:
-    path:     /{id}/update
+arv_blog_article_update:
+    path:     /{id}-{slug}/mettre-a-jour
     defaults: { _controller: "ARVBlogBundle:Article:update" }
-    requirements: { _method: post|put }
+    methods:  [POST, PUT]
+    requirements:
+        id: \d+
 
-article_delete:
-    path:     /{id}/delete
+arv_blog_article_delete:
+    path:     /{id}-{slug}/supprimer
     defaults: { _controller: "ARVBlogBundle:Article:delete" }
-    requirements: { _method: post|delete }
+    methods:  [POST, DELETE]
+    requirements:
+        id: \d+

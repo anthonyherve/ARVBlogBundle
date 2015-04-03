@@ -1,0 +1,9 @@
+arv_blog_search_form:
+    path:     /formulaire
+    defaults: { _controller: "ARVBlogBundle:Search:form" }
+    methods:  [GET]
+
+arv_blog_search_result:
+    path:     /
+    defaults: { _controller: "ARVBlogBundle:Search:search" }
+    methods:  [POST]

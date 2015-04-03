@@ -10,11 +10,12 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "symfony/symfony": ">=2.3",
         "stof/doctrine-extensions-bundle": "1.1.0",
         "genemu/form-bundle": "2.2.*",
         "stfalcon/tinymce-bundle": "0.3.8"
     },
-	"require-dev": {
-		"doctrine/doctrine-fixtures-bundle": "2.2.*"
-	}
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "2.2.*"
+    }
 }

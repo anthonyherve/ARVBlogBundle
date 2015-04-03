@@ -1,3 +1,11 @@
+arv_blog_home:
+    path:     /
+    defaults: { _controller: "ARVBlogBundle:Home:index" }
+
+arv_blog_search:
+    resource: "@ARVBlogBundle/Resources/config/routing/search.yml"
+    prefix:   /recherche
+
 arv_blog_tag:
     resource: "@ARVBlogBundle/Resources/config/routing/tag.yml"
     prefix:   /tag
@@ -5,4 +13,8 @@ arv_blog_tag:
 arv_blog_article:
     resource: "@ARVBlogBundle/Resources/config/routing/article.yml"
     prefix:   /article
+
+arv_blog_comment:
+    resource: "@ARVBlogBundle/Resources/config/routing/comment.yml"
+    prefix:   /commentaire
 

@@ -3,14 +3,14 @@
 {% block body %}
     {{ parent() }}
 
-    <h1>Article edit</h1>
+    <h1>Modification d'un article</h1>
 
     {% include 'ARVBlogBundle:Article:form.html.twig' with {'form': edit_form} %}
 
-    <ul class="record_actions">
+    <ul>
         <li>
-            <a href="{{ path('article') }}">
-                Back to the list
+            <a href="{{ path('arv_blog_article_manage') }}">
+                Retour à la liste des articles
             </a>
         </li>
         <li>{{ form(delete_form) }}</li>

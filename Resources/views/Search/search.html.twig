@@ -1,0 +1,9 @@
+{% extends 'ARVBlogBundle:Home:index.html.twig' %}
+
+{% block articles %}
+    {{ render(controller('ARVBlogBundle:Article:list', {'search': search})) }}
+{% endblock %}
+
+{% block search %}
+    {% include 'ARVBlogBundle:Search:form.html.twig' %}
+{% endblock %}

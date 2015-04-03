@@ -4,27 +4,27 @@
     {{ parent() }}
 
     <div class="article">
-        <h1>{{ entity.title }}</h1>
-        <div class="date">Ecrit le {{ entity.dateModification|date("d/m/Y \à H:i") }}</div>
+        <h1>{{ article.title }}</h1>
+        <div class="date">Ecrit le {{ article.dateModification|date("d/m/Y \à H:i") }}</div>
         <ul class="tags">
-            {% for tag in entity.tags %}
+            {% for tag in article.tags %}
                 <li>{{ tag.name }}</li>
             {% endfor %}
         </ul>
         <div class="content">
-            {{ entity.content|raw }}
+            {{ article.content|raw }}
         </div>
     </div>
 
-    <ul class="record_actions">
+    <ul>
         <li>
-            <a href="{{ path('article') }}">
-                Back to the list
+            <a href="{{ path('arv_blog_article_manage') }}">
+                Retour à la liste des articles
             </a>
         </li>
         <li>
-            <a href="{{ path('article_edit', { 'id': entity.id }) }}">
-                Edit
+            <a href="{{ path('arv_blog_article_edit', { 'id': article.id, 'slug': article.slug }) }}">
+                Modifier
             </a>
         </li>
         <li>{{ form(delete_form) }}</li>

@@ -12,4 +12,26 @@ use Doctrine\ORM\EntityRepository;
  */
 class ArticleRepository extends EntityRepository
 {
+
+    public function count()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('COUNT(a)')
+            ->from('ARVBlogBundle:Article', 'a');
+
+        return (int)$qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function search($search)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('a')
+            ->from('ARVBlogBundle:Article', 'a')
+            ->where("a.title LIKE :search")
+            ->orWhere("a.content LIKE :search")
+            ->setParameter('search', '%' . $search . '%');
+
+        return $qb->getQuery()->getResult();
+    }
+
 }
