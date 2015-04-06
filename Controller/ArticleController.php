@@ -11,7 +11,7 @@ use ARV\BlogBundle\Entity\Article;
 use ARV\BlogBundle\Form\Type\ArticleType;
 
 /**
- * Class ArticleController
+ * Class ArticleController.
  * @package ARV\BlogBundle\Controller
  */
 class ArticleController extends Controller

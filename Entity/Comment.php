@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="ARV\BlogBundle\Repository\CommentRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Comment
 {
@@ -56,6 +57,30 @@ class Comment
      */
     private $dateModification;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Article", inversedBy="comments")
+     * @ORM\JoinColumn(name="article_id", referencedColumnName="id")
+     **/
+    private $article;
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function preUpdate()
+    {
+        $this->dateModification = new \DateTime('now');
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        if ($this->dateCreation === null) {
+            $this->dateCreation = new \DateTime('now');
+            $this->dateModification = new \DateTime('now');
+        }
+    }
 
     /**
      * Get id
@@ -181,4 +206,22 @@ class Comment
     {
         return $this->dateModification;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getArticle()
+    {
+        return $this->article;
+    }
+
+    /**
+     * @param mixed $article
+     */
+    public function setArticle(Article $article)
+    {
+        $this->article = $article;
+    }
+
 }
+

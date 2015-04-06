@@ -69,11 +69,19 @@ class Article
     private $tags;
 
     /**
+     * @var comments
+     *
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="article")
+     **/
+    private $comments;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -254,6 +262,42 @@ class Article
     {
         $tag->addArticle($this); // synchronously updating inverse side
         $this->tags[] = $tag;
+    }
+
+    /**
+     * Get comments
+     *
+     * @return ArrayCollection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Set comments
+     *
+     * @param ArrayCollection $comments
+     * @return Article
+     */
+    public function setComments($comments)
+    {
+        foreach ($comments as $comment) {
+            $comment->setArticle($this);
+        }
+        $this->comments = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Add a tag to collection.
+     * @param Comment $comment
+     */
+    public function addComment(Comment $comment)
+    {
+        $comment->setArticle($this); // synchronously updating inverse side
+        $this->comments[] = $comment;
     }
 
 }
