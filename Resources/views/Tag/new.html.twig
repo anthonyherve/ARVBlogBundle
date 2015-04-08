@@ -3,14 +3,14 @@
 {% block body %}
     {{ parent() }}
 
-    <h1>Tag creation</h1>
+    <h1>Ajouter un tag</h1>
 
     {{ form(form) }}
 
     <ul class="record_actions">
         <li>
-            <a href="{{ path('tag') }}">
-                Back to the list
+            <a href="{{ path('arv_blog_tag') }}">
+                Retour à la liste
             </a>
         </li>
     </ul>

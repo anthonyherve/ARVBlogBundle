@@ -1,30 +1,46 @@
-comment:
+arv_blog_comment_manage:
     path:     /
-    defaults: { _controller: "ARVBlogBundle:Comment:index" }
+    defaults: { _controller: "ARVBlogBundle:Comment:manage" }
 
-comment_show:
-    path:     /{id}/show
+arv_blog_comment_list:
+    path:     /liste/{id_article}
+    defaults: { _controller: "ARVBlogBundle:Comment:list", id_article: null }
+    requirements:
+        id_article: \d+
+
+arv_blog_comment_show:
+    path:     /{id}
     defaults: { _controller: "ARVBlogBundle:Comment:show" }
+    requirements:
+        id: \d+
 
-comment_new:
-    path:     /new
-    defaults: { _controller: "ARVBlogBundle:Comment:new" }
+arv_blog_comment_new:
+    path:     /nouveau/{id_article}
+    defaults: { _controller: "ARVBlogBundle:Comment:new", id_article: null }
+    requirements:
+        id_article: \d+
 
-comment_create:
-    path:     /create
+arv_blog_comment_create:
+    path:     /creer
     defaults: { _controller: "ARVBlogBundle:Comment:create" }
     methods:  POST
 
-comment_edit:
-    path:     /{id}/edit
+arv_blog_comment_edit:
+    path:     /{id}/modifier
     defaults: { _controller: "ARVBlogBundle:Comment:edit" }
+    requirements:
+        id: \d+
 
-comment_update:
-    path:     /{id}/update
+arv_blog_comment_update:
+    path:     /{id}/mettre-a-jour
     defaults: { _controller: "ARVBlogBundle:Comment:update" }
     methods:  [POST, PUT]
+    requirements:
+        id: \d+
 
-comment_delete:
-    path:     /{id}/delete
+arv_blog_comment_delete:
+    path:     /{id}/supprimer
     defaults: { _controller: "ARVBlogBundle:Comment:delete" }
     methods:  [POST, DELETE]
+    requirements:
+        id: \d+

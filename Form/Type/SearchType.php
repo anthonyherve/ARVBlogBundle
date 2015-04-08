@@ -15,7 +15,7 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('query', 'text', array('label' => false, 'attr' => array('placeholder' => 'Recherche')))
+            ->add('query', 'text', array('label' => false, 'required'=> false, 'attr' => array('placeholder' => 'Recherche')))
             ->add('search', 'submit', array('label' => 'Rechercher'))
         ;
     }

@@ -5,7 +5,8 @@
 
     <div class="article">
         <h1>{{ article.title }}</h1>
-        <div class="date">Ecrit le {{ article.dateModification|date("d/m/Y \à H:i") }}</div>
+        <div class="date">Ecrit le {{ article.dateCreation|date("d/m/Y \à H:i") }}</div>
+        <div class="date">Modifié le {{ article.dateModification|date("d/m/Y \à H:i") }}</div>
         <ul class="tags">
             {% for tag in article.tags %}
                 <li>{{ tag.name }}</li>

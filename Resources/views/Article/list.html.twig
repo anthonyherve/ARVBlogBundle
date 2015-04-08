@@ -15,15 +15,11 @@
 
         {# Content #}
         <div>
-            {{ article.content|striptags|truncate(50) }}...
+            {{ article.content|striptags|truncate(200)|raw }}
         </div>
 
         {# Actions #}
         <div>
-
-        </div>
-
-        <td>
             <ul>
                 <li>
                     <a href="{{ path('arv_blog_article_edit', { 'id': article.id, 'slug': article.slug }) }}">Modifier</a>
@@ -32,6 +28,12 @@
                     {{ form(delete_forms[article.id]) }}
                 </li>
             </ul>
-        </td>
+        </div>
+
+        {# Comments #}
+        <div>
+            {{ render(controller('ARVBlogBundle:Comment:list', { id_article: article.id })) }}
+        </div>
+
     </div>
 {% endfor %}

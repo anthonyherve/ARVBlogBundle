@@ -15,15 +15,15 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('content', 'textarea', ['attr' => ['class' => 'tinymce', 'data-theme' => 'advanced']])
-            ->add('tags', 'collection', [
+            ->add('title', 'text', array('label' => 'Titre'))
+            ->add('content', 'textarea', array('label' => 'Contenu','attr' => array('class' => 'tinymce', 'data-theme' => 'advanced')))
+            ->add('tags', 'collection', array(
                 'label' => 'Tags',
                 'type' => new TagType(),
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false
-            ])
+            ))
         ;
     }
     

@@ -29,6 +29,7 @@ class ArticleRepository extends EntityRepository
             ->from('ARVBlogBundle:Article', 'a')
             ->where("a.title LIKE :search")
             ->orWhere("a.content LIKE :search")
+            ->orderBy('a.dateModification', 'DESC')
             ->setParameter('search', '%' . $search . '%');
 
         return $qb->getQuery()->getResult();

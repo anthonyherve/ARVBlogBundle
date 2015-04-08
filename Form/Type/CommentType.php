@@ -15,11 +15,14 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email')
-            ->add('ip')
-            ->add('content')
-            ->add('dateCreation')
-            ->add('dateModification')
+            ->add('email', 'text', array('label' => 'Adresse mail'))
+            ->add('content', 'textarea', array('label' => 'Commentaire'))
+            ->add('article', 'entity', array(
+                    'class' => 'ARVBlogBundle:Article',
+                    'property' => 'title',
+                    'label' => 'Article'
+                )
+            )
         ;
     }
     

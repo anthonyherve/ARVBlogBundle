@@ -1,48 +1,26 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Comment</h1>
+{% block body %}
+    <h1>Commentaire</h1>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ entity.email }}</td>
-            </tr>
-            <tr>
-                <th>Ip</th>
-                <td>{{ entity.ip }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ entity.content }}</td>
-            </tr>
-            <tr>
-                <th>Datecreation</th>
-                <td>{{ entity.dateCreation|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Datemodification</th>
-                <td>{{ entity.dateModification|date('Y-m-d H:i:s') }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="comment">
+        <div class="date">Ecrit le {{ comment.dateCreation|date("d/m/Y \à H:i") }}</div>
+        <div class="date">Modifié le {{ comment.dateModification|date("d/m/Y \à H:i") }}</div>
+        <div class="author">Adresse mail : {{ comment.email }} - Adresse IP : {{ comment.ip }}</div>
+        <div class="content">{{ comment.content }}</div>
+    </div>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('comment') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('comment_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    <ul>
+        <li>
+            <a href="{{ path('arv_blog_comment') }}">
+                Retour à la liste
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('arv_blog_comment_edit', { 'id': comment.id }) }}">
+                Modifier
+            </a>
+        </li>
+        <li>{{ form(delete_form) }}</li>
+    </ul>
 {% endblock %}

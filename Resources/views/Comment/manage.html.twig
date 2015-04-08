@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>List des commentaires</h1>
+
+    <table class="records_list">
+        <thead>
+        <tr>
+            <th>Adresse email</th>
+            <th>IP</th>
+            <th>Commentaire</th>
+            <th>Date de création</th>
+            <th>Dernière modification</th>
+            <th>Article</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+                <td>{{ comment.email }}</td>
+                <td>{{ comment.ip }}</td>
+                <td>{{ comment.content }}</td>
+                <td>{% if comment.dateCreation %}{{ comment.dateCreation|date('d/m/Y H:i:s') }}{% endif %}</td>
+                <td>{% if comment.dateModification %}{{ comment.dateModification|date('d/m/Y H:i:s') }}{% endif %}</td>
+                <td>{{ comment.article.title }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('arv_blog_comment_show', { 'id': comment.id }) }}">Visualiser</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('arv_blog_comment_edit', { 'id': comment.id }) }}">Modifier</a>
+                        </li>
+                        <li>
+                            {{ form(delete_forms[comment.id]) }}
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('arv_blog_comment_new') }}">
+                Ecrire un nouveau commentaire
+            </a>
+        </li>
+    </ul>
+{% endblock %}

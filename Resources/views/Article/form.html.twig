@@ -10,7 +10,7 @@
     <div id="tags" data-prototype="{{ form_widget(form.tags.vars.prototype) | e }}">
         {% for tag in form.tags %}
             <div class="tag">
-                {{ form_row(tag) }}
+                {{ form_widget(tag) }}
             </div>
         {% endfor %}
     </div>
@@ -55,7 +55,7 @@
             var newForm = prototype.replace(/__name__/g, length);
 
             // Affiche le formulaire dans la page dans un li, avant le lien "ajouter un tag"
-            var $newFormLi = $('<li class="tag"></li>').append(newForm);
+            var $newFormLi = $('<div class="tag"></div>').append(newForm);
             $newLink.append($newFormLi);
 
             addDeleteLink($newFormLi, true);

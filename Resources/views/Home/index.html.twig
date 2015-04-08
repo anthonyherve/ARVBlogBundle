@@ -4,8 +4,6 @@
 
     {{ parent() }}
 
-    <h1>Accueil blog</h1>
-
     <div>
         <div>
             {# Articles list #}
@@ -21,19 +19,22 @@
             {# Global actions #}
             <ul>
                 <li>
-                    <a href="">Ajouter un article</a>
+                    <a href="{{ path('arv_blog_article_new') }}">Ajouter un article</a>
                 </li>
                 <li>
-                    <a href="">Ajouter un tag</a>
+                    <a href="{{ path('arv_blog_tag_new') }}">Ajouter un tag</a>
                 </li>
                 <li>
-                    <a href="">Liste des articles</a>
+                    <a href="{{ path('arv_blog_comment_new') }}">Ajouter un commentaire</a>
                 </li>
                 <li>
-                    <a href="">Liste des tags</a>
+                    <a href="{{ path('arv_blog_article_manage') }}">Liste des articles</a>
                 </li>
                 <li>
-                    <a href="">Liste des commentaires</a>
+                    <a href="{{ path('arv_blog_tag_manage') }}">Liste des tags</a>
+                </li>
+                <li>
+                    <a href="{{ path('arv_blog_comment_manage') }}">Liste des commentaires</a>
                 </li>
             </ul>
         </div>

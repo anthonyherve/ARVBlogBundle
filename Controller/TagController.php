@@ -4,6 +4,7 @@ namespace ARV\BlogBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ARV\BlogBundle\Entity\Tag;
 use ARV\BlogBundle\Form\Type\TagType;
@@ -16,209 +17,216 @@ class TagController extends Controller
 {
 
     /**
-     * Lists all Tag entities.
-     *
+     * @Template
+     * @return array
      */
-    public function indexAction()
+    public function manageAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('ARVBlogBundle:Tag')->findAll();
+        $tags = $em->getRepository('ARVBlogBundle:Tag')->findAll();
+        $deleteForms = $this->getDeleteForms($tags);
 
-        return $this->render('ARVBlogBundle:Tag:manage.html.twig', array(
-            'entities' => $entities,
-        ));
-    }
-    /**
-     * Creates a new Tag entity.
-     *
-     */
-    public function createAction(Request $request)
-    {
-        $entity = new Tag();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('tag_show', array('id' => $entity->getId())));
-        }
-
-        return $this->render('ARVBlogBundle:Tag:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+        return array(
+            'tags' => $tags,
+            'delete_forms' => $deleteForms
+        );
     }
 
     /**
-     * Creates a form to create a Tag entity.
-     *
-     * @param Tag $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Tag $entity)
-    {
-        $form = $this->createForm(new TagType(), $entity, array(
-            'action' => $this->generateUrl('tag_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new Tag entity.
-     *
+     * @Template
+     * @return array
      */
     public function newAction()
     {
-        $entity = new Tag();
-        $form   = $this->createCreateForm($entity);
+        $tag = new Tag();
+        $form   = $this->getCreateForm($tag);
 
-        return $this->render('ARVBlogBundle:Tag:new.html.twig', array(
-            'entity' => $entity,
+        return array(
+            'tag' => $tag,
             'form'   => $form->createView(),
-        ));
+        );
     }
 
     /**
-     * Finds and displays a Tag entity.
-     *
+     * @Template("ARVBlogBundle:Tag:new.html.twig")
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function showAction($id)
+    public function createAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('ARVBlogBundle:Tag')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tag entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('ARVBlogBundle:Tag:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Displays a form to edit an existing Tag entity.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('ARVBlogBundle:Tag')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tag entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('ARVBlogBundle:Tag:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-    * Creates a form to edit a Tag entity.
-    *
-    * @param Tag $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Tag $entity)
-    {
-        $form = $this->createForm(new TagType(), $entity, array(
-            'action' => $this->generateUrl('tag_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-    /**
-     * Edits an existing Tag entity.
-     *
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('ARVBlogBundle:Tag')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tag entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('tag_edit', array('id' => $id)));
-        }
-
-        return $this->render('ARVBlogBundle:Tag:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-    /**
-     * Deletes a Tag entity.
-     *
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
+        $tag = new Tag();
+        $form = $this->getCreateForm($tag);
         $form->handleRequest($request);
+        $session = $this->get('session');
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('ARVBlogBundle:Tag')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Tag entity.');
-            }
-
-            $em->remove($entity);
+            $em->persist($tag);
             $em->flush();
+            $session->getFlashBag()->add('success', "Le tag a bien été ajouté.");
+
+            return $this->redirect($this->generateUrl('arv_blog_tag'));
+        } else {
+            $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
         }
 
-        return $this->redirect($this->generateUrl('tag'));
+        return array(
+            'tag' => $tag,
+            'form'   => $form->createView(),
+        );
     }
 
     /**
-     * Creates a form to delete a Tag entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
+     * @Template
+     * @param Tag $tag
+     * @return array
      */
-    private function createDeleteForm($id)
+    public function showAction(Tag $tag)
+    {
+        $deleteForm = $this->getDeleteForm($tag);
+
+        return array(
+            'tag'      => $tag,
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * @Template
+     * @param Tag $tag
+     * @return array
+     */
+    public function editAction(Tag $tag)
+    {
+        $editForm = $this->getEditForm($tag);
+        $deleteForm = $this->getDeleteForm($tag);
+
+        return array(
+            'tag'      => $tag,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * @Template("ARVBlogBundle:Tag:edit.html.twig")
+     * @param Request $request
+     * @param Tag $tag
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function updateAction(Request $request, Tag $tag)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $deleteForm = $this->getDeleteForm($tag);
+        $editForm = $this->getEditForm($tag);
+        $editForm->handleRequest($request);
+        $session = $this->get('session');
+
+        if ($editForm->isValid()) {
+            $em->flush();
+            $session->getFlashBag()->add('success', "Le tag a bien été modifié.");
+
+            return $this->redirect($this->generateUrl('arv_blog_tag'));
+        } else {
+            $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
+        }
+
+        return array(
+            'tag'         => $tag,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * Delete a tag.
+     * @param Request $request
+     * @param Tag $tag
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction(Request $request, Tag $tag)
+    {
+        $form = $this->getDeleteForm($tag);
+        $form->handleRequest($request);
+        $session = $this->get('session');
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($tag);
+            $em->flush();
+            $session->getFlashBag()->add('success', "Le tag a bien été supprimé.");
+        }
+
+        return $this->redirect($this->generateUrl('arv_blog_tag'));
+    }
+
+
+    // ****************
+    // PRIVATE METHODS
+    // ****************
+
+    /**
+     * @param Tag $tag
+     * @return \Symfony\Component\Form\Form
+     */
+    private function getCreateForm(Tag $tag)
+    {
+        $form = $this->createForm(new TagType(), $tag, array(
+            'action' => $this->generateUrl('arv_blog_tag_create'),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Ajouter'));
+
+        return $form;
+    }
+
+    /**
+     *
+     * @param Tag $tag
+     * @return \Symfony\Component\Form\Form
+     */
+    private function getEditForm(Tag $tag)
+    {
+        $form = $this->createForm(new TagType(), $tag, array(
+            'action' => $this->generateUrl('arv_blog_tag_update', array('id' => $tag->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Modifier'));
+
+        return $form;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return \Symfony\Component\Form\Form
+     */
+    private function getDeleteForm(Tag $tag)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tag_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('arv_blog_tag_delete', array('id' => $tag->getId())))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Supprimer'))
             ->getForm()
         ;
     }
+
+    /**
+     * Create list of delete forms.
+     * @param $tags
+     * @return array
+     */
+    private function getDeleteForms($tags)
+    {
+        $deleteForms = array();
+        foreach ($tags as $tag) {
+            $deleteForms[$tag->getId()] = $this->getDeleteForm($tag)->createView();
+        }
+        return $deleteForms;
+    }
+
 }
+

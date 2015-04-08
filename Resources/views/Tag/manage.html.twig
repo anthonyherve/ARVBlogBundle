@@ -1,0 +1,43 @@
+{% extends 'ARVBlogBundle::blog.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+
+    <h1>Liste des tags</h1>
+
+    <ul>
+        <li>
+            <a href="{{ path('arv_blog_tag_new') }}">
+                Ajouter un tag
+            </a>
+        </li>
+    </ul>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+                <td>{{ tag.name }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('arv_blog_tag_show', { 'id': tag.id }) }}">Visualiser</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('arv_blog_tag_edit', { 'id': tag.id }) }}">Modifier</a>
+                        </li>
+                        <li>{{ form(delete_forms[tag.id]) }}</li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

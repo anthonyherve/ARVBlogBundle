@@ -27,7 +27,7 @@ class ArticleController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $articles = $em->getRepository('ARVBlogBundle:Article')->search($search);
-        $deleteForms = $this->createDeleteForms($articles);
+        $deleteForms = $this->getDeleteForms($articles);
 
         return array(
             'articles' => $articles,
@@ -67,7 +67,7 @@ class ArticleController extends Controller
 
     /**
      * Manage new form and create an article.
-     * @Template
+     * @Template("ARVBlogBundle:Article:new.html.twig")
      * @param Request $request
      * @return array
      */
@@ -76,6 +76,7 @@ class ArticleController extends Controller
         $article = new Article();
         $form = $this->getCreateForm($article);
         $form->handleRequest($request);
+        $session = $this->get('session');
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -95,7 +96,11 @@ class ArticleController extends Controller
             $em->persist($article);
             $em->flush();
 
+
+            $session->getFlashBag()->add('success', "L'article a bien été ajouté.");
             return $this->redirect($this->generateUrl('arv_blog_article_show', array('id' => $article->getId(), 'slug' => $article->getSlug())));
+        } else {
+            $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
         }
 
         return array(
@@ -140,7 +145,7 @@ class ArticleController extends Controller
 
     /**
      * Manage edit form and update article.
-     * @Template
+     * @Template("ARVBlogBundle:Article:edit.html.twig")
      * @param Request $request
      * @param Article $article
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
@@ -152,10 +157,14 @@ class ArticleController extends Controller
         $deleteForm = $this->getDeleteForm($article);
         $editForm = $this->getEditForm($article);
         $editForm->handleRequest($request);
+        $session = $this->get('session');
 
         if ($editForm->isValid()) {
             $em->flush();
+            $session->getFlashBag()->add('success', "L'article a bien été modifié.");
             return $this->redirect($this->generateUrl('arv_blog_article_show', array('id' => $article->getId(), 'slug' => $article->getSlug())));
+        } else {
+            $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
         }
 
         return array(
@@ -175,11 +184,13 @@ class ArticleController extends Controller
     {
         $form = $this->getDeleteForm($article);
         $form->handleRequest($request);
+        $session = $this->get('session');
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($article);
             $em->flush();
+            $session->getFlashBag()->add('success', "L'article a bien été supprimé.");
         }
 
         return $this->redirect($this->generateUrl('arv_blog_article_manage'));
@@ -222,9 +233,8 @@ class ArticleController extends Controller
     }
 
     /**
-     * Creates a form to delete a Article entity by id.
-     * @param mixed $id The entity id
-     * @return \Symfony\Component\Form\Form The form
+     * @param Article $article
+     * @return \Symfony\Component\Form\Form
      */
     private function getDeleteForm(Article $article)
     {
@@ -240,7 +250,7 @@ class ArticleController extends Controller
      * @param $articles
      * @return array
      */
-    private function createDeleteForms($articles)
+    private function getDeleteForms($articles)
     {
         $deleteForms = array();
         foreach ($articles as $article) {

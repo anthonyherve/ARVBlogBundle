@@ -1,15 +1,15 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Comment creation</h1>
+{% block body %}
+    <h1>Ecrire un commentaire</h1>
 
-    {{ form(form) }}
+    {% include 'ARVBlogBundle:Comment:form.html.twig' with {'form': form} %}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('comment') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <ul>
+        <li>
+            <a href="{{ path('arv_blog_comment') }}">
+                Retour à la liste
+            </a>
+        </li>
+    </ul>
 {% endblock %}

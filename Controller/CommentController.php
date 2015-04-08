@@ -2,223 +2,261 @@
 
 namespace ARV\BlogBundle\Controller;
 
+use ARV\BlogBundle\Entity\Article;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ARV\BlogBundle\Entity\Comment;
 use ARV\BlogBundle\Form\Type\CommentType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
- * Comment controller.
- *
+ * Class CommentController
+ * @package ARV\BlogBundle\Controller
  */
 class CommentController extends Controller
 {
 
     /**
-     * Lists all Comment entities.
-     *
+     * @Template
+     * @ParamConverter("article", class="ARVBlogBundle:Article", options={"id"="id_article"})
+     * @return array
      */
-    public function indexAction()
+    public function listAction(Article $article = null)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('ARVBlogBundle:Comment')->findAll();
+        if ($article == null) {
+            $comments = $em->getRepository('ARVBlogBundle:Comment')->findBy(array(), array('dateModification' => 'DESC'));
+        } else {
+            $comments = $em->getRepository('ARVBlogBundle:Comment')->findBy(array('article' => $article), array('dateModification' => 'DESC'));
+        }
+        $deleteForms = $this->getDeleteForms($comments);
 
-        return $this->render('ARVBlogBundle:Comment:manage.html.twig', array(
-            'entities' => $entities,
-        ));
+        return array(
+            'comments' => $comments,
+            'delete_forms' => $deleteForms,
+            'article' => $article
+        );
     }
+
     /**
-     * Creates a new Comment entity.
-     *
+     * @Template
+     * @return array
+     */
+    public function manageAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $comments = $em->getRepository('ARVBlogBundle:Comment')->findAll();
+        $deleteForms = $this->getDeleteForms($comments);
+
+        return array(
+            'comments' => $comments,
+            'delete_forms' => $deleteForms
+        );
+    }
+
+    /**
+     * @Template
+     * @ParamConverter("article", class="ARVBlogBundle:Article", options={"id"="id_article"})
+     * @return array
+     */
+    public function newAction(Article $article = null)
+    {
+        $comment = new Comment();
+        if ($article != null) {
+            $comment->setArticle($article);
+        }
+        $form = $this->getCreateForm($comment);
+
+        return array(
+            'comment' => $comment,
+            'form' => $form->createView(),
+        );
+    }
+
+    /**
+     * @Template
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function createAction(Request $request)
     {
-        $entity = new Comment();
-        $form = $this->createCreateForm($entity);
+        $comment = new Comment();
+        $form = $this->getCreateForm($comment);
         $form->handleRequest($request);
+        $session = $this->get('session');
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $comment->setIp($request->getClientIp());
+            $em->persist($comment);
             $em->flush();
+            $session->getFlashBag()->add('success', "Le commentaire a bien été ajouté.");
 
-            return $this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('arv_blog_comment'));
+        } else {
+            $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
         }
 
-        return $this->render('ARVBlogBundle:Comment:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+        return array(
+            'comment' => $comment,
+            'form' => $form->createView(),
+        );
+    }
+
+
+    /**
+     * @Template
+     * @param Comment $comment
+     * @return array
+     */
+    public function showAction(Comment $comment)
+    {
+        $deleteForm = $this->getDeleteForm($comment);
+
+        return array(
+            'comment' => $comment,
+            'delete_form' => $deleteForm->createView(),
+        );
     }
 
     /**
-     * Creates a form to create a Comment entity.
-     *
-     * @param Comment $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
+     * @Template
+     * @param Comment $comment
+     * @return array
      */
-    private function createCreateForm(Comment $entity)
+    public function editAction(Comment $comment)
     {
-        $form = $this->createForm(new CommentType(), $entity, array(
-            'action' => $this->generateUrl('comment_create'),
+        $editForm = $this->getEditForm($comment);
+        $deleteForm = $this->getDeleteForm($comment);
+
+        return array(
+            'comment' => $comment,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * @Template("ARVBlogBundle:Comment:edit.html.twig")
+     * @param Request $request
+     * @param Comment $comment
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|array
+     */
+    public function updateAction(Request $request, Comment $comment)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $deleteForm = $this->getDeleteForm($comment);
+        $editForm = $this->getEditForm($comment);
+        $editForm->handleRequest($request);
+        $session = $this->get('session');
+
+        if ($editForm->isValid()) {
+            $comment->setIp($request->getClientIp());
+            $em->persist($comment);
+            $em->flush();
+            $session->getFlashBag()->add('success', "Le commentaire a bien été modifié.");
+
+            return $this->redirect($this->generateUrl('arv_blog_comment'));
+        } else {
+            $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
+        }
+
+        return array(
+            'comment' => $comment,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param Comment $comment
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction(Request $request, Comment $comment)
+    {
+        $form = $this->getDeleteForm($comment);
+        $form->handleRequest($request);
+        $session = $this->get('session');
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($comment);
+            $em->flush();
+            $session->getFlashBag()->add('success', "Le commentaire a bien été modifié.");
+        }
+
+        return $this->redirect($this->generateUrl('arv_blog_comment'));
+    }
+
+
+    // ****************
+    // PRIVATE METHODS
+    // ****************
+
+    /**
+     * @param Comment $comment
+     * @return \Symfony\Component\Form\Form
+     */
+    private function getCreateForm(Comment $comment)
+    {
+        $form = $this->createForm(new CommentType(), $comment, array(
+            'action' => $this->generateUrl('arv_blog_comment_create'),
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Ajouter'));
 
         return $form;
     }
 
     /**
-     * Displays a form to create a new Comment entity.
-     *
+     * @param Comment $comment
+     * @return \Symfony\Component\Form\Form
      */
-    public function newAction()
+    private function getEditForm(Comment $comment)
     {
-        $entity = new Comment();
-        $form   = $this->createCreateForm($entity);
-
-        return $this->render('ARVBlogBundle:Comment:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a Comment entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('ARVBlogBundle:Comment')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Comment entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('ARVBlogBundle:Comment:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Displays a form to edit an existing Comment entity.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('ARVBlogBundle:Comment')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Comment entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('ARVBlogBundle:Comment:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-    * Creates a form to edit a Comment entity.
-    *
-    * @param Comment $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Comment $entity)
-    {
-        $form = $this->createForm(new CommentType(), $entity, array(
-            'action' => $this->generateUrl('comment_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new CommentType(), $comment, array(
+            'action' => $this->generateUrl('arv_blog_comment_update', array('id' => $comment->getId())),
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Modifier'));
 
         return $form;
     }
-    /**
-     * Edits an existing Comment entity.
-     *
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('ARVBlogBundle:Comment')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Comment entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('comment_edit', array('id' => $id)));
-        }
-
-        return $this->render('ARVBlogBundle:Comment:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-    /**
-     * Deletes a Comment entity.
-     *
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('ARVBlogBundle:Comment')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Comment entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('comment'));
-    }
 
     /**
-     * Creates a form to delete a Comment entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
+     * @param Comment $comment
+     * @return \Symfony\Component\Form\Form
      */
-    private function createDeleteForm($id)
+    private function getDeleteForm(Comment $comment)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('comment_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('arv_blog_comment_delete', array('id' => $comment->getId())))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+            ->add('submit', 'submit', array('label' => 'Supprimer'))
+            ->getForm();
     }
+
+    /**
+     * Create list of delete forms.
+     * @param $comments
+     * @return array
+     */
+    private function getDeleteForms($comments)
+    {
+        $deleteForms = array();
+        foreach ($comments as $comment) {
+            $deleteForms[$comment->getId()] = $this->getDeleteForm($comment)->createView();
+        }
+        return $deleteForms;
+    }
+
 }
+

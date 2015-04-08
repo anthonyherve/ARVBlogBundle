@@ -19,6 +19,8 @@
             <th>Titre</th>
             <th>Contenu</th>
             <th>Tags</th>
+            <th>Date de création</th>
+            <th>Dernière modification</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -26,7 +28,7 @@
         {% for article in articles %}
             <tr>
                 <td>{{ article.title }}</td>
-                <td>{{ article.content|striptags|truncate(50) }}...</td>
+                <td>{{ article.content|striptags|truncate(50)|raw }}</td>
                 <td>
                     <ul>
                         {% for tag in article.tags %}
@@ -34,6 +36,8 @@
                         {% endfor %}
                     </ul>
                 </td>
+                <td>{% if article.dateCreation %}{{ article.dateCreation|date('d/m/Y H:i:s') }}{% endif %}</td>
+                <td>{% if article.dateCreation %}{{ article.dateModification|date('d/m/Y H:i:s') }}{% endif %}</td>
                 <td>
                     <ul>
                         <li>
