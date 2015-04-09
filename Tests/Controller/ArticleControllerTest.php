@@ -2,10 +2,17 @@
 
 namespace ARV\BlogBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class ArticleControllerTest extends WebTestCase
+class ArticleControllerTest extends AbstractControllerTest
 {
+
+    /**
+     *
+     */
+    public function testIndex()
+    {
+        $this->assertTrue(true);
+    }
+
     /*
     public function testCompleteScenario()
     {

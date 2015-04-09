@@ -2,9 +2,7 @@
 
 namespace ARV\BlogBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class TagControllerTest extends WebTestCase
+class TagControllerTest extends AbstractControllerTest
 {
     /*
     public function testCompleteScenario()

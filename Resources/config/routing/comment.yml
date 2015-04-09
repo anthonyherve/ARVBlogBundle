@@ -1,5 +1,5 @@
 arv_blog_comment_manage:
-    path:     /
+    path:     /admin
     defaults: { _controller: "ARVBlogBundle:Comment:manage" }
 
 arv_blog_comment_list:

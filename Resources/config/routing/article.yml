@@ -1,5 +1,5 @@
 arv_blog_article_manage:
-    path:     /
+    path:     /admin
     defaults: { _controller: "ARVBlogBundle:Article:manage" }
 
 arv_blog_article_list:

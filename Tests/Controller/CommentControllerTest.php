@@ -2,9 +2,7 @@
 
 namespace ARV\BlogBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class CommentControllerTest extends WebTestCase
+class CommentControllerTest extends AbstractControllerTest
 {
     /*
     public function testCompleteScenario()
