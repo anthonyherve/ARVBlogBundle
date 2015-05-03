@@ -1,6 +1,7 @@
-{% extends '::base.html.twig' %}
+{% extends 'ARVBlogBundle::blog.html.twig' %}
 
 {% block body %}
+    {{ parent() }}
     <h1>List des commentaires</h1>
 
     <table class="records_list">

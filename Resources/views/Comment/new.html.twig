@@ -1,13 +1,14 @@
-{% extends '::base.html.twig' %}
+{% extends 'ARVBlogBundle::blog.html.twig' %}
 
 {% block body %}
+    {{ parent() }}
     <h1>Ecrire un commentaire</h1>
 
     {% include 'ARVBlogBundle:Comment:form.html.twig' with {'form': form} %}
 
     <ul>
         <li>
-            <a href="{{ path('arv_blog_comment') }}">
+            <a href="{{ path('arv_blog_comment_manage') }}">
                 Retour à la liste
             </a>
         </li>

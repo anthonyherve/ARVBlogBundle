@@ -1,6 +1,7 @@
-{% extends '::base.html.twig' %}
+{% extends 'ARVBlogBundle::blog.html.twig' %}
 
 {% block body %}
+    {{ parent() }}
     <h1>Comment edit</h1>
 
     {% include 'ARVBlogBundle:Comment:form.html.twig' with {'form': edit_form} %}
