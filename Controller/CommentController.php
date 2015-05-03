@@ -96,7 +96,7 @@ class CommentController extends Controller
             $em->flush();
             $session->getFlashBag()->add('success', "Le commentaire a bien été ajouté.");
 
-            return $this->redirect($this->generateUrl('arv_blog_comment'));
+            return $this->redirect($this->generateUrl('arv_blog_comment_manage'));
         } else {
             $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
         }
@@ -161,7 +161,7 @@ class CommentController extends Controller
             $em->flush();
             $session->getFlashBag()->add('success', "Le commentaire a bien été modifié.");
 
-            return $this->redirect($this->generateUrl('arv_blog_comment'));
+            return $this->redirect($this->generateUrl('arv_blog_comment_manage'));
         } else {
             $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
         }
@@ -191,7 +191,7 @@ class CommentController extends Controller
             $session->getFlashBag()->add('success', "Le commentaire a bien été modifié.");
         }
 
-        return $this->redirect($this->generateUrl('arv_blog_comment'));
+        return $this->redirect($this->generateUrl('arv_blog_comment_manage'));
     }
 
 

@@ -1,5 +1,5 @@
 <?php
-namespace Apam\CommonBundle\DataFixtures\ORM;
+namespace ARV\BlogBundle\DataFixtures\ORM;
 
 use ARV\BlogBundle\Entity\Article;
 use ARV\BlogBundle\Entity\Comment;

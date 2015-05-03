@@ -43,7 +43,7 @@ class ArticleController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $articles = $em->getRepository('ARVBlogBundle:Article')->findAll();
-        $deleteForms = $this->createDeleteForms($articles);
+        $deleteForms = $this->getDeleteForms($articles);
 
         return array(
             'articles' => $articles,
