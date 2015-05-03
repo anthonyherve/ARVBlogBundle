@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class TagRepository extends EntityRepository
 {
+
+    public function count()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('COUNT(t)')
+            ->from('ARVBlogBundle:Tag', 't');
+
+        return (int)$qb->getQuery()->getSingleScalarResult();
+    }
+
 }

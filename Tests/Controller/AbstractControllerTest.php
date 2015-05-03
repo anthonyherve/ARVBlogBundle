@@ -15,7 +15,14 @@ class AbstractControllerTest extends WebTestCase {
 
     public function setUp()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array(
+            'ARV\BlogBundle\DataFixtures\ORM\LoadData'
+        ));
+    }
+
+    public function test()
+    {
+        $this->assertTrue(true);
     }
 
 }

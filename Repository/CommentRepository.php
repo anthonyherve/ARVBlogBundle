@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommentRepository extends EntityRepository
 {
+
+    public function count()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('COUNT(c)')
+            ->from('ARVBlogBundle:Comment', 'c');
+
+        return (int)$qb->getQuery()->getSingleScalarResult();
+    }
+
 }

@@ -22,9 +22,7 @@ class TagController extends Controller
      */
     public function manageAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $tags = $em->getRepository('ARVBlogBundle:Tag')->findAll();
+        $tags = $this->get('arv_blog_manager_tag')->getAll();
         $deleteForms = $this->getDeleteForms($tags);
 
         return array(
@@ -61,9 +59,7 @@ class TagController extends Controller
         $session = $this->get('session');
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($tag);
-            $em->flush();
+            $this->get('arv_blog_manager_tag')->save($tag);
             $session->getFlashBag()->add('success', "Le tag a bien été ajouté.");
 
             return $this->redirect($this->generateUrl('arv_blog_tag'));
@@ -117,15 +113,13 @@ class TagController extends Controller
      */
     public function updateAction(Request $request, Tag $tag)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $deleteForm = $this->getDeleteForm($tag);
         $editForm = $this->getEditForm($tag);
         $editForm->handleRequest($request);
         $session = $this->get('session');
 
         if ($editForm->isValid()) {
-            $em->flush();
+            $this->get('arv_blog_manager_tag')->save($tag);
             $session->getFlashBag()->add('success', "Le tag a bien été modifié.");
 
             return $this->redirect($this->generateUrl('arv_blog_tag'));
@@ -153,9 +147,7 @@ class TagController extends Controller
         $session = $this->get('session');
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($tag);
-            $em->flush();
+            $this->get('arv_blog_manager_tag')->delete($tag);
             $session->getFlashBag()->add('success', "Le tag a bien été supprimé.");
         }
 

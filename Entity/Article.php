@@ -71,7 +71,7 @@ class Article
     /**
      * @var comments
      *
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="article")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="article", cascade={"remove"})
      **/
     private $comments;
 

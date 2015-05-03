@@ -25,8 +25,7 @@ class ArticleController extends Controller
      */
     public function listAction(Request $request, $search = '')
     {
-        $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository('ARVBlogBundle:Article')->search($search);
+        $articles = $this->get('arv_blog_manager_article')->search($search);
         $deleteForms = $this->getDeleteForms($articles);
 
         return array(
@@ -41,8 +40,7 @@ class ArticleController extends Controller
      */
     public function manageAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository('ARVBlogBundle:Article')->findAll();
+        $articles = $this->get('arv_blog_manager_article')->getAll();
         $deleteForms = $this->getDeleteForms($articles);
 
         return array(
@@ -79,12 +77,10 @@ class ArticleController extends Controller
         $session = $this->get('session');
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
             // Check if tag already exists in database
             $tags = new ArrayCollection();
             foreach ($article->getTags() as $tag) {
-                $tagFromDB = $em->getRepository('ARVBlogBundle:Tag')->findOneByName(strtolower($tag->getName()));
+                $tagFromDB = $this->get('arv_blog_manager_tag')->getRepository()->findOneByName(strtolower($tag->getName()));
                 if ($tagFromDB === null) {
                     $tags[] = $tag;
                 } else {
@@ -93,8 +89,7 @@ class ArticleController extends Controller
             }
             $article->setTags($tags);
 
-            $em->persist($article);
-            $em->flush();
+            $this->get('arv_blog_manager_article')->save($article);
 
 
             $session->getFlashBag()->add('success', "L'article a bien été ajouté.");
@@ -152,15 +147,13 @@ class ArticleController extends Controller
      */
     public function updateAction(Request $request, Article $article)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $deleteForm = $this->getDeleteForm($article);
         $editForm = $this->getEditForm($article);
         $editForm->handleRequest($request);
         $session = $this->get('session');
 
         if ($editForm->isValid()) {
-            $em->flush();
+            $this->get('arv_blog_manager_article')->save($article);
             $session->getFlashBag()->add('success', "L'article a bien été modifié.");
             return $this->redirect($this->generateUrl('arv_blog_article_show', array('id' => $article->getId(), 'slug' => $article->getSlug())));
         } else {
@@ -187,9 +180,7 @@ class ArticleController extends Controller
         $session = $this->get('session');
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($article);
-            $em->flush();
+            $this->get('arv_blog_manager_article')->delete($article);
             $session->getFlashBag()->add('success', "L'article a bien été supprimé.");
         }
 

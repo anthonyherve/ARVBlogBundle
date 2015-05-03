@@ -4,6 +4,12 @@ namespace ARV\BlogBundle\Tests\Controller;
 
 class CommentControllerTest extends AbstractControllerTest
 {
+
+    public function test()
+    {
+        $this->assertTrue(true);
+    }
+
     /*
     public function testCompleteScenario()
     {

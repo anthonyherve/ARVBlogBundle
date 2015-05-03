@@ -4,6 +4,12 @@ namespace ARV\BlogBundle\Tests\Controller;
 
 class TagControllerTest extends AbstractControllerTest
 {
+
+    public function test()
+    {
+        $this->assertTrue(true);
+    }
+
     /*
     public function testCompleteScenario()
     {

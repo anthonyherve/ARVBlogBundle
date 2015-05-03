@@ -16,6 +16,11 @@ Add these lines to your AppKernel.php:
 new ARV\BlogBundle\ARVBlogBundle(),
 new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+...
+if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+    ...
+    $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+}
 ```
 
 Add these lines to your config.yml:
@@ -52,4 +57,19 @@ services:
         class: Twig_Extensions_Extension_Text
         tags:
             - { name: twig.extension }
+```
+
+Add these lines to your config_test.yml
+
+```yaml
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                path:     %kernel.cache_dir%/test.db
+
+liip_functional_test:
+    cache_sqlite_db: true
 ```

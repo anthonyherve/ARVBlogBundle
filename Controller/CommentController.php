@@ -25,13 +25,7 @@ class CommentController extends Controller
      */
     public function listAction(Article $article = null)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        if ($article == null) {
-            $comments = $em->getRepository('ARVBlogBundle:Comment')->findBy(array(), array('dateModification' => 'DESC'));
-        } else {
-            $comments = $em->getRepository('ARVBlogBundle:Comment')->findBy(array('article' => $article), array('dateModification' => 'DESC'));
-        }
+        $comments = $this->get('arv_blog_manager_comment')->getAll($article);
         $deleteForms = $this->getDeleteForms($comments);
 
         return array(
@@ -47,9 +41,7 @@ class CommentController extends Controller
      */
     public function manageAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $comments = $em->getRepository('ARVBlogBundle:Comment')->findAll();
+        $comments = $this->get('arv_blog_manager_comment')->getAll();
         $deleteForms = $this->getDeleteForms($comments);
 
         return array(
@@ -90,10 +82,8 @@ class CommentController extends Controller
         $session = $this->get('session');
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $comment->setIp($request->getClientIp());
-            $em->persist($comment);
-            $em->flush();
+            $this->get('arv_blog_manager_comment')->save($comment);
             $session->getFlashBag()->add('success', "Le commentaire a bien été ajouté.");
 
             return $this->redirect($this->generateUrl('arv_blog_comment_manage'));
@@ -148,8 +138,6 @@ class CommentController extends Controller
      */
     public function updateAction(Request $request, Comment $comment)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $deleteForm = $this->getDeleteForm($comment);
         $editForm = $this->getEditForm($comment);
         $editForm->handleRequest($request);
@@ -157,8 +145,7 @@ class CommentController extends Controller
 
         if ($editForm->isValid()) {
             $comment->setIp($request->getClientIp());
-            $em->persist($comment);
-            $em->flush();
+            $this->get('arv_blog_manager_comment')->save($comment);
             $session->getFlashBag()->add('success', "Le commentaire a bien été modifié.");
 
             return $this->redirect($this->generateUrl('arv_blog_comment_manage'));
@@ -185,9 +172,7 @@ class CommentController extends Controller
         $session = $this->get('session');
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($comment);
-            $em->flush();
+            $this->get('arv_blog_manager_comment')->delete($comment);
             $session->getFlashBag()->add('success', "Le commentaire a bien été modifié.");
         }
 

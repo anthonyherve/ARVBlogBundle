@@ -1,1 +1,25 @@
 services:
+    arv_blog_repo_article:
+        class: ARV\BlogBundle\Repository\ArticleRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: ["ARVBlogBundle:Article"]
+    arv_blog_repo_comment:
+        class: ARV\BlogBundle\Repository\CommentRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: ["ARVBlogBundle:Comment"]
+    arv_blog_repo_tag:
+        class: ARV\BlogBundle\Repository\TagRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: ["ARVBlogBundle:Tag"]
+    arv_blog_manager_article:
+        class: ARV\BlogBundle\Manager\ArticleManager
+        arguments: ["@arv_blog_repo_article", "@doctrine.orm.entity_manager"]
+    arv_blog_manager_comment:
+        class: ARV\BlogBundle\Manager\CommentManager
+        arguments: ["@arv_blog_repo_comment", "@doctrine.orm.entity_manager"]
+    arv_blog_manager_tag:
+        class: ARV\BlogBundle\Manager\TagManager
+        arguments: ["@arv_blog_repo_tag", "@doctrine.orm.entity_manager"]
