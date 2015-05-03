@@ -5,7 +5,7 @@
 
     <h1>Modifier un tag</h1>
 
-    {{ form(edit_form) }}
+    {% include 'ARVBlogBundle:Comment:form.html.twig' with {'form': edit_form} %}
 
     <ul>
         <li>

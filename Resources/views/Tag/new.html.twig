@@ -5,7 +5,7 @@
 
     <h1>Ajouter un tag</h1>
 
-    {{ form(form) }}
+    {% include 'ARVBlogBundle:Comment:form.html.twig' with {'form': form} %}
 
     <ul class="record_actions">
         <li>
