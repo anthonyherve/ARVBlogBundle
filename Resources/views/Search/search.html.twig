@@ -1,4 +1,4 @@
-{% extends 'ARVBlogBundle:Home:index.html.twig' %}
+{% extends 'ARVBlogBundle:Blog:index.html.twig' %}
 
 {% block articles %}
     {{ render(controller('ARVBlogBundle:Article:list', {'search': search})) }}

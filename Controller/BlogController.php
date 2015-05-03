@@ -5,7 +5,7 @@ namespace ARV\BlogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class HomeController extends Controller
+class BlogController extends Controller
 {
 
     /**

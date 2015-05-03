@@ -1,6 +1,6 @@
 arv_blog_home:
     path:     /
-    defaults: { _controller: "ARVBlogBundle:Home:index" }
+    defaults: { _controller: "ARVBlogBundle:Blog:index" }
 
 arv_blog_search:
     resource: "@ARVBlogBundle/Resources/config/routing/search.yml"
