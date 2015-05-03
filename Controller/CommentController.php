@@ -58,7 +58,7 @@ class CommentController extends Controller
     public function newAction(Article $article = null)
     {
         $comment = new Comment();
-        if ($article != null) {
+        if ($article !== null) {
             $comment->setArticle($article);
         }
         $form = $this->getCreateForm($comment);

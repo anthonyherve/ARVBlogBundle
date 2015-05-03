@@ -26,7 +26,7 @@ class CommentManager
 
     public function getAll($article = null, $orderBy = true)
     {
-        if ($article != null) {
+        if ($article !== null) {
             return $this->getByArticle($article, $orderBy);
         }
         if ($orderBy) {
