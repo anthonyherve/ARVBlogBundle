@@ -2,16 +2,11 @@
 
 namespace ARV\BlogBundle\Tests\Controller;
 
-class ArticleControllerTest extends AbstractControllerTest
-{
 
-    /**
-     *
-     */
-    public function testIndex()
-    {
-        $this->assertTrue(true);
-    }
+use ARV\BlogBundle\Tests\AbstractFunctionalTest;
+
+class ArticleControllerTest extends AbstractFunctionalTest
+{
 
     /*
     public function testCompleteScenario()

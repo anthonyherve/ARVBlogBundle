@@ -2,13 +2,11 @@
 
 namespace ARV\BlogBundle\Tests\Controller;
 
-class TagControllerTest extends AbstractControllerTest
-{
 
-    public function test()
-    {
-        $this->assertTrue(true);
-    }
+use ARV\BlogBundle\Tests\AbstractFunctionalTest;
+
+class TagControllerTest extends AbstractFunctionalTest
+{
 
     /*
     public function testCompleteScenario()

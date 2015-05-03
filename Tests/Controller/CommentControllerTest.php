@@ -2,13 +2,11 @@
 
 namespace ARV\BlogBundle\Tests\Controller;
 
-class CommentControllerTest extends AbstractControllerTest
-{
 
-    public function test()
-    {
-        $this->assertTrue(true);
-    }
+use ARV\BlogBundle\Tests\AbstractFunctionalTest;
+
+class CommentControllerTest extends AbstractFunctionalTest
+{
 
     /*
     public function testCompleteScenario()

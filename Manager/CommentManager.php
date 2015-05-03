@@ -48,7 +48,6 @@ class CommentManager
         } else {
             return $this->getRepository()->findByArticle($article);
         }
-
     }
 
     public function save(Comment $comment)
