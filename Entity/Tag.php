@@ -82,7 +82,7 @@ class Tag
      * @param ArrayCollection $articles
      * @return Tag
      */
-    public function setTags($articles)
+    public function setArticles($articles)
     {
         foreach ($articles as $article) {
             $article->addTag($this);

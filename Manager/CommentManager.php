@@ -46,7 +46,7 @@ class CommentManager
         if ($orderBy) {
             return $this->getRepository()->findBy(array('article' => $article), array('dateModification' => 'DESC'));
         } else {
-            return $this->getRepository()->findByArticle($article);
+            return $this->getRepository()->findBy(array('article' => $article));
         }
     }
 

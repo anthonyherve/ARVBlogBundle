@@ -5,53 +5,142 @@ namespace ARV\BlogBundle\Tests\Controller;
 
 use ARV\BlogBundle\Tests\AbstractFunctionalTest;
 
+/**
+ * Class TagControllerTest
+ * @package ARV\BlogBundle\Tests\Controller
+ */
 class TagControllerTest extends AbstractFunctionalTest
 {
 
-    /*
-    public function testCompleteScenario()
+    /**
+     * @var
+     */
+    private $manager;
+    /**
+     * @var
+     */
+    private $url;
+
+    /**
+     *
+     */
+    public function setUp()
     {
-        // Create a new client to browse the application
-        $client = static::createClient();
-
-        // Create a new entry in the database
-        $crawler = $client->request('GET', '/tag/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /tag/");
-        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
-
-        // Fill in the form and submit it
-        $form = $crawler->selectButton('Create')->form(array(
-            'arv_blogbundle_tag[field_name]'  => 'Test',
-            // ... other fields to fill
-        ));
-
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check data in the show view
-        $this->assertGreaterThan(0, $crawler->filter('td:contains("Test")')->count(), 'Missing element td:contains("Test")');
-
-        // Edit the entity
-        $crawler = $client->click($crawler->selectLink('Edit')->link());
-
-        $form = $crawler->selectButton('Update')->form(array(
-            'arv_blogbundle_tag[field_name]'  => 'Foo',
-            // ... other fields to fill
-        ));
-
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check the element contains an attribute with value equals "Foo"
-        $this->assertGreaterThan(0, $crawler->filter('[value="Foo"]')->count(), 'Missing element [value="Foo"]');
-
-        // Delete the entity
-        $client->submit($crawler->selectButton('Delete')->form());
-        $crawler = $client->followRedirect();
-
-        // Check the entity has been delete on the list
-        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
+        parent::setUp();
+        $this->manager = $this->container->get('arv_blog_manager_tag');
+        $this->url = '/tag';
     }
 
-    */
+    /**
+     *
+     */
+    public function testManage()
+    {
+        $this->client->request('GET', $this->url . '/admin');
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+    }
+
+    /**
+     *
+     */
+    public function testShow()
+    {
+        $tag = $this->manager->getRepository()->findOneByName('tag3');
+        $this->client->request('GET', $this->url . '/' . $tag->getId());
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+    }
+
+    /**
+     *
+     */
+    public function testCreateOK()
+    {
+        $count = $this->countTags();
+        $crawler = $this->client->request('GET', $this->url . '/nouveau');
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('arv_blogbundle_tag_submit')->form(array(
+            'arv_blogbundle_tag[name]' => 'tag11'
+        ));
+        $this->client->submit($form);
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertEquals($count + 1, $this->countTags());
+    }
+
+    /**
+     *
+     */
+    public function testCreateKO()
+    {
+        $count = $this->countTags();
+        $crawler = $this->client->request('GET', $this->url . '/nouveau');
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('arv_blogbundle_tag_submit')->form(array(
+            'arv_blogbundle_tag[_token]' => ''
+        ));
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertEquals($count, $this->countTags());
+    }
+
+    /**
+     *
+     */
+    public function testEditOK()
+    {
+        $count = $this->countTags();
+        $tag = $this->manager->getRepository()->findOneByName('tag5');
+        $crawler = $this->client->request('GET', $this->url . '/' . $tag->getId() . '/modifier');
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('arv_blogbundle_tag_submit')->form(array(
+            'arv_blogbundle_tag[name]' => 'tag12'
+        ));
+        $this->client->submit($form);
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertEquals($count, $this->countTags());
+    }
+
+    /**
+     *
+     */
+    public function testEditKO()
+    {
+        $count = $this->countTags();
+        $tag = $this->manager->getRepository()->findOneByName('tag5');
+        $crawler = $this->client->request('GET', $this->url . '/' . $tag->getId() . '/modifier');
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('arv_blogbundle_tag_submit')->form(array(
+            'arv_blogbundle_tag[_token]' => ''
+        ));
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertEquals($count, $this->countTags());
+    }
+
+    /**
+     *
+     */
+    public function testDelete()
+    {
+        $count = $this->countTags();
+        $tag = $this->manager->getRepository()->findOneByName('tag3');
+        $crawler = $this->client->request('GET', $this->url . '/' . $tag->getId());
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('form_submit')->form(array());
+        $this->client->submit($form);
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertEquals($count - 1, $this->countTags());
+    }
+
+    /**
+     * @return mixed
+     */
+    private function countTags()
+    {
+        return $this->manager->count();
+    }
+
 }
+

@@ -21,6 +21,7 @@ class CommentController extends Controller
     /**
      * @Template
      * @ParamConverter("article", class="ARVBlogBundle:Article", options={"id"="id_article"})
+     * @param Article $article
      * @return array
      */
     public function listAction(Article $article = null)
@@ -70,7 +71,7 @@ class CommentController extends Controller
     }
 
     /**
-     * @Template
+     * @Template("ARVBlogBundle:Comment:new.html.twig")
      * @param Request $request
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */

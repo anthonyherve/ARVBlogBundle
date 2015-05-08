@@ -62,7 +62,7 @@ class TagController extends Controller
             $this->get('arv_blog_manager_tag')->save($tag);
             $session->getFlashBag()->add('success', "Le tag a bien été ajouté.");
 
-            return $this->redirect($this->generateUrl('arv_blog_tag'));
+            return $this->redirect($this->generateUrl('arv_blog_tag_manage'));
         } else {
             $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
         }
@@ -122,7 +122,7 @@ class TagController extends Controller
             $this->get('arv_blog_manager_tag')->save($tag);
             $session->getFlashBag()->add('success', "Le tag a bien été modifié.");
 
-            return $this->redirect($this->generateUrl('arv_blog_tag'));
+            return $this->redirect($this->generateUrl('arv_blog_tag_manage'));
         } else {
             $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
         }
@@ -151,7 +151,7 @@ class TagController extends Controller
             $session->getFlashBag()->add('success', "Le tag a bien été supprimé.");
         }
 
-        return $this->redirect($this->generateUrl('arv_blog_tag'));
+        return $this->redirect($this->generateUrl('arv_blog_tag_manage'));
     }
 
 

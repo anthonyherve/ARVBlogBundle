@@ -7,6 +7,7 @@
     <div>
         {{ form_row(form.content) }}
     </div>
+    <a id="add-tag" href="#">Add tag</a>
     <div id="tags" data-prototype="{{ form_widget(form.tags.vars.prototype) | e }}">
         {% for tag in form.tags %}
             <div class="tag">
@@ -25,7 +26,7 @@
     // Tag collection
     var collectionTags = $('#tags');
 
-    var $addLink = $('<a id="add-tag" href="#">Add tag</a>');
+    var $addLink = $('#add-tag');
     var $newLink = $('#tags').before($addLink);
 
     $(document).ready(function () {

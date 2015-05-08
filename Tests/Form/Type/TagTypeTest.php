@@ -8,8 +8,16 @@ use ARV\BlogBundle\Form\Type\TagType;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class TagTypeTest extends TypeTestCase {
+/**
+ * Class TagTypeTest
+ * @package ARV\BlogBundle\Tests\Form\Type
+ */
+class TagTypeTest extends TypeTestCase
+{
 
+    /**
+     *
+     */
     public function testSubmitData()
     {
         $data = array(
@@ -21,8 +29,7 @@ class TagTypeTest extends TypeTestCase {
 
         $object = new Tag();
         $accessor = PropertyAccess::createPropertyAccessor();
-        foreach ($data as $key => $value)
-        {
+        foreach ($data as $key => $value) {
             $accessor->setValue($object, $key, $value);
         }
 

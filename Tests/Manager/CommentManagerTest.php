@@ -6,12 +6,25 @@ namespace ARV\BlogBundle\Tests\Manager;
 use ARV\BlogBundle\Entity\Comment;
 use ARV\BlogBundle\Tests\AbstractFunctionalTest;
 
+/**
+ * Class CommentManagerTest
+ * @package ARV\BlogBundle\Tests\Manager
+ */
 class CommentManagerTest extends AbstractFunctionalTest
 {
 
+    /**
+     * @var
+     */
     private $manager;
+    /**
+     * @var
+     */
     private $articleManager;
 
+    /**
+     *
+     */
     public function setUp()
     {
         parent::setUp();
@@ -19,34 +32,53 @@ class CommentManagerTest extends AbstractFunctionalTest
         $this->articleManager = $this->container->get('arv_blog_manager_article');
     }
 
+    /**
+     *
+     */
     public function testCount()
     {
         $this->assertEquals(3, $this->manager->count());
     }
 
+    /**
+     *
+     */
     public function testGetAllOrderedWithNoArticle()
     {
         $this->assertCount(3, $this->manager->getAll());
     }
 
+    /**
+     *
+     */
     public function testGetAllNotOrderedWithNoArticle()
     {
         $this->assertCount(3, $this->manager->getAll(null, false));
     }
 
+    /**
+     *
+     */
     public function testGetAllOrderedWithArticle()
     {
         $article = $this->articleManager->getRepository()->findOneByTitle("HTML Ipsum Presents");
         $this->assertCount(1, $this->manager->getAll($article));
     }
 
+    /**
+     *
+     */
     public function testGetAllNotOrderedWithArticle()
     {
         $article = $this->articleManager->getRepository()->findOneByTitle("HTML Ipsum Presents");
         $this->assertCount(1, $this->manager->getAll($article, false));
     }
 
-    public function testSave() {
+    /**
+     *
+     */
+    public function testSave()
+    {
         $this->assertEquals(3, $this->manager->count());
         $article = $this->articleManager->getRepository()->findOneByTitle("HTML Ipsum Presents");
         $comment = new Comment();
@@ -59,7 +91,11 @@ class CommentManagerTest extends AbstractFunctionalTest
         $this->assertEquals(4, $this->manager->count());
     }
 
-    public function testUpdate() {
+    /**
+     *
+     */
+    public function testUpdate()
+    {
         $this->assertEquals(3, $this->manager->count());
         $comment = $this->manager->getRepository()->findOneByEmail("user@gmail.com");
         $comment->setEmail("user1@gmail.com");
@@ -67,7 +103,11 @@ class CommentManagerTest extends AbstractFunctionalTest
         $this->assertEquals(3, $this->manager->count());
     }
 
-    public function testDelete() {
+    /**
+     *
+     */
+    public function testDelete()
+    {
         $this->assertEquals(3, $this->manager->count());
         $comment = $this->manager->getRepository()->findOneByEmail("user@gmail.com");
         $this->manager->delete($comment);

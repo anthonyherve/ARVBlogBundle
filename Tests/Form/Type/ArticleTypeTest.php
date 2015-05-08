@@ -10,20 +10,26 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class ArticleTypeTest extends TypeTestCase {
+/**
+ * Class ArticleTypeTest
+ * @package ARV\BlogBundle\Tests\Form\Type
+ */
+class ArticleTypeTest extends TypeTestCase
+{
 
     /**
      * @dataProvider getValidTestData
      * @param $data
      */
-    public function testSubmitData($data) {
+    public function testSubmitData($data)
+    {
         $type = new ArticleType();
         $form = $this->factory->create($type);
 
         $object = new Article();
         $object->setTitle($data['title']);
         $object->setContent($data['content']);
-        foreach($data['tags'] as $tag) {
+        foreach ($data['tags'] as $tag) {
             $object->addTag(new Tag($tag['name']));
         }
 
@@ -40,6 +46,9 @@ class ArticleTypeTest extends TypeTestCase {
 
     }
 
+    /**
+     * @return array
+     */
     public function getValidTestData()
     {
         return array(

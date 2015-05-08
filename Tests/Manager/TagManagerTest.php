@@ -6,12 +6,25 @@ namespace ARV\BlogBundle\Tests\Manager;
 use ARV\BlogBundle\Entity\Tag;
 use ARV\BlogBundle\Tests\AbstractFunctionalTest;
 
+/**
+ * Class TagManagerTest
+ * @package ARV\BlogBundle\Tests\Manager
+ */
 class TagManagerTest extends AbstractFunctionalTest
 {
 
+    /**
+     * @var
+     */
     private $manager;
+    /**
+     * @var
+     */
     private $articleManager;
 
+    /**
+     *
+     */
     public function setUp()
     {
         parent::setUp();
@@ -19,17 +32,27 @@ class TagManagerTest extends AbstractFunctionalTest
         $this->articleManager = $this->container->get('arv_blog_manager_article');
     }
 
+    /**
+     *
+     */
     public function testCount()
     {
         $this->assertEquals(9, $this->manager->count());
     }
 
+    /**
+     *
+     */
     public function testGetAll()
     {
         $this->assertCount(9, $this->manager->getAll());
     }
 
-    public function testSave() {
+    /**
+     *
+     */
+    public function testSave()
+    {
         $this->assertEquals(9, $this->manager->count());
         $article = $this->articleManager->getRepository()->findOneByTitle("HTML Ipsum Presents");
         $tag = new Tag('tag10');
@@ -38,7 +61,11 @@ class TagManagerTest extends AbstractFunctionalTest
         $this->assertEquals(10, $this->manager->count());
     }
 
-    public function testUpdate() {
+    /**
+     *
+     */
+    public function testUpdate()
+    {
         $this->assertEquals(9, $this->manager->count());
         $tag = $this->manager->getRepository()->findOneByName("tag1");
         $tag->setName('new_tag');
@@ -46,7 +73,11 @@ class TagManagerTest extends AbstractFunctionalTest
         $this->assertEquals(9, $this->manager->count());
     }
 
-    public function testDelete() {
+    /**
+     *
+     */
+    public function testDelete()
+    {
         $this->assertEquals(9, $this->manager->count());
         $tag = $this->manager->getRepository()->findOneByName("tag1");
         $this->manager->delete($tag);

@@ -68,7 +68,7 @@ class Comment
      */
     public function preUpdate()
     {
-        $this->dateModification = new \DateTime('now');
+        $this->setDateModification(new \DateTime('now'));
     }
 
     /**
@@ -77,8 +77,8 @@ class Comment
     public function prePersist()
     {
         if ($this->dateCreation === null) {
-            $this->dateCreation = new \DateTime('now');
-            $this->dateModification = new \DateTime('now');
+            $this->setDateCreation(new \DateTime('now'));
+            $this->setDateModification(new \DateTime('now'));
         }
     }
 

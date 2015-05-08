@@ -9,7 +9,7 @@
         <div>
             {{ article.dateModification|date('d/m/Y') }} -
             {% for tag in article.tags %}
-                <a href="">{{ tag.name }}</a>{% if loop.last == false %}, {% endif %}
+                <a href="{{ path('arv_blog_tag_show', { 'id': tag.id }) }}">{{ tag.name }}</a>{% if loop.last == false %}, {% endif %}
             {% endfor %}
         </div>
 
