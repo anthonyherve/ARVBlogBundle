@@ -18,7 +18,7 @@
         <div>
             {# Date and user #}
             <div>
-                {{ 'arv.blog.table.comment.edited_at'|trans({'%date': comment.dateModification|date('d/m/Y H:i:s'), {'%email': comment.email}}) }}
+                {{ 'arv.blog.table.comment.edited_at'|trans({'%date': comment.dateModification|date('d/m/Y H:i:s'), '%email': comment.email}) }}
             </div>
 
             {# Content #}

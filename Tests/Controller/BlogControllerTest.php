@@ -31,9 +31,8 @@ class BlogControllerTest extends AbstractFunctionalTest
      */
     public function testIndex()
     {
-        $client = static::createClient();
-        $client->request('GET', $this->url);
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->client->request('GET', $this->url);
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
     }
 
 }
