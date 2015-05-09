@@ -166,7 +166,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDelete()
+    public function testDeleteOK()
     {
         $count = $this->countComments();
         $comment = $this->manager->getRepository()->findOneByEmail('user@gmail.com');
@@ -177,6 +177,24 @@ class CommentControllerTest extends AbstractFunctionalTest
         $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertEquals($count - 1, $this->countComments());
+    }
+
+    /**
+     *
+     */
+    public function testDeleteKO()
+    {
+        $count = $this->countComments();
+        $comment = $this->manager->getRepository()->findOneByEmail('user@gmail.com');
+        $crawler = $this->client->request('GET', $this->url . '/' . $comment->getId());
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('form_submit')->form(array(
+            'form[_token]' => ''
+        ));
+        $this->client->submit($form);
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertEquals($count, $this->countComments());
     }
 
     /**

@@ -121,7 +121,7 @@ class TagControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDelete()
+    public function testDeleteOK()
     {
         $count = $this->countTags();
         $tag = $this->manager->getRepository()->findOneByName('tag3');
@@ -132,6 +132,24 @@ class TagControllerTest extends AbstractFunctionalTest
         $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertEquals($count - 1, $this->countTags());
+    }
+
+    /**
+     *
+     */
+    public function testDeleteKO()
+    {
+        $count = $this->countTags();
+        $tag = $this->manager->getRepository()->findOneByName('tag3');
+        $crawler = $this->client->request('GET', $this->url . '/' . $tag->getId());
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('form_submit')->form(array(
+            'form[_token]' => ''
+        ));
+        $this->client->submit($form);
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertEquals($count, $this->countTags());
     }
 
     /**

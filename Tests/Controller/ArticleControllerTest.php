@@ -145,7 +145,7 @@ class ArticleControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDelete()
+    public function testDeleteOK()
     {
         $count = $this->countArticles();
         $article = $this->manager->getRepository()->findOneByTitle('HTML Ipsum Presents');
@@ -156,6 +156,24 @@ class ArticleControllerTest extends AbstractFunctionalTest
         $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertEquals($count - 1, $this->countArticles());
+    }
+
+    /**
+     *
+     */
+    public function testDeleteKO()
+    {
+        $count = $this->countArticles();
+        $article = $this->manager->getRepository()->findOneByTitle('HTML Ipsum Presents');
+        $crawler = $this->client->request('GET', $this->url . '/' . $article->getId() . '-' . $article->getSlug());
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('form_submit')->form(array(
+            'form[_token]' => ''
+        ));
+        $this->client->submit($form);
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertEquals($count, $this->countArticles());
     }
 
     /**
