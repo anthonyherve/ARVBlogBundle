@@ -51,6 +51,19 @@ class TagManagerTest extends AbstractFunctionalTest
     /**
      *
      */
+    public function testSetTags()
+    {
+        $count = $this->manager->count();
+        $article = $this->articleManager->getRepository()->findOneByTitle('HTML Ipsum Presents');
+        $tags = array(new Tag('tag1'), new Tag('tag20'));
+        $article->setTags($this->manager->setTags($tags));
+        $this->articleManager->save($article);
+        $this->assertEquals($count + 1, $this->manager->count());
+    }
+
+    /**
+     *
+     */
     public function testSave()
     {
         $this->assertEquals(9, $this->manager->count());

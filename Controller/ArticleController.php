@@ -76,17 +76,7 @@ class ArticleController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            // Check if tag already exists in database
-            $tags = new ArrayCollection();
-            foreach ($article->getTags() as $tag) {
-                $tagFromDB = $this->get('arv_blog_manager_tag')->getRepository()->findOneByName(strtolower($tag->getName()));
-                if ($tagFromDB === null) {
-                    $tags[] = $tag;
-                } else {
-                    $tags[] = $tagFromDB;
-                }
-            }
-            $article->setTags($tags);
+            $article->setTags($this->get('arv_blog_manager_tag')->setTags($article->getTags()));
 
             $this->get('arv_blog_manager_article')->save($article);
 
@@ -150,6 +140,7 @@ class ArticleController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $article->setTags($this->get('arv_blog_manager_tag')->setTags($article->getTags()));
             $this->get('arv_blog_manager_article')->save($article);
             $this->addFlash('success', 'arv.blog.flash.success.article_edited');
             return $this->redirect($this->generateUrl('arv_blog_article_show', array('id' => $article->getId(), 'slug' => $article->getSlug())));
