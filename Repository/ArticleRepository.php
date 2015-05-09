@@ -13,6 +13,10 @@ use Doctrine\ORM\EntityRepository;
 class ArticleRepository extends EntityRepository
 {
 
+    /**
+     * Count number of articles.
+     * @return int
+     */
     public function count()
     {
         $qb = $this->_em->createQueryBuilder();
@@ -22,6 +26,11 @@ class ArticleRepository extends EntityRepository
         return (int)$qb->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * Search articles with $search.
+     * @param $search
+     * @return array
+     */
     public function search($search)
     {
         $qb = $this->_em->createQueryBuilder();

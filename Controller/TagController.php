@@ -10,13 +10,14 @@ use ARV\BlogBundle\Entity\Tag;
 use ARV\BlogBundle\Form\Type\TagType;
 
 /**
- * Tag controller.
- *
+ * Class TagController
+ * @package ARV\BlogBundle\Controller
  */
 class TagController extends Controller
 {
 
     /**
+     * Manage tags.
      * @Template
      * @return array
      */
@@ -32,6 +33,7 @@ class TagController extends Controller
     }
 
     /**
+     * Display new form.
      * @Template
      * @return array
      */
@@ -47,6 +49,7 @@ class TagController extends Controller
     }
 
     /**
+     * Manage new form and create tag.
      * @Template("ARVBlogBundle:Tag:new.html.twig")
      * @param Request $request
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
@@ -73,6 +76,7 @@ class TagController extends Controller
     }
 
     /**
+     * Display a tag.
      * @Template
      * @param Tag $tag
      * @return array
@@ -88,6 +92,7 @@ class TagController extends Controller
     }
 
     /**
+     * Display edit form.
      * @Template
      * @param Tag $tag
      * @return array
@@ -105,6 +110,7 @@ class TagController extends Controller
     }
 
     /**
+     * Manage edit form and edit tag.
      * @Template("ARVBlogBundle:Tag:edit.html.twig")
      * @param Request $request
      * @param Tag $tag

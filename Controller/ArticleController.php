@@ -18,6 +18,7 @@ class ArticleController extends Controller
 {
 
     /**
+     * List of articles.
      * @Template
      * @param Request $request
      * @param string $search
@@ -35,6 +36,7 @@ class ArticleController extends Controller
     }
 
     /**
+     * Manage articles.
      * @Template
      * @return \Symfony\Component\HttpFoundation\Response
      */

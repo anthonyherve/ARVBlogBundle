@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Tag
+ * @package ARV\BlogBundle\Entity
  *
  * @ORM\Table(name = "blog_tag")
  * @ORM\Entity(repositoryClass="ARV\BlogBundle\Repository\TagRepository")
@@ -37,6 +38,9 @@ class Tag
      */
     private $articles;
 
+    /**
+     * @param string $name
+     */
     public function __construct($name = '')
     {
         $this->articles = new ArrayCollection();

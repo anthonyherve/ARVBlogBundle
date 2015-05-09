@@ -9,6 +9,10 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadData
+ * @package ARV\BlogBundle\DataFixtures\ORM
+ */
 class LoadData implements FixtureInterface, ContainerAwareInterface
 {
 

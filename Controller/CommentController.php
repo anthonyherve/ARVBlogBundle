@@ -19,6 +19,7 @@ class CommentController extends Controller
 {
 
     /**
+     * List of comments.
      * @Template
      * @ParamConverter("article", class="ARVBlogBundle:Article", options={"id"="id_article"})
      * @param Article $article
@@ -37,6 +38,7 @@ class CommentController extends Controller
     }
 
     /**
+     * Manage comments.
      * @Template
      * @return array
      */
@@ -52,6 +54,7 @@ class CommentController extends Controller
     }
 
     /**
+     * Display new form.
      * @Template
      * @ParamConverter("article", class="ARVBlogBundle:Article", options={"id"="id_article"})
      * @return array
@@ -71,6 +74,7 @@ class CommentController extends Controller
     }
 
     /**
+     * Manage new form and create comment.
      * @Template("ARVBlogBundle:Comment:new.html.twig")
      * @param Request $request
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
@@ -99,6 +103,7 @@ class CommentController extends Controller
 
 
     /**
+     * Display a comment.
      * @Template
      * @param Comment $comment
      * @return array
@@ -114,6 +119,7 @@ class CommentController extends Controller
     }
 
     /**
+     * Display edit form.
      * @Template
      * @param Comment $comment
      * @return array
@@ -131,6 +137,7 @@ class CommentController extends Controller
     }
 
     /**
+     * Manage edit form and edit comment.
      * @Template("ARVBlogBundle:Comment:edit.html.twig")
      * @param Request $request
      * @param Comment $comment
@@ -160,6 +167,7 @@ class CommentController extends Controller
     }
 
     /**
+     * Delete a comment.
      * @param Request $request
      * @param Comment $comment
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

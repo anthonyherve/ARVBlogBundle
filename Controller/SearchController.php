@@ -7,10 +7,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+/**
+ * Class SearchController
+ * @package ARV\BlogBundle\Controller
+ */
 class SearchController extends Controller
 {
 
     /**
+     * Display search form.
      * @Template
      * @param Request $request
      */
@@ -24,6 +29,7 @@ class SearchController extends Controller
     }
 
     /**
+     * Search something.
      * @Template
      * @param Request $request
      */

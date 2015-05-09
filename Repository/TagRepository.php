@@ -13,6 +13,10 @@ use Doctrine\ORM\EntityRepository;
 class TagRepository extends EntityRepository
 {
 
+    /**
+     * Count number of tags.
+     * @return int
+     */
     public function count()
     {
         $qb = $this->_em->createQueryBuilder();

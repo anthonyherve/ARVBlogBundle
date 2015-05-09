@@ -8,11 +8,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Article
+ * @package ARV\BlogBundle\Entity
  *
  * @ORM\Table(name = "blog_article")
  * @ORM\Entity(repositoryClass="ARV\BlogBundle\Repository\ArticleRepository")
  * @ORM\HasLifecycleCallbacks
  */
+
 class Article
 {
     /**
@@ -260,7 +262,7 @@ class Article
      */
     public function addTag(Tag $tag)
     {
-        $tag->addArticle($this); // synchronously updating inverse side
+        $tag->addArticle($this);
         $this->tags[] = $tag;
     }
 
@@ -296,7 +298,7 @@ class Article
      */
     public function addComment(Comment $comment)
     {
-        $comment->setArticle($this); // synchronously updating inverse side
+        $comment->setArticle($this);
         $this->comments[] = $comment;
     }
 

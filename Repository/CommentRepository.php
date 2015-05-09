@@ -13,6 +13,10 @@ use Doctrine\ORM\EntityRepository;
 class CommentRepository extends EntityRepository
 {
 
+    /**
+     * Count number of comments.
+     * @return int
+     */
     public function count()
     {
         $qb = $this->_em->createQueryBuilder();

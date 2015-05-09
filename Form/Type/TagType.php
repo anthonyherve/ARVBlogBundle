@@ -6,6 +6,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * Class TagType
+ * @package ARV\BlogBundle\Form\Type
+ */
 class TagType extends AbstractType
 {
     /**
