@@ -7,7 +7,7 @@
     <div>
         {{ form_row(form.content) }}
     </div>
-    <a id="add-tag" href="#">Add tag</a>
+    <a id="add-tag" href="#">{{ 'arv.blog.action.add_tag'|trans }}</a>
     <div id="tags" data-prototype="{{ form_widget(form.tags.vars.prototype) | e }}">
         {% for tag in form.tags %}
             <div class="tag">
@@ -64,7 +64,7 @@
         }
 
         function addDeleteLink($tagFormLi) {
-            var $removeFormA = $('<a href="#">Delete this tag</div>');
+            var $removeFormA = $('<a href="#">{{ 'arv.blog.action.delete_tag'|trans }}</div>');
             $tagFormLi.append($removeFormA);
 
             $removeFormA.on('click', function (e) {

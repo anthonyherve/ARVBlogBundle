@@ -5,11 +5,11 @@
     <li>
         {% if article is null %}
             <a href="{{ path('arv_blog_comment_new') }}">
-                Ecrire un nouveau commentaire
+                {{ 'arv.blog.action.add_comment'|trans }}
             </a>
         {% else %}
             <a href="{{ path('arv_blog_comment_new', { id_article: article.id }) }}">
-                Ecrire un nouveau commentaire
+                {{ 'arv.blog.action.add_comment'|trans }}
             </a>
         {% endif %}
     </li>
@@ -18,7 +18,7 @@
         <div>
             {# Date and user #}
             <div>
-                Le {{ comment.dateModification|date('d/m/Y H:i:s') }} par {{ comment.email }}
+                {{ 'arv.blog.table.comment.edited_at'|trans({'%date': comment.dateModification|date('d/m/Y H:i:s'), {'%email': comment.email}}) }}
             </div>
 
             {# Content #}
@@ -30,10 +30,10 @@
             <div>
                 <ul>
                     <li>
-                        <a href="{{ path('arv_blog_comment_show', { 'id': comment.id }) }}">Visualiser</a>
+                        <a href="{{ path('arv_blog_comment_show', { 'id': comment.id }) }}">{{ 'arv.blog.action.show'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('arv_blog_comment_edit', { 'id': comment.id }) }}">Modifier</a>
+                        <a href="{{ path('arv_blog_comment_edit', { 'id': comment.id }) }}">{{ 'arv.blog.action.edit'|trans }}</a>
                     </li>
                     <li>
                         {{ form(delete_forms[comment.id]) }}

@@ -1,0 +1,83 @@
+arv.blog:
+    word:
+        tag: key word
+        tags: key words
+        comment: comment
+        comments: comments
+        article: article
+        article: articles
+    title:
+        h1:
+            list_article: List of articles
+            add_article: Add an article
+            edit_article: Edit an article
+            show_article: Article
+            list_comment: List of comments
+            add_comment: Add a comment
+            edit_comment: Edit a comment
+            show_comment: Comment
+            add_tag: Add a key word
+            edit_tag: Edit a key word
+            show_tag: Key word
+    table:
+        actions: Actions
+        creation_date: Creation date
+        edition_date: Edition date
+        created_at: Written %date%
+        edited_at: Edited %date%
+        article:
+            title: Titlte
+            content: Content
+            tags: Key words
+        comment:
+            email: Email address
+            ip: IP address
+            content: Comment
+            article: Article
+            created_at: Written %date% by %email%
+            edited_at: Edited %date% by %email%
+    action:
+        back_list: Back to the list
+        add_article: Add an article
+        add_comment: Add a comment
+        add_tag: Add a key word
+        list_article: Articles list
+        list_comment: Comments list
+        list_tag: Key words list
+        delete_tag: Delete this key word
+        show: Show
+        edit: Edit
+        delete: Delete
+    form:
+        label:
+            article:
+                title: Title
+                content: Content
+                tags: Key words
+            comment:
+                email: Email address
+                content: Comment
+                article: Article
+            tag:
+                name: Name
+        button:
+            validate: Validate
+            add: Add
+            edit: Edit
+            delete: Delete
+            search: Search
+    flash:
+        close: Close
+        error:
+            form_not_valid: This form is nos valid.
+        notice:
+        success:
+            article_created: Article was added.
+            article_edited: Article was edited.
+            article_deleted: Article was deleted.
+            comment_created: Comment wad added.
+            comment_edited: Comment was edited.
+            comment_deleted: Comment was deleted.
+            tag_created: Key word was added.
+            tag_edited: Key word was edited.
+            tag_deleted: Key word was deleted.

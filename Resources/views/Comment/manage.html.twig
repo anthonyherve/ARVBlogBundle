@@ -2,18 +2,18 @@
 
 {% block body %}
     {{ parent() }}
-    <h1>List des commentaires</h1>
+    <h1>{{ 'arv.blog.title.h1.list_comment'|trans }}</h1>
 
-    <table class="records_list">
+    <table>
         <thead>
         <tr>
-            <th>Adresse email</th>
-            <th>IP</th>
-            <th>Commentaire</th>
-            <th>Date de création</th>
-            <th>Dernière modification</th>
-            <th>Article</th>
-            <th>Actions</th>
+            <th>{{ 'arv.blog.table.comment.email'|trans }}</th>
+            <th>{{ 'arv.blog.table.comment.ip'|trans }}</th>
+            <th>{{ 'arv.blog.table.comment.content'|trans }}</th>
+            <th>{{ 'arv.blog.table.creation_date'|trans }}</th>
+            <th>{{ 'arv.blog.table.edition_date'|trans }}</th>
+            <th>{{ 'arv.blog.table.comment.article'|trans }}</th>
+            <th>{{ 'arv.blog.table.actions'|trans }}</th>
         </tr>
         </thead>
         <tbody>
@@ -28,10 +28,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('arv_blog_comment_show', { 'id': comment.id }) }}">Visualiser</a>
+                            <a href="{{ path('arv_blog_comment_show', { 'id': comment.id }) }}">{{ 'arv.blog.action.show'|trans }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('arv_blog_comment_edit', { 'id': comment.id }) }}">Modifier</a>
+                            <a href="{{ path('arv_blog_comment_edit', { 'id': comment.id }) }}">{{ 'arv.blog.action.edit'|trans }}</a>
                         </li>
                         <li>
                             {{ form(delete_forms[comment.id]) }}
@@ -46,7 +46,7 @@
     <ul>
         <li>
             <a href="{{ path('arv_blog_comment_new') }}">
-                Ecrire un nouveau commentaire
+                {{ 'arv.blog.action.add_comment'|trans }}
             </a>
         </li>
     </ul>

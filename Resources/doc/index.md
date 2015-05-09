@@ -23,6 +23,13 @@ if (in_array($this->getEnvironment(), array('dev', 'test'))) {
 }
 ```
 
+Activate translation to your config.yml:
+
+```yaml
+framework:
+    translator:      { fallback: "%locale%" }
+```
+
 Add these lines to your config.yml:
 
 ```yaml

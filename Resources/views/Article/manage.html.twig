@@ -3,12 +3,12 @@
 {% block body %}
     {{ parent() }}
 
-    <h1>Liste d'articles</h1>
+    <h1>{{ 'arv.blog.title.h1.list_article'|trans }}</h1>
 
     <ul>
         <li>
             <a href="{{ path('arv_blog_article_new') }}">
-                Ecrire un nouvel article
+                {{ 'arv.blog.action.add_article'|trans }}
             </a>
         </li>
     </ul>
@@ -16,12 +16,12 @@
     <table>
         <thead>
         <tr>
-            <th>Titre</th>
-            <th>Contenu</th>
-            <th>Tags</th>
-            <th>Date de création</th>
-            <th>Dernière modification</th>
-            <th>Actions</th>
+            <th>{{ 'arv.blog.table.article.title'|trans }}</th>
+            <th>{{ 'arv.blog.table.article.content'|trans }}</th>
+            <th>{{ 'arv.blog.table.article.tags'|trans }}</th>
+            <th>{{ 'arv.blog.table.creation_date'|trans }}</th>
+            <th>{{ 'arv.blog.table.edition_date'|trans }}</th>
+            <th>{{ 'arv.blog.table.actions'|trans }}</th>
         </tr>
         </thead>
         <tbody>
@@ -41,10 +41,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('arv_blog_article_show', { 'id': article.id, 'slug': article.slug }) }}">Visualiser</a>
+                            <a href="{{ path('arv_blog_article_show', { 'id': article.id, 'slug': article.slug }) }}">{{ 'arv.blog.action.show'|trans }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('arv_blog_article_edit', { 'id': article.id, 'slug': article.slug }) }}">Modifier</a>
+                            <a href="{{ path('arv_blog_article_edit', { 'id': article.id, 'slug': article.slug }) }}">{{ 'arv.blog.action.edit'|trans }}</a>
                         </li>
                         <li>{{ form(delete_forms[article.id]) }}</li>
                     </ul>

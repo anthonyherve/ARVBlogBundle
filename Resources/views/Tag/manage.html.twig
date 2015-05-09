@@ -3,12 +3,12 @@
 {% block body %}
     {{ parent() }}
 
-    <h1>Liste des tags</h1>
+    <h1>{{ 'arv.blog.title.h1.list_tag'|trans }}</h1>
 
     <ul>
         <li>
             <a href="{{ path('arv_blog_tag_new') }}">
-                Ajouter un tag
+                {{ 'arv.blog.action.add_tag'|trans }}
             </a>
         </li>
     </ul>
@@ -16,8 +16,8 @@
     <table>
         <thead>
         <tr>
-            <th>Nom</th>
-            <th>Actions</th>
+            <th>{{ 'arv.blog.table.tag.name'|trans }}</th>
+            <th>{{ 'arv.blog.table.actions'|trans }}</th>
         </tr>
         </thead>
         <tbody>
@@ -27,10 +27,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('arv_blog_tag_show', { 'id': tag.id }) }}">Visualiser</a>
+                            <a href="{{ path('arv_blog_tag_show', { 'id': tag.id }) }}">{{ 'arv.blog.action.show'|trans }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('arv_blog_tag_edit', { 'id': tag.id }) }}">Modifier</a>
+                            <a href="{{ path('arv_blog_tag_edit', { 'id': tag.id }) }}">{{ 'arv.blog.action.edit'|trans }}</a>
                         </li>
                         <li>{{ form(delete_forms[tag.id]) }}</li>
                     </ul>
@@ -39,5 +39,13 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('arv_blog_tag_new') }}">
+                {{ 'arv.blog.action.add_tag'|trans }}
+            </a>
+        </li>
+    </ul>
 {% endblock %}
 

@@ -16,7 +16,7 @@ class SearchType extends AbstractType
     {
         $builder
             ->add('query', 'text', array('label' => false, 'required'=> false, 'attr' => array('placeholder' => 'Recherche')))
-            ->add('search', 'submit', array('label' => 'Rechercher'))
+            ->add('search', 'submit', array('label' => 'arv.blog.form.button.search'))
         ;
     }
     

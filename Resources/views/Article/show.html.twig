@@ -5,8 +5,8 @@
 
     <div class="article">
         <h1>{{ article.title }}</h1>
-        <div class="date">Ecrit le {{ article.dateCreation|date("d/m/Y \à H:i") }}</div>
-        <div class="date">Modifié le {{ article.dateModification|date("d/m/Y \à H:i") }}</div>
+        <div class="date">{{ 'arv.blog.table.created_at'|trans({'%date%': article.dateCreation|date("d/m/Y \à H:i")}) }}</div>
+        <div class="date">{{ 'arv.blog.table.edited_at'|trans({'%date%': article.dateModification|date("d/m/Y \à H:i")}) }}</div>
         <ul class="tags">
             {% for tag in article.tags %}
                 <li>{{ tag.name }}</li>
@@ -20,12 +20,12 @@
     <ul>
         <li>
             <a href="{{ path('arv_blog_article_manage') }}">
-                Retour à la liste des articles
+                {{ 'arv.blog.action.back_list'|trans }}
             </a>
         </li>
         <li>
             <a href="{{ path('arv_blog_article_edit', { 'id': article.id, 'slug': article.slug }) }}">
-                Modifier
+                {{ 'arv.blog.action.edit'|trans }}
             </a>
         </li>
         <li>{{ form(delete_form) }}</li>

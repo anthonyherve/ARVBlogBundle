@@ -3,14 +3,14 @@
 {% block body %}
     {{ parent() }}
 
-    <h1>Ajouter un tag</h1>
+    <h1>{{ 'arv.blog.title.h1.add_tag'|trans }}</h1>
 
     {% include 'ARVBlogBundle:Comment:form.html.twig' with {'form': form} %}
 
     <ul class="record_actions">
         <li>
             <a href="{{ path('arv_blog_tag_manage') }}">
-                Retour à la liste
+                {{ 'arv.blog.action.back_list'|trans }}
             </a>
         </li>
     </ul>

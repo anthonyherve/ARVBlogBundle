@@ -1,0 +1,83 @@
+arv.blog:
+    word:
+        tag: mot-clé
+        tags: mots-clés
+        comment: commentaires
+        comments: commentaires
+        article: article
+        article: articles
+    title:
+        h1:
+            list_article: Liste des articles
+            add_article: Ajout d'un article
+            edit_article: Modification d'un article
+            show_article: Article
+            list_comment: Liste des commentaires
+            add_comment: Ajout d'un commentaire
+            edit_comment: Modification d'un commentaire
+            show_comment: Commentaire
+            add_tag: Ajout d'un mot-clé
+            edit_tag: Modification d'un mot-clé
+            show_tag: Mot-clé
+    table:
+        actions: Actions
+        creation_date: Date de création
+        edition_date: Dernière modification
+        created_at: Ecrit le %date%
+        edited_at: Modifié le %date%
+        article:
+            title: Titre
+            content: Contenu
+            tags: Mots-clés
+        comment:
+            email: Adresse mail
+            ip: Adresse IP
+            content: Commentaire
+            article: Article
+            created_at: Ecrit le %date% par %email%
+            edited_at: Modifié le %date% par %email%
+    action:
+        back_list: Retour à la liste
+        add_article: Ajouter un article
+        add_comment: Ajouter un commentaire
+        add_tag: Ajouter un mot-clé
+        list_article: Liste des articles
+        list_comment: Liste des commentaires
+        list_tag: Liste des mots-clés
+        delete_tag: Supprimer ce mot-clé
+        show: Visualiser
+        edit: Modifier
+        delete: Supprimer
+    form:
+        label:
+            article:
+                title: Titre
+                content: Contenu
+                tags: Mots-clés
+            comment:
+                email: Adresse mail
+                content: Commentaire
+                article: Article
+            tag:
+                name: Nom
+        button:
+            validate: Valider
+            add: Ajouter
+            edit: Modifier
+            delete: Supprimer
+            search: Rechercher
+    flash:
+        close: Fermer
+        error:
+            form_not_valid: Le formulaire n'est pas valide.
+        notice:
+        success:
+            article_created: L'article a bien été ajouté.
+            article_edited: L'article a bien été modifié.
+            article_deleted: L'article a bien été supprimé.
+            comment_created: Le commentaire a bien été ajouté.
+            comment_edited: Le commentaire a bien été modifié.
+            comment_deleted: Le commentaire a bien été supprimé.
+            tag_created: Le mot-clé a bien été ajouté.
+            tag_edited: Le mot-clé a bien été modifié.
+            tag_deleted: Le mot-clé a bien été supprimé.

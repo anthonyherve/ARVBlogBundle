@@ -3,14 +3,14 @@
 {% block body %}
     {{ parent() }}
 
-    <h1>Ajout d'un article</h1>
+    <h1>{{ 'arv.blog.title.h1.add_article'|trans }}</h1>
 
     {% include 'ARVBlogBundle:Article:form.html.twig' with {'form': form} %}
 
     <ul>
         <li>
             <a href="{{ path('arv_blog_article_manage') }}">
-                Retour à la liste des articles
+                {{ 'arv.blog.action.back_list'|trans }}
             </a>
         </li>
     </ul>

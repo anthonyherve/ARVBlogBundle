@@ -74,7 +74,6 @@ class ArticleController extends Controller
         $article = new Article();
         $form = $this->getCreateForm($article);
         $form->handleRequest($request);
-        $session = $this->get('session');
 
         if ($form->isValid()) {
             // Check if tag already exists in database
@@ -91,11 +90,10 @@ class ArticleController extends Controller
 
             $this->get('arv_blog_manager_article')->save($article);
 
-
-            $session->getFlashBag()->add('success', "L'article a bien été ajouté.");
+            $this->addFlash('success', 'arv.blog.flash.success.article_created');
             return $this->redirect($this->generateUrl('arv_blog_article_show', array('id' => $article->getId(), 'slug' => $article->getSlug())));
         } else {
-            $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
+            $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');
         }
 
         return array(
@@ -150,14 +148,13 @@ class ArticleController extends Controller
         $deleteForm = $this->getDeleteForm($article);
         $editForm = $this->getEditForm($article);
         $editForm->handleRequest($request);
-        $session = $this->get('session');
 
         if ($editForm->isValid()) {
             $this->get('arv_blog_manager_article')->save($article);
-            $session->getFlashBag()->add('success', "L'article a bien été modifié.");
+            $this->addFlash('success', 'arv.blog.flash.success.article_edited');
             return $this->redirect($this->generateUrl('arv_blog_article_show', array('id' => $article->getId(), 'slug' => $article->getSlug())));
         } else {
-            $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
+            $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');
         }
 
         return array(
@@ -177,11 +174,12 @@ class ArticleController extends Controller
     {
         $form = $this->getDeleteForm($article);
         $form->handleRequest($request);
-        $session = $this->get('session');
 
         if ($form->isValid()) {
             $this->get('arv_blog_manager_article')->delete($article);
-            $session->getFlashBag()->add('success', "L'article a bien été supprimé.");
+            $this->addFlash('success', 'arv.blog.flash.success.article_deleted');
+        } else {
+            $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');
         }
 
         return $this->redirect($this->generateUrl('arv_blog_article_manage'));
@@ -202,7 +200,9 @@ class ArticleController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Ajouter'));
+        $form->add('submit', 'submit',
+            array('label' => $this->get('translator')->trans('arv.blog.form.button.add'))
+        );
 
         return $form;
     }
@@ -218,7 +218,9 @@ class ArticleController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Modifier'));
+        $form->add('submit', 'submit',
+            array('label' => $this->get('translator')->trans('arv.blog.form.button.edit'))
+        );
 
         return $form;
     }
@@ -232,7 +234,9 @@ class ArticleController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('arv_blog_article_delete', array('id' => $article->getId(), 'slug' => $article->getSlug())))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Supprimer'))
+            ->add('submit', 'submit',
+                array('label' => $this->get('translator')->trans('arv.blog.form.button.delete'))
+            )
             ->getForm();
     }
 

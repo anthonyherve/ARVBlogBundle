@@ -2,24 +2,26 @@
 
 {% block body %}
     {{ parent() }}
-    <h1>Commentaire</h1>
+    <h1>{{ 'arv.blog.title.h1.show_comment'|trans }}</h1>
 
     <div class="comment">
-        <div class="date">Ecrit le {{ comment.dateCreation|date("d/m/Y \à H:i") }}</div>
-        <div class="date">Modifié le {{ comment.dateModification|date("d/m/Y \à H:i") }}</div>
-        <div class="author">Adresse mail : {{ comment.email }} - Adresse IP : {{ comment.ip }}</div>
+        <div class="date">{{ 'arv.blog.table.created_at'|trans({'%date%': article.dateCreation|date("d/m/Y \à H:i")}) }}</div>
+        <div class="date">{{ 'arv.blog.table.edited_at'|trans({'%date%': article.dateModification|date("d/m/Y \à H:i")}) }}}</div>
+        <div class="author">
+            {{ 'arv.blog.table.comment.email'|trans }} : {{ comment.email }} - {{ 'arv.blog.table.comment.ip'|trans }} : {{ comment.ip }}
+        </div>
         <div class="content">{{ comment.content }}</div>
     </div>
 
     <ul>
         <li>
             <a href="{{ path('arv_blog_comment_manage') }}">
-                Retour à la liste
+                {{ 'arv.blog.action.back_list'|trans }}
             </a>
         </li>
         <li>
             <a href="{{ path('arv_blog_comment_edit', { 'id': comment.id }) }}">
-                Modifier
+                {{ 'arv.blog.action.edit'|trans }}
             </a>
         </li>
         <li>{{ form(delete_form) }}</li>

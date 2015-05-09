@@ -22,7 +22,7 @@
         <div>
             <ul>
                 <li>
-                    <a href="{{ path('arv_blog_article_edit', { 'id': article.id, 'slug': article.slug }) }}">Modifier</a>
+                    <a href="{{ path('arv_blog_article_edit', { 'id': article.id, 'slug': article.slug }) }}">{{ 'arv.blog.action.edit'|trans }}</a>
                 </li>
                 <li>
                     {{ form(delete_forms[article.id]) }}

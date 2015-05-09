@@ -56,15 +56,14 @@ class TagController extends Controller
         $tag = new Tag();
         $form = $this->getCreateForm($tag);
         $form->handleRequest($request);
-        $session = $this->get('session');
 
         if ($form->isValid()) {
             $this->get('arv_blog_manager_tag')->save($tag);
-            $session->getFlashBag()->add('success', "Le tag a bien été ajouté.");
+            $this->addFlash('success', 'arv.blog.flash.success.tag_created');
 
             return $this->redirect($this->generateUrl('arv_blog_tag_manage'));
         } else {
-            $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
+            $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');
         }
 
         return array(
@@ -116,15 +115,14 @@ class TagController extends Controller
         $deleteForm = $this->getDeleteForm($tag);
         $editForm = $this->getEditForm($tag);
         $editForm->handleRequest($request);
-        $session = $this->get('session');
 
         if ($editForm->isValid()) {
             $this->get('arv_blog_manager_tag')->save($tag);
-            $session->getFlashBag()->add('success', "Le tag a bien été modifié.");
+            $this->addFlash('success', 'arv.blog.flash.success.tag_edited');
 
             return $this->redirect($this->generateUrl('arv_blog_tag_manage'));
         } else {
-            $session->getFlashBag()->add('danger', "Le formulaire n'est pas valide.");
+            $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');
         }
 
         return array(
@@ -144,11 +142,12 @@ class TagController extends Controller
     {
         $form = $this->getDeleteForm($tag);
         $form->handleRequest($request);
-        $session = $this->get('session');
 
         if ($form->isValid()) {
             $this->get('arv_blog_manager_tag')->delete($tag);
-            $session->getFlashBag()->add('success', "Le tag a bien été supprimé.");
+            $this->addFlash('success', 'arv.blog.flash.success.tag_deleted');
+        } else {
+            $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');
         }
 
         return $this->redirect($this->generateUrl('arv_blog_tag_manage'));
@@ -170,7 +169,9 @@ class TagController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Ajouter'));
+        $form->add('submit', 'submit',
+            array('label' => $this->get('translator')->trans('arv.blog.form.button.add'))
+        );
 
         return $form;
     }
@@ -187,7 +188,9 @@ class TagController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Modifier'));
+        $form->add('submit', 'submit',
+            array('label' => $this->get('translator')->trans('arv.blog.form.button.edit'))
+        );
 
         return $form;
     }
@@ -201,7 +204,9 @@ class TagController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('arv_blog_tag_delete', array('id' => $tag->getId())))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Supprimer'))
+            ->add('submit', 'submit',
+                array('label' => $this->get('translator')->trans('arv.blog.form.button.delete'))
+            )
             ->getForm()
         ;
     }

@@ -3,7 +3,7 @@
 {% block body %}
     {{ parent() }}
 
-    <h1>Tag</h1>
+    <h1>{{ 'arv.blog.title.h1.show_tag'|trans }}</h1>
 
     <div>
         {{ tag.name }}
@@ -12,12 +12,12 @@
     <ul class="record_actions">
         <li>
             <a href="{{ path('arv_blog_tag_manage') }}">
-                Retour à la liste
+                {{ 'arv.blog.action.back_list'|trans }}
             </a>
         </li>
         <li>
             <a href="{{ path('arv_blog_tag_edit', { 'id': tag.id }) }}">
-                Modifier
+                {{ 'arv.blog.action.edit'|trans }}
             </a>
         </li>
         <li>{{ form(delete_form) }}</li>
