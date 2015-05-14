@@ -1,8 +1,6 @@
 {% extends 'ARVBlogBundle::blog.html.twig' %}
 
-{% block body %}
-    {{ parent() }}
-
+{% block content %}
     <div class="article">
         <h1>{{ article.title }}</h1>
         <div class="date">{{ 'arv.blog.table.created_at'|trans({'%date%': article.dateCreation|date("d/m/Y \à H:i")}) }}</div>

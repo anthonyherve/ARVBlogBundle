@@ -1,8 +1,6 @@
 {% extends 'ARVBlogBundle::blog.html.twig' %}
 
-{% block body %}
-    {{ parent() }}
-
+{% block content %}
     <h1>{{ 'arv.blog.title.h1.edit_tag'|trans }}</h1>
 
     {% include 'ARVBlogBundle:Comment:form.html.twig' with {'form': edit_form} %}

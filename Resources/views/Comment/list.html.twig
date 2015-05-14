@@ -1,7 +1,6 @@
 {% extends 'ARVBlogBundle::blog.html.twig' %}
 
-{% block body %}
-    {{ parent() }}
+{% block content %}
     <li>
         {% if article is null %}
             <a href="{{ path('arv_blog_comment_new') }}">

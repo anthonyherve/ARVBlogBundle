@@ -1,15 +1,15 @@
-{% extends '::base.html.twig' %}
-
-{% block body %}
-    {# Messages FLASH #}
-    {% for type, messages in app.session.flashbag.all() %}
-        {% for message in messages %}
-            <div class="alert alert-{{ type }} alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-label="{{ 'arv.blog.flash.close'|trans }}">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {{ message|trans }}
-            </div>
-        {% endfor %}
+{# Messages FLASH #}
+{% for type, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }} alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="{{ 'arv.blog.flash.close'|trans }}">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message|trans }}
+        </div>
     {% endfor %}
+{% endfor %}
+
+{% block content %}
+
 {% endblock %}
