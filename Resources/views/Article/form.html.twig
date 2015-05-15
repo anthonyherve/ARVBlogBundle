@@ -7,6 +7,9 @@
     <div>
         {{ form_row(form.content) }}
     </div>
+    <div>
+        {{ form_row(form.datePublication) }}
+    </div>
     <a id="add-tag" href="#">{{ 'arv.blog.action.add_tag'|trans }}</a>
     <div id="tags" data-prototype="{{ form_widget(form.tags.vars.prototype) | e }}">
         {% for tag in form.tags %}

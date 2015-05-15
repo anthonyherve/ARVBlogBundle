@@ -70,6 +70,7 @@ class LoadData implements FixtureInterface, ContainerAwareInterface
         $article1->addTag($tag2);
         $article1->addTag($tag3);
         $article1->addTag($tag4);
+        $article1->setDatePublication(new \DateTime());
         $manager->persist($article1);
 
         $article2 = new Article();
@@ -93,6 +94,7 @@ class LoadData implements FixtureInterface, ContainerAwareInterface
         $article2->addTag($tag2);
         $article2->addTag($tag5);
         $article2->addTag($tag6);
+        $article2->setDatePublication(new \DateTime());
         $manager->persist($article2);
 
         $article3 = new Article();
@@ -108,6 +110,8 @@ class LoadData implements FixtureInterface, ContainerAwareInterface
         $article3->addTag($tag7);
         $article3->addTag($tag8);
         $article3->addTag($tag9);
+        $now = new \DateTime();
+        $article3->setDatePublication($now->add(new \DateInterval('P1D')));
         $manager->persist($article3);
 
         // Add comments

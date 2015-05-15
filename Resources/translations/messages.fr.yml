@@ -29,6 +29,9 @@ arv.blog:
             title: Titre
             content: Contenu
             tags: Mots-clés
+            publication_date: Date de publication
+            published_at: Publié le %date%
+            will_be_published_at: Sera publié le %date%
         comment:
             email: Adresse mail
             ip: Adresse IP
@@ -53,6 +56,7 @@ arv.blog:
             article:
                 title: Titre
                 content: Contenu
+                publication_date: Date de publication
                 tags: Mots-clés
             comment:
                 email: Adresse mail

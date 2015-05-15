@@ -29,17 +29,23 @@ class ArticleRepository extends EntityRepository
     /**
      * Search articles with $search.
      * @param $search
+     * @param $publishedOnly
      * @return array
      */
-    public function search($search)
+    public function search($search, $publishedOnly)
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('a')
             ->from('ARVBlogBundle:Article', 'a')
             ->where("a.title LIKE :search")
             ->orWhere("a.content LIKE :search")
-            ->orderBy('a.dateModification', 'DESC')
+            ->orderBy('a.datePublication', 'DESC')
             ->setParameter('search', '%' . $search . '%');
+
+        if ($publishedOnly) {
+            $qb->andWhere('a.datePublication < :now')
+                ->setParameter('now', new \DateTime());
+        }
 
         return $qb->getQuery()->getResult();
     }

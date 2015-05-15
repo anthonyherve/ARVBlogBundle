@@ -73,6 +73,15 @@ class ArticleManagerTest extends AbstractFunctionalTest
     /**
      *
      */
+    public function testSearchEmptyPublished()
+    {
+        $articles = $this->manager->search("", true);
+        $this->assertCount(2, $articles);
+    }
+
+    /**
+     *
+     */
     public function testSave()
     {
         $this->assertEquals(3, $this->manager->count());

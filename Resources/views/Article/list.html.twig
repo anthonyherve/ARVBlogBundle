@@ -7,7 +7,13 @@
 
         {# Metadata #}
         <div>
-            {{ article.dateModification|date('d/m/Y') }} -
+            <div>
+                {% if 'now'|date('Y-m-d H:i') < article.datePublication|date("Y-m-d H:i") %}
+                    {{ 'arv.blog.table.article.will_be_published_at'|trans({'%date%': article.datePublication|date("d/m/Y \à H:i")}) }}
+                {% else %}
+                    {{ 'arv.blog.table.article.published_at'|trans({'%date%': article.datePublication|date("d/m/Y \à H:i")}) }}
+                {% endif %} - {{ 'arv.blog.table.edited_at'|trans({'%date%': article.datePublication|date("d/m/Y \à H:i")}) }}
+            </div>
             {% for tag in article.tags %}
                 <a href="{{ path('arv_blog_tag_show', { 'id': tag.id }) }}">{{ tag.name }}</a>{% if loop.last == false %}, {% endif %}
             {% endfor %}

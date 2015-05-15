@@ -47,7 +47,7 @@ class ArticleManager
      */
     public function getAll()
     {
-        return $this->getRepository()->findAll();
+        return $this->getRepository()->findBy(array(), array('datePublication' => 'desc'));
     }
 
     /**
@@ -62,11 +62,12 @@ class ArticleManager
     /**
      * Search articles with $search.
      * @param string $search
+     * @param boolean $publishedOnly
      * @return array
      */
-    public function search($search = '')
+    public function search($search = '', $publishedOnly = false)
     {
-        return $this->getRepository()->search($search);
+        return $this->getRepository()->search($search, $publishedOnly);
     }
 
     /**

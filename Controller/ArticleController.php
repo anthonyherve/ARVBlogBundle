@@ -26,7 +26,7 @@ class ArticleController extends Controller
      */
     public function listAction(Request $request, $search = '')
     {
-        $articles = $this->get('arv_blog_manager_article')->search($search);
+        $articles = $this->get('arv_blog_manager_article')->search($search, true);
         $deleteForms = $this->getDeleteForms($articles);
 
         return array(

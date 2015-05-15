@@ -26,9 +26,12 @@ arv.blog:
         created_at: Written %date%
         edited_at: Edited %date%
         article:
-            title: Titlte
+            title: Title
             content: Content
             tags: Key words
+            publication_date: Publication date
+            published_at: Published %date%
+            will_be_published_at: Will be published %date%
         comment:
             email: Email address
             ip: IP address
@@ -53,6 +56,7 @@ arv.blog:
             article:
                 title: Title
                 content: Content
+                publication_date: Publication date
                 tags: Key words
             comment:
                 email: Email address

@@ -3,8 +3,19 @@
 {% block content %}
     <div class="article">
         <h1>{{ article.title }}</h1>
-        <div class="date">{{ 'arv.blog.table.created_at'|trans({'%date%': article.dateCreation|date("d/m/Y \à H:i")}) }}</div>
-        <div class="date">{{ 'arv.blog.table.edited_at'|trans({'%date%': article.dateModification|date("d/m/Y \à H:i")}) }}</div>
+        <div class="date">
+            {{ 'arv.blog.table.created_at'|trans({'%date%': article.dateCreation|date("d/m/Y \à H:i")}) }}
+        </div>
+        <div class="date">
+            {{ 'arv.blog.table.edited_at'|trans({'%date%': article.dateModification|date("d/m/Y \à H:i")}) }}
+        </div>
+        <div class="date">
+            {% if 'now'|date('Y-m-d H:i') < article.datePublication|date("Y-m-d H:i") %}
+                {{ 'arv.blog.table.article.will_be_published_at'|trans({'%date%': article.datePublication|date("d/m/Y \à H:i")}) }}
+            {% else %}
+                {{ 'arv.blog.table.article.published_at'|trans({'%date%': article.datePublication|date("d/m/Y \à H:i")}) }}
+            {% endif %}
+        </div>
         <ul class="tags">
             {% for tag in article.tags %}
                 <li>{{ tag.name }}</li>

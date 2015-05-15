@@ -22,8 +22,9 @@ class ArticleType extends AbstractType
             ->add('title', 'text', array('label' => 'arv.blog.form.label.article.title'))
             ->add('content', 'textarea', array(
                 'label' => 'arv.blog.form.label.article.content',
-                'attr' => array('class' => 'tinymce', 'data-theme' => 'advanced'))
-            )
+                'attr' => array('class' => 'tinymce', 'data-theme' => 'advanced')
+            ))
+            ->add('datePublication', 'datetime', array('label' => 'arv.blog.form.label.article.publication_date'))
             ->add('tags', 'collection', array(
                 'label' => 'arv.blog.form.label.article.tags',
                 'type' => new TagType(),

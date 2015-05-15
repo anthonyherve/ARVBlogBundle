@@ -44,7 +44,7 @@ class Article
      * @var string
      *
      * @Gedmo\Slug(fields={"title"})
-     * @ORM\Column(name="slug", type="string", length=255)
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
 
@@ -61,6 +61,13 @@ class Article
      * @ORM\Column(name="date_modification", type="datetime")
      */
     private $dateModification;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_publication", type="datetime")
+     */
+    private $datePublication;
 
     /**
      * @var tags
@@ -84,6 +91,7 @@ class Article
     {
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->datePublication = new \DateTime();
     }
 
     /**
@@ -228,6 +236,22 @@ class Article
     public function getDateModification()
     {
         return $this->dateModification;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDatePublication()
+    {
+        return $this->datePublication;
+    }
+
+    /**
+     * @param \DateTime $datePublication
+     */
+    public function setDatePublication($datePublication)
+    {
+        $this->datePublication = $datePublication;
     }
 
     /**

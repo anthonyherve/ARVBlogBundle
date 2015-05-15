@@ -17,6 +17,7 @@
             <th>{{ 'arv.blog.table.article.title'|trans }}</th>
             <th>{{ 'arv.blog.table.article.content'|trans }}</th>
             <th>{{ 'arv.blog.table.article.tags'|trans }}</th>
+            <th>{{ 'arv.blog.table.article.publication_date'|trans }}</th>
             <th>{{ 'arv.blog.table.creation_date'|trans }}</th>
             <th>{{ 'arv.blog.table.edition_date'|trans }}</th>
             <th>{{ 'arv.blog.table.actions'|trans }}</th>
@@ -34,8 +35,9 @@
                         {% endfor %}
                     </ul>
                 </td>
+                <td>{% if article.datePublication %}{{ article.datePublication|date('d/m/Y H:i:s') }}{% endif %}</td>
                 <td>{% if article.dateCreation %}{{ article.dateCreation|date('d/m/Y H:i:s') }}{% endif %}</td>
-                <td>{% if article.dateCreation %}{{ article.dateModification|date('d/m/Y H:i:s') }}{% endif %}</td>
+                <td>{% if article.dateModification %}{{ article.dateModification|date('d/m/Y H:i:s') }}{% endif %}</td>
                 <td>
                     <ul>
                         <li>
