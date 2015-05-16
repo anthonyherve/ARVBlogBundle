@@ -84,6 +84,25 @@ class CommentManager
     }
 
     /**
+     * Return true if a comment with $ip exists and was written in last $minutes.
+     * @param $minutes
+     * @param $ip
+     * @return bool
+     */
+    public function existByDateAndIp($minutes, $ip)
+    {
+        $comments = $this->getRepository()->findBy(array('ip' => $ip), array('dateCreation' => 'DESC'));
+        foreach($comments as $comment) {
+            $diff = date_diff(new \DateTime(), $comment->getDateCreation());
+            if ($diff->format('%s') < $minutes * 60) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Save / Update a $comment into database.
      * @param Comment $comment
      */

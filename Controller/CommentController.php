@@ -85,12 +85,25 @@ class CommentController extends Controller
         $form = $this->getCreateForm($comment);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $comment->setIp($request->getClientIp());
-            $this->get('arv_blog_manager_comment')->save($comment);
-            $this->addFlash('success', 'arv.blog.flash.success.comment_created');
+        $minutesToWait = 5;
+        $ip = $request->getClientIp();
 
-            return $this->redirect($this->generateUrl('arv_blog_comment_manage'));
+        if ($form->isValid()) {
+            // Check if a comment with this IP was posted less than $minutesToWait
+            if (!$this->get('arv_blog_manager_comment')->existByDateAndIp($minutesToWait, $ip)) {
+                $comment->setIp($ip);
+                $this->get('arv_blog_manager_comment')->save($comment);
+                $this->addFlash('success', 'arv.blog.flash.success.comment_created');
+
+                return $this->redirect($this->generateUrl('arv_blog_comment_manage'));
+            } else {
+                $this->addFlash('danger',
+                    $this->get('translator')->trans(
+                        'arv.blog.flash.error.comment.already_posted',
+                        array('%ip%' => $ip, '%minutes%' => $minutesToWait)
+                    )
+                );
+            }
         } else {
             $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');
         }

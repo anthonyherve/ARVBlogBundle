@@ -74,6 +74,8 @@ arv.blog:
         close: Close
         error:
             form_not_valid: This form is nos valid.
+            comment:
+                already_posted: A comment has already been written with IP %ip% there is less than %minutes% minutes.
         notice:
         success:
             article_created: Article was added.

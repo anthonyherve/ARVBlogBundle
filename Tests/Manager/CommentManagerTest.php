@@ -77,13 +77,29 @@ class CommentManagerTest extends AbstractFunctionalTest
     /**
      *
      */
+    public function testExistByDateAndIpZero()
+    {
+        $this->assertEquals(false, $this->manager->existByDateAndIp(0, '192.168.0.10'));
+    }
+
+    /**
+     *
+     */
+    public function testGetByDateAndIp()
+    {
+        $this->assertEquals(true, $this->manager->existByDateAndIp(5, '192.168.0.10'));
+    }
+
+    /**
+     *
+     */
     public function testSave()
     {
         $this->assertEquals(3, $this->manager->count());
         $article = $this->articleManager->getRepository()->findOneByTitle("HTML Ipsum Presents");
         $comment = new Comment();
         $comment->setEmail("user@gmail.com");
-        $comment->setIp("192.168.0.1");
+        $comment->setIp("192.168.0.10");
         $comment->setContent("Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci,
             sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.");
         $comment->setArticle($article);

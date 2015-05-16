@@ -79,6 +79,7 @@ class CommentControllerTest extends AbstractFunctionalTest
      */
     public function testCreateOK()
     {
+        // First creation : no problem
         $count = $this->countComments();
         $crawler = $this->client->request('GET', $this->url . '/nouveau');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
@@ -88,6 +89,17 @@ class CommentControllerTest extends AbstractFunctionalTest
         ));
         $this->client->submit($form);
         $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertEquals($count + 1, $this->countComments());
+
+        // Second creation : error
+        $crawler = $this->client->request('GET', $this->url . '/nouveau');
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('arv_blogbundle_comment_submit')->form(array(
+            'arv_blogbundle_comment[email]' => 'user@gmail.com',
+            'arv_blogbundle_comment[content]' => 'Edit comment'
+        ));
+        $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertEquals($count + 1, $this->countComments());
     }

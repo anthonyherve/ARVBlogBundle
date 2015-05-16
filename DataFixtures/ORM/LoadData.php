@@ -117,7 +117,7 @@ class LoadData implements FixtureInterface, ContainerAwareInterface
         // Add comments
         $comment1 = new Comment();
         $comment1->setEmail("user@gmail.com");
-        $comment1->setIp("192.168.0.1");
+        $comment1->setIp("192.168.0.10");
         $comment1->setContent("Pellentesque habitant morbi tristique senectus et netus et malesuada
             fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor
             sit amet, ante.");
@@ -126,7 +126,7 @@ class LoadData implements FixtureInterface, ContainerAwareInterface
 
         $comment2 = new Comment();
         $comment2->setEmail("user@gmail.com");
-        $comment2->setIp("192.168.0.1");
+        $comment2->setIp("192.168.0.10");
         $comment2->setContent("Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae
             est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
             Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.");
@@ -135,7 +135,7 @@ class LoadData implements FixtureInterface, ContainerAwareInterface
 
         $comment3 = new Comment();
         $comment3->setEmail("user@gmail.com");
-        $comment3->setIp("192.168.0.2");
+        $comment3->setIp("192.168.0.20");
         $comment3->setContent("Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci,
             sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.");
         $comment3->setArticle($article2);

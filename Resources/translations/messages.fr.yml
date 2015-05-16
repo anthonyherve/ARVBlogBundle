@@ -74,6 +74,8 @@ arv.blog:
         close: Fermer
         error:
             form_not_valid: Le formulaire n'est pas valide.
+            comment:
+                already_posted: Un commentaire a déjà été posté avec l'IP %ip% il y a moins de %minutes% minutes.
         notice:
         success:
             article_created: L'article a bien été ajouté.
