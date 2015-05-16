@@ -43,7 +43,7 @@ class ArticleRepository extends EntityRepository
             ->setParameter('search', '%' . $search . '%');
 
         if ($publishedOnly) {
-            $qb->andWhere('a.datePublication < :now')
+            $qb->andWhere('a.datePublication <= :now')
                 ->setParameter('now', new \DateTime());
         }
 
