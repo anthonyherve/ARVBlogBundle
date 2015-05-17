@@ -23,3 +23,8 @@ services:
     arv_blog_manager_tag:
         class: ARV\BlogBundle\Manager\TagManager
         arguments: ["@arv_blog_repo_tag", "@doctrine.orm.entity_manager"]
+    twig_globals_extension:
+         class: ARV\BlogBundle\Twig\Extension\GlobalsExtension
+         arguments: ["@service_container"]
+         tags:
+             - { name: twig.extension }

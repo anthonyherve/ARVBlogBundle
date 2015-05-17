@@ -1,23 +1,30 @@
 {% extends 'ARVBlogBundle::blog.html.twig' %}
 
 {% block content %}
-    <li>
-        {% if article is null %}
-            <a href="{{ path('arv_blog_comment_new') }}">
-                {{ 'arv.blog.action.add_comment'|trans }}
-            </a>
-        {% else %}
-            <a href="{{ path('arv_blog_comment_new', { id_article: article.id }) }}">
-                {{ 'arv.blog.action.add_comment'|trans }}
-            </a>
-        {% endif %}
-    </li>
+
+    {% if arvblog_comment_write_as_anonymous or is_granted('IS_AUTHENTICATED_FULLY') %}
+        <li>
+            {% if article is null %}
+                <a href="{{ path('arv_blog_comment_new') }}">
+                    {{ 'arv.blog.action.add_comment'|trans }}
+                </a>
+            {% else %}
+                <a href="{{ path('arv_blog_comment_new', { id_article: article.id }) }}">
+                    {{ 'arv.blog.action.add_comment'|trans }}
+                </a>
+            {% endif %}
+        </li>
+    {% endif %}
 
     {% for comment in comments %}
         <div>
             {# Date and user #}
             <div>
-                {{ 'arv.blog.table.comment.edited_at'|trans({'%date%': comment.dateModification|date('d/m/Y H:i:s'), '%email%': comment.email}) }}
+                {% if arvblog_comment_display_email %}
+                    {{ 'arv.blog.table.comment.edited_at_with_email'|trans({'%date%': comment.dateModification|date('d/m/Y H:i:s'), '%email%': comment.email}) }}
+                {% else %}
+                    {{ 'arv.blog.table.comment.edited_at'|trans({'%date%': comment.dateModification|date('d/m/Y H:i:s')}) }}
+                {% endif %}
             </div>
 
             {# Content #}

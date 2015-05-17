@@ -63,8 +63,7 @@ class ArticleController extends Controller
         $form = $this->getCreateForm(new Article());
 
         return array(
-            'form' => $form->createView(),
-            'need_validation' => $this->container->getParameter(ARVBlogParameters::NEED_VALIDATION)
+            'form' => $form->createView()
         );
     }
 
@@ -97,8 +96,7 @@ class ArticleController extends Controller
         }
 
         return array(
-            'form' => $form->createView(),
-            'need_validation' => $this->container->getParameter(ARVBlogParameters::NEED_VALIDATION)
+            'form' => $form->createView()
         );
     }
 
@@ -132,8 +130,7 @@ class ArticleController extends Controller
         return array(
             'article' => $article,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-            'need_validation' => $this->container->getParameter(ARVBlogParameters::NEED_VALIDATION)
+            'delete_form' => $deleteForm->createView()
         );
     }
 
@@ -168,8 +165,7 @@ class ArticleController extends Controller
         return array(
             'article' => $article,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-            'need_validation' => $this->container->getParameter(ARVBlogParameters::NEED_VALIDATION)
+            'delete_form' => $deleteForm->createView()
         );
     }
 

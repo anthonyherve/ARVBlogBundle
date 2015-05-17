@@ -4,8 +4,13 @@
     <h1>{{ 'arv.blog.title.h1.show_comment'|trans }}</h1>
 
     <div class="comment">
-        <div class="date">{{ 'arv.blog.table.created_at'|trans({'%date%': comment.dateCreation|date("d/m/Y \à H:i")}) }}</div>
-        <div class="date">{{ 'arv.blog.table.edited_at'|trans({'%date%': comment.dateModification|date("d/m/Y \à H:i")}) }}}</div>
+        {% if arvblog_comment_display_email %}
+            <div class="date">{{ 'arv.blog.table.comment.created_at_with_email'|trans({'%date%': comment.dateCreation|date("d/m/Y \à H:i"), '%email%': comment.email}) }}</div>
+            <div class="date">{{ 'arv.blog.table.comment.edited_at_with_email'|trans({'%date%': comment.dateModification|date("d/m/Y \à H:i"), '%email%': comment.email}) }}</div>
+        {% else %}
+            <div class="date">{{ 'arv.blog.table.comment.created_at'|trans({'%date%': comment.dateCreation|date("d/m/Y \à H:i")}) }}</div>
+            <div class="date">{{ 'arv.blog.table.comment.edited_at'|trans({'%date%': comment.dateModification|date("d/m/Y \à H:i")}) }}</div>
+        {% endif %}
         <div class="author">
             {{ 'arv.blog.table.comment.email'|trans }} : {{ comment.email }} - {{ 'arv.blog.table.comment.ip'|trans }} : {{ comment.ip }}
         </div>

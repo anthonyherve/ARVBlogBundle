@@ -37,8 +37,10 @@ arv.blog:
             ip: IP address
             content: Comment
             article: Article
-            created_at: Written %date% by %email%
-            edited_at: Edited %date% by %email%
+            created_at: Written %date%
+            edited_at: Edited %date%
+            created_at_with_email: Written %date% by %email%
+            edited_at_with_email: Edited %date% by %email%
     action:
         back_list: Back to the list
         add_article: Add an article
