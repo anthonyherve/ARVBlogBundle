@@ -2,6 +2,8 @@
 
 namespace ARV\BlogBundle\Controller;
 
+use ARV\BlogBundle\ARVBlogParameters;
+use ARV\BlogBundle\ARVBlogServices;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,7 +28,7 @@ class ArticleController extends Controller
      */
     public function listAction(Request $request, $search = '')
     {
-        $articles = $this->get('arv_blog_manager_article')->search($search, true);
+        $articles = $this->get(ARVBlogServices::ARTICLE_MANAGER)->search($search, true);
         $deleteForms = $this->getDeleteForms($articles);
 
         return array(
@@ -42,7 +44,7 @@ class ArticleController extends Controller
      */
     public function manageAction()
     {
-        $articles = $this->get('arv_blog_manager_article')->getAll();
+        $articles = $this->get(ARVBlogServices::ARTICLE_MANAGER)->getAll();
         $deleteForms = $this->getDeleteForms($articles);
 
         return array(
@@ -61,7 +63,8 @@ class ArticleController extends Controller
         $form = $this->getCreateForm(new Article());
 
         return array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'need_validation' => $this->container->getParameter(ARVBlogParameters::NEED_VALIDATION)
         );
     }
 
@@ -78,18 +81,24 @@ class ArticleController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $article->setTags($this->get('arv_blog_manager_tag')->setTags($article->getTags()));
+            $article->setTags($this->get(ARVBlogServices::TAG_MANAGER)->setTags($article->getTags()));
 
-            $this->get('arv_blog_manager_article')->save($article);
+            $this->get(ARVBlogServices::ARTICLE_MANAGER)->save($article);
 
             $this->addFlash('success', 'arv.blog.flash.success.article_created');
-            return $this->redirect($this->generateUrl('arv_blog_article_show', array('id' => $article->getId(), 'slug' => $article->getSlug())));
+            return $this->redirect(
+                $this->generateUrl(
+                    'arv_blog_article_show',
+                    array('id' => $article->getId(), 'slug' => $article->getSlug())
+                )
+            );
         } else {
             $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');
         }
 
         return array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'need_validation' => $this->container->getParameter(ARVBlogParameters::NEED_VALIDATION)
         );
     }
 
@@ -105,7 +114,7 @@ class ArticleController extends Controller
 
         return array(
             'article' => $article,
-            'delete_form' => $deleteForm->createView(),
+            'delete_form' => $deleteForm->createView()
         );
     }
 
@@ -124,6 +133,7 @@ class ArticleController extends Controller
             'article' => $article,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'need_validation' => $this->container->getParameter(ARVBlogParameters::NEED_VALIDATION)
         );
     }
 
@@ -142,10 +152,15 @@ class ArticleController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $article->setTags($this->get('arv_blog_manager_tag')->setTags($article->getTags()));
-            $this->get('arv_blog_manager_article')->save($article);
+            $article->setTags($this->get(ARVBlogServices::TAG_MANAGER)->setTags($article->getTags()));
+            $this->get(ARVBlogServices::ARTICLE_MANAGER)->save($article);
             $this->addFlash('success', 'arv.blog.flash.success.article_edited');
-            return $this->redirect($this->generateUrl('arv_blog_article_show', array('id' => $article->getId(), 'slug' => $article->getSlug())));
+            return $this->redirect(
+                $this->generateUrl(
+                    'arv_blog_article_show',
+                    array('id' => $article->getId(), 'slug' => $article->getSlug())
+                )
+            );
         } else {
             $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');
         }
@@ -154,6 +169,7 @@ class ArticleController extends Controller
             'article' => $article,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'need_validation' => $this->container->getParameter(ARVBlogParameters::NEED_VALIDATION)
         );
     }
 
@@ -169,7 +185,7 @@ class ArticleController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->get('arv_blog_manager_article')->delete($article);
+            $this->get(ARVBlogServices::ARTICLE_MANAGER)->delete($article);
             $this->addFlash('success', 'arv.blog.flash.success.article_deleted');
         } else {
             $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');
@@ -191,6 +207,8 @@ class ArticleController extends Controller
         $form = $this->createForm(new ArticleType(), $entity, array(
             'action' => $this->generateUrl('arv_blog_article_create'),
             'method' => 'POST',
+            'content_editor' => $this->container->getParameter(ARVBlogParameters::CONTENT_EDITOR),
+            'need_validation' => $this->container->getParameter(ARVBlogParameters::NEED_VALIDATION)
         ));
 
         $form->add('submit', 'submit',

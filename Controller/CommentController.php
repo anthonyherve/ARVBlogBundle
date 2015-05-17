@@ -2,6 +2,8 @@
 
 namespace ARV\BlogBundle\Controller;
 
+use ARV\BlogBundle\ARVBlogParameters;
+use ARV\BlogBundle\ARVBlogServices;
 use ARV\BlogBundle\Entity\Article;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,7 +29,7 @@ class CommentController extends Controller
      */
     public function listAction(Article $article = null)
     {
-        $comments = $this->get('arv_blog_manager_comment')->getAll($article);
+        $comments = $this->get(ARVBlogServices::COMMENT_MANAGER)->getAll($article);
         $deleteForms = $this->getDeleteForms($comments);
 
         return array(
@@ -44,7 +46,7 @@ class CommentController extends Controller
      */
     public function manageAction()
     {
-        $comments = $this->get('arv_blog_manager_comment')->getAll();
+        $comments = $this->get(ARVBlogServices::COMMENT_MANAGER)->getAll();
         $deleteForms = $this->getDeleteForms($comments);
 
         return array(
@@ -85,14 +87,13 @@ class CommentController extends Controller
         $form = $this->getCreateForm($comment);
         $form->handleRequest($request);
 
-        $minutesToWait = 5;
-        $ip = $request->getClientIp();
-
         if ($form->isValid()) {
+            $minutesToWait = $this->container->getParameter(ARVBlogParameters::WAITING_TIME);
+            $ip = $request->getClientIp();
             // Check if a comment with this IP was posted less than $minutesToWait
-            if (!$this->get('arv_blog_manager_comment')->existByDateAndIp($minutesToWait, $ip)) {
+            if (!$this->get(ARVBlogServices::COMMENT_MANAGER)->existByDateAndIp($minutesToWait, $ip)) {
                 $comment->setIp($ip);
-                $this->get('arv_blog_manager_comment')->save($comment);
+                $this->get(ARVBlogServices::COMMENT_MANAGER)->save($comment);
                 $this->addFlash('success', 'arv.blog.flash.success.comment_created');
 
                 return $this->redirect($this->generateUrl('arv_blog_comment_manage'));
@@ -164,7 +165,7 @@ class CommentController extends Controller
 
         if ($editForm->isValid()) {
             $comment->setIp($request->getClientIp());
-            $this->get('arv_blog_manager_comment')->save($comment);
+            $this->get(ARVBlogServices::COMMENT_MANAGER)->save($comment);
             $this->addFlash('success', 'arv.blog.flash.success.comment_edited');
 
             return $this->redirect($this->generateUrl('arv_blog_comment_manage'));
@@ -191,7 +192,7 @@ class CommentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->get('arv_blog_manager_comment')->delete($comment);
+            $this->get(ARVBlogServices::COMMENT_MANAGER)->delete($comment);
             $this->addFlash('success', 'arv.blog.flash.success.comment_deleted');
         } else {
             $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');
@@ -214,6 +215,7 @@ class CommentController extends Controller
         $form = $this->createForm(new CommentType(), $comment, array(
             'action' => $this->generateUrl('arv_blog_comment_create'),
             'method' => 'POST',
+            'display_email' => $this->container->getParameter(ARVBlogParameters::DISPLAY_EMAIL)
         ));
 
         $form->add('submit', 'submit',

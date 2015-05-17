@@ -2,6 +2,7 @@
 
 namespace ARV\BlogBundle\Controller;
 
+use ARV\BlogBundle\ARVBlogServices;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -23,7 +24,7 @@ class TagController extends Controller
      */
     public function manageAction()
     {
-        $tags = $this->get('arv_blog_manager_tag')->getAll();
+        $tags = $this->get(ARVBlogServices::TAG_MANAGER)->getAll();
         $deleteForms = $this->getDeleteForms($tags);
 
         return array(
@@ -61,7 +62,7 @@ class TagController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->get('arv_blog_manager_tag')->save($tag);
+            $this->get(ARVBlogServices::TAG_MANAGER)->save($tag);
             $this->addFlash('success', 'arv.blog.flash.success.tag_created');
 
             return $this->redirect($this->generateUrl('arv_blog_tag_manage'));
@@ -123,7 +124,7 @@ class TagController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $this->get('arv_blog_manager_tag')->save($tag);
+            $this->get(ARVBlogServices::TAG_MANAGER)->save($tag);
             $this->addFlash('success', 'arv.blog.flash.success.tag_edited');
 
             return $this->redirect($this->generateUrl('arv_blog_tag_manage'));
@@ -150,7 +151,7 @@ class TagController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->get('arv_blog_manager_tag')->delete($tag);
+            $this->get(ARVBlogServices::TAG_MANAGER)->delete($tag);
             $this->addFlash('success', 'arv.blog.flash.success.tag_deleted');
         } else {
             $this->addFlash('danger', 'arv.blog.flash.error.form_not_valid');

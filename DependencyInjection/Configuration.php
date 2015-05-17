@@ -20,11 +20,48 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('test_test');
+        $rootNode = $treeBuilder->root('arv_blog');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $supportedEditors = array('none', 'tinymce');
+
+        $rootNode
+            ->children()
+                ->booleanNode('is_secure')->defaultFalse()->end()
+                ->arrayNode('article')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('content_editor')
+                            ->validate()
+                                ->ifNotInArray($supportedEditors)
+                                ->thenInvalid('The editor %s is not supported. '
+                                    . 'Please choose one of ' . json_encode($supportedEditors))
+                            ->end()
+                            ->defaultValue('tinymce')
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->booleanNode('need_validation')
+                            ->defaultTrue()
+                        ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('comment')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->integerNode('waiting_time')
+                            ->min(0)
+                            ->defaultValue(5)
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->booleanNode('display_email')
+                            ->defaultTrue()
+                        ->end()
+                        ->booleanNode('write_as_anonymous')
+                            ->defaultFalse()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

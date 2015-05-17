@@ -2,6 +2,7 @@
 
 namespace ARV\BlogBundle\Form\Type;
 
+use ARV\BlogBundle\ARVBlogParameters;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -20,11 +21,6 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title', 'text', array('label' => 'arv.blog.form.label.article.title'))
-            ->add('content', 'textarea', array(
-                'label' => 'arv.blog.form.label.article.content',
-                'attr' => array('class' => 'tinymce', 'data-theme' => 'advanced')
-            ))
-            ->add('datePublication', 'datetime', array('label' => 'arv.blog.form.label.article.publication_date'))
             ->add('tags', 'collection', array(
                 'label' => 'arv.blog.form.label.article.tags',
                 'type' => new TagType(),
@@ -33,6 +29,25 @@ class ArticleType extends AbstractType
                 'by_reference' => false
             ))
         ;
+
+        // Define content field depending on content_editor parameter
+        if ($options['content_editor'] == ARVBlogParameters::EDITOR_NONE) {
+            $builder->add('content', 'textarea', array(
+                'label' => 'arv.blog.form.label.article.content'
+            ));
+        } elseif($options['content_editor'] == ARVBlogParameters::EDITOR_TINYMCE) {
+            $builder->add('content', 'textarea', array(
+                'label' => 'arv.blog.form.label.article.content',
+                'attr' => array('class' => 'tinymce', 'data-theme' => 'advanced')
+            ));
+        }
+        // Display or not datePublication field if validation is needed
+        if ($options['need_validation']) {
+            $builder
+                ->add('datePublication', 'datetime',
+                    array('label' => 'arv.blog.form.label.article.publication_date')
+                );
+        }
     }
     
     /**
@@ -41,7 +56,9 @@ class ArticleType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'ARV\BlogBundle\Entity\Article'
+            'data_class' => 'ARV\BlogBundle\Entity\Article',
+            'content_editor' => 'none',
+            'need_validation' => false
         ));
     }
 

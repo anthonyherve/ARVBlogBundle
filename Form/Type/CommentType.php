@@ -19,7 +19,6 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', 'email', array('label' => 'arv.blog.form.label.comment.email'))
             ->add('content', 'textarea', array('label' => 'arv.blog.form.label.comment.content'))
             ->add('article', 'entity', array(
                     'class' => 'ARVBlogBundle:Article',
@@ -28,6 +27,10 @@ class CommentType extends AbstractType
                 )
             )
         ;
+
+        if ($options['display_email']) {
+            $builder->add('email', 'email', array('label' => 'arv.blog.form.label.comment.email'));
+        }
     }
     
     /**
@@ -36,7 +39,8 @@ class CommentType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'ARV\BlogBundle\Entity\Comment'
+            'data_class' => 'ARV\BlogBundle\Entity\Comment',
+            'display_email' => true
         ));
     }
 

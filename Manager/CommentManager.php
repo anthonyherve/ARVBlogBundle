@@ -93,8 +93,9 @@ class CommentManager
     {
         $comments = $this->getRepository()->findBy(array('ip' => $ip), array('dateCreation' => 'DESC'));
         foreach($comments as $comment) {
-            $diff = date_diff(new \DateTime(), $comment->getDateCreation());
-            if ($diff->format('%s') < $minutes * 60) {
+            $now = new \DateTime();
+            $diff = abs($now->getTimestamp() - $comment->getDateCreation()->getTimestamp());
+            if ($diff < $minutes * 60) {
                 return true;
             }
         }
