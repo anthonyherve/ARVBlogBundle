@@ -15,4 +15,3 @@ script: phpunit --testsuite=arvblogbundle_travis --coverage-text
 notifications:
   email:
     - anthony.herve28@gmail.com
-    
