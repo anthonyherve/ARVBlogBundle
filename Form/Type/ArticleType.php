@@ -58,7 +58,7 @@ class ArticleType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'ARV\BlogBundle\Entity\Article',
             'content_editor' => 'none',
-            'need_validation' => false
+            'need_validation' => true
         ));
     }
 
