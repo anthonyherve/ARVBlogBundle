@@ -3,9 +3,6 @@
 namespace ARV\BlogBundle\Twig\Extension;
 
 
-use ARV\BlogBundle\ARVBlogParameters;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 class GlobalsExtension extends \Twig_Extension
 {
 
