@@ -9,28 +9,33 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class GlobalsExtension extends \Twig_Extension
 {
 
-    protected $container;
+    protected $isSecure;
+    protected $contentEditor;
+    protected $needValidation;
+    protected $waitingTime;
+    protected $displayEmail;
+    protected $writeAsAnonymous;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct($isSecure, $contentEditor, $needValidation,
+                                $waitingTime, $displayEmail, $writeAsAnonymous)
     {
-        $this->container = $container;
+        $this->isSecure = $isSecure;
+        $this->contentEditor = $contentEditor;
+        $this->needValidation = $needValidation;
+        $this->waitingTime = $waitingTime;
+        $this->displayEmail = $displayEmail;
+        $this->writeAsAnonymous = $writeAsAnonymous;
     }
 
     public function getGlobals()
     {
         return array(
-            'arblog_is_secure' =>
-                $this->container->getParameter(ARVBlogParameters::IS_SECURE),
-            'arvblog_article_content_editor' =>
-                $this->container->getParameter(ARVBlogParameters::CONTENT_EDITOR),
-            'arvblog_article_need_validation' =>
-                $this->container->getParameter(ARVBlogParameters::NEED_VALIDATION),
-            'arvblog_comment_waiting_time' =>
-                $this->container->getParameter(ARVBlogParameters::WAITING_TIME),
-            'arvblog_comment_display_email' =>
-                $this->container->getParameter(ARVBlogParameters::DISPLAY_EMAIL),
-            'arvblog_comment_write_as_anonymous' =>
-                $this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)
+            'arblog_is_secure' => $this->isSecure,
+            'arvblog_article_content_editor' => $this->contentEditor,
+            'arvblog_article_need_validation' => $this->needValidation,
+            'arvblog_comment_waiting_time' => $this->waitingTime,
+            'arvblog_comment_display_email' => $this->displayEmail,
+            'arvblog_comment_write_as_anonymous' => $this->writeAsAnonymous
         );
     }
 

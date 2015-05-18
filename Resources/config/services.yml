@@ -24,7 +24,7 @@ services:
         class: ARV\BlogBundle\Manager\TagManager
         arguments: ["@arv_blog_repo_tag", "@doctrine.orm.entity_manager"]
     twig_globals_extension:
-         class: ARV\BlogBundle\Twig\Extension\GlobalsExtension
-         arguments: ["@service_container"]
-         tags:
-             - { name: twig.extension }
+        class: ARV\BlogBundle\Twig\Extension\GlobalsExtension
+        arguments: ["%arv_blog.is_secure%","%arv_blog.article.content_editor%","%arv_blog.article.need_validation%","%arv_blog.comment.waiting_time%","%arv_blog.comment.display_email%","%arv_blog.comment.write_as_anonymous%"]
+        tags:
+            - { name: twig.extension }
