@@ -33,24 +33,5 @@ class ARVBlogExtension extends Extension
         $container->setParameter('arv_blog.comment.display_email', $config['comment']['display_email']);
         $container->setParameter('arv_blog.comment.write_as_anonymous', $config['comment']['write_as_anonymous']);
 
-        // Add
-        /*$container->get('twig')->addGlobal(
-            'arv_blog.is_secure', $config['is_secure']
-        );
-        $container->get('twig')->addGlobal(
-            'arv_blog.content_editor', $config['article']['content_editor']
-        );
-        $container->get('twig')->addGlobal(
-            'arv_blog.need_validation', $config['article']['need_validation']
-        );
-        $container->get('twig')->addGlobal(
-            'arv_blog.waiting_time', $config['comment']['waiting_time']
-        );
-        $container->get('twig')->addGlobal(
-            'arv_blog.display_email', $config['comment']['display_email']
-        );
-        $container->get('twig')->addGlobal(
-            'arv_blog.write_as_anonymous', $config['comment']['write_as_anonymous']
-        );*/
     }
 }
