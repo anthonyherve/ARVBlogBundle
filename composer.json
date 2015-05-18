@@ -21,16 +21,6 @@
         "liip/functional-test-bundle": "~1.0"
     },
     "autoload": {
-        "psr-0": {
-            "": "Controller/",
-            "": "DataFixtures/",
-            "": "DependencyInjection/",
-            "": "Entity/",
-            "": "Form",
-            "": "Manager/",
-            "": "Repository/",
-            "": "Tests/",
-            "": "Twig"
-        }
+      "psr-4": { "ARV\\BlogBundle\\": "" }
     }
 }
