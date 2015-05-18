@@ -12,6 +12,9 @@
             {{ form_row(form.datePublication) }}
         </div>
     {% endif %}
+    <div>
+        {{ 'arv.blog.form.label.article.tags'|trans }}
+    </div>
     <a id="add-tag" href="#">{{ 'arv.blog.action.add_tag'|trans }}</a>
     <div id="tags" data-prototype="{{ form_widget(form.tags.vars.prototype) | e }}">
         {% for tag in form.tags %}

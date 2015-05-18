@@ -22,7 +22,7 @@ class ArticleType extends AbstractType
         $builder
             ->add('title', 'text', array('label' => 'arv.blog.form.label.article.title'))
             ->add('tags', 'collection', array(
-                'label' => 'arv.blog.form.label.article.tags',
+                'label' => false,
                 'type' => new TagType(),
                 'allow_add' => true,
                 'allow_delete' => true,
