@@ -234,6 +234,7 @@ class CommentController extends Controller
         $form = $this->createForm(new CommentType(), $comment, array(
             'action' => $this->generateUrl('arv_blog_comment_update', array('id' => $comment->getId())),
             'method' => 'PUT',
+            'display_email' => $this->container->getParameter(ARVBlogParameters::DISPLAY_EMAIL)
         ));
 
         $form->add('submit', 'submit',

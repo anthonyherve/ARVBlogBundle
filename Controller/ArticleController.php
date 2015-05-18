@@ -4,7 +4,6 @@ namespace ARV\BlogBundle\Controller;
 
 use ARV\BlogBundle\ARVBlogParameters;
 use ARV\BlogBundle\ARVBlogServices;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -223,6 +222,8 @@ class ArticleController extends Controller
         $form = $this->createForm(new ArticleType(), $article, array(
             'action' => $this->generateUrl('arv_blog_article_update', array('id' => $article->getId(), 'slug' => $article->getSlug())),
             'method' => 'PUT',
+            'content_editor' => $this->container->getParameter(ARVBlogParameters::CONTENT_EDITOR),
+            'need_validation' => $this->container->getParameter(ARVBlogParameters::NEED_VALIDATION)
         ));
 
         $form->add('submit', 'submit',
