@@ -3,10 +3,13 @@
 <phpunit bootstrap="./Tests/bootstrap.php" colors="true">
     <!-- Les fichiers de tests à lancer -->
     <testsuites>
-        <testsuite name="arvblogbundle">
+        <testsuite name="arvblogbundle_travis">
             <directory suffix="Test.php">./Tests/DependencyInjection</directory>
             <directory suffix="Test.php">./Tests/Entity</directory>
             <directory suffix="Test.php">./Tests/Form</directory>
+        </testsuite>
+        <testsuite name="arvblogbundle_all">
+            <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>
     <!-- Quels fichiers sont concernés par l'évaluation du code coverage -->
