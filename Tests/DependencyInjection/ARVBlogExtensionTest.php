@@ -3,7 +3,6 @@
 namespace ARV\BlogBundle\Tests\DependencyInjection;
 
 use ARV\BlogBundle\DependencyInjection\ARVBlogExtension;
-use ARV\BlogBundle\DependencyInjection\Configuration;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Parser;
 
