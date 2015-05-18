@@ -19,5 +19,18 @@
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "phpunit/phpunit": "4.5.*",
         "liip/functional-test-bundle": "~1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "": "Controller/",
+            "": "DataFixtures/",
+            "": "DependencyInjection/",
+            "": "Entity/",
+            "": "Form",
+            "": "Manager/",
+            "": "Repository/",
+            "": "Tests/",
+            "": "Twig"
+        }
     }
 }
