@@ -27,6 +27,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('user_class')->defaultNull()->end()
+                ->scalarNode('base_template')->defaultNull()->end()
                 ->booleanNode('is_secure')->defaultFalse()->end()
                 ->arrayNode('article')
                     ->addDefaultsIfNotSet()

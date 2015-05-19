@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {{ parent() }}
+
     {% if arvblog_comment_write_as_anonymous or is_granted('IS_AUTHENTICATED_FULLY') %}
         <li>
             {% if article is null %}

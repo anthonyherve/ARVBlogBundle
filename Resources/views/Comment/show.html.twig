@@ -1,6 +1,9 @@
 {% extends 'ARVBlogBundle::blog.html.twig' %}
 
 {% block content %}
+
+    {{ parent() }}
+    
     <h1>{{ 'arv.blog.title.h1.show_comment'|trans }}</h1>
 
     <div class="comment">
