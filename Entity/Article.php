@@ -85,6 +85,12 @@ class Article
     private $comments;
 
     /**
+     * @var
+     * Link with user defined dynamically by UserRelationSubscriber.
+     */
+    private $user;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -324,6 +330,22 @@ class Article
     {
         $comment->setArticle($this);
         $this->comments[] = $comment;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
     }
 
 }

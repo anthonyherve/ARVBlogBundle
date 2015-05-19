@@ -13,6 +13,7 @@ final class ARVBlogParameters
 
     // Names of parameters
     const IS_SECURE = 'arv_blog.is_secure';
+    const USER_CLASS = 'arv_blog.user_class';
     const CONTENT_EDITOR = 'arv_blog.article.content_editor';
     const NEED_VALIDATION = 'arv_blog.article.need_validation';
     const WAITING_TIME = 'arv_blog.comment.waiting_time';

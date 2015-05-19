@@ -65,6 +65,12 @@ class Comment
     private $article;
 
     /**
+     * @var
+     * Link with user defined dynamically by UserRelationSubscriber.
+     */
+    private $user;
+
+    /**
      * @ORM\PreUpdate()
      */
     public function preUpdate()
@@ -224,5 +230,20 @@ class Comment
         $this->article = $article;
     }
 
-}
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+}

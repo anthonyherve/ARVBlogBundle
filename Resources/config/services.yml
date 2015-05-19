@@ -23,8 +23,13 @@ services:
     arv_blog_manager_tag:
         class: ARV\BlogBundle\Manager\TagManager
         arguments: ["@arv_blog_repo_tag", "@doctrine.orm.entity_manager"]
-    twig_globals_extension:
+    arv_blog_extension_twig_globals:
         class: ARV\BlogBundle\Twig\Extension\GlobalsExtension
         arguments: ["%arv_blog.is_secure%","%arv_blog.article.content_editor%","%arv_blog.article.need_validation%","%arv_blog.comment.waiting_time%","%arv_blog.comment.display_email%","%arv_blog.comment.write_as_anonymous%"]
         tags:
             - { name: twig.extension }
+    arv_blog_subscriber_userrelation:
+        class: ARV\BlogBundle\EventListener\UserRelationSubscriber
+        arguments: ["%arv_blog.user_class%"]
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata}

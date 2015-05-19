@@ -27,6 +27,7 @@ class ARVBlogExtension extends Extension
         $loader->load('services.yml');
 
         $container->setParameter('arv_blog.is_secure', $config['is_secure']);
+        $container->setParameter('arv_blog.user_class', $config['user_class']);
         $container->setParameter('arv_blog.article.content_editor', $config['article']['content_editor']);
         $container->setParameter('arv_blog.article.need_validation', $config['article']['need_validation']);
         $container->setParameter('arv_blog.comment.waiting_time', $config['comment']['waiting_time']);
