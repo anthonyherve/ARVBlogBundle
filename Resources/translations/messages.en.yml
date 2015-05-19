@@ -1,6 +1,7 @@
 arv.blog:
     exception:
         forbidden: You are not allowed to access to this page.
+        comment_edition: Vous n'êtes pas autorisé(e) à modifier un commentaire que vous n'avez pas écrit.
     word:
         tag: key word
         tags: key words

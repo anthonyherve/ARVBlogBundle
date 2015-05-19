@@ -89,6 +89,11 @@ class CommentController extends Controller
      */
     public function createAction(Request $request)
     {
+        // Check if user can write anonymously a comment
+        if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+        }
+
         $comment = new Comment();
         $form = $this->getCreateForm($comment);
         $form->handleRequest($request);
@@ -146,6 +151,15 @@ class CommentController extends Controller
      */
     public function editAction(Comment $comment)
     {
+        // Check if user can write anonymously a comment
+        if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+            if ($comment->getUser() != $this->get('security.token_storage')->getToken()->getUser()) {
+                $this->addFlash('danger', 'arv.blog.exception.comment_edition');
+                return $this->redirect($this->generateUrl('arv_blog_home'));
+            }
+        }
+
         $editForm = $this->getEditForm($comment);
         $deleteForm = $this->getDeleteForm($comment);
 
@@ -165,6 +179,15 @@ class CommentController extends Controller
      */
     public function updateAction(Request $request, Comment $comment)
     {
+        // Check if user can write anonymously a comment
+        if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+            if ($comment->getUser() != $this->get('security.token_storage')->getToken()->getUser()) {
+                $this->addFlash('danger', 'arv.blog.exception.comment_edition');
+                return $this->redirect($this->generateUrl('arv_blog_home'));
+            }
+        }
+
         $deleteForm = $this->getDeleteForm($comment);
         $editForm = $this->getEditForm($comment);
         $editForm->handleRequest($request);
