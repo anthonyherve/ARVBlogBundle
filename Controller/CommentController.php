@@ -3,6 +3,7 @@
 namespace ARV\BlogBundle\Controller;
 
 use ARV\BlogBundle\ARVBlogParameters;
+use ARV\BlogBundle\ARVBlogRoles;
 use ARV\BlogBundle\ARVBlogServices;
 use ARV\BlogBundle\Entity\Article;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,6 +64,11 @@ class CommentController extends Controller
      */
     public function newAction(Article $article = null)
     {
+        // Check if user can write anonymously a comment
+        if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+        }
+
         $comment = new Comment();
         if ($article !== null) {
             $comment->setArticle($article);

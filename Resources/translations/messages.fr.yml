@@ -1,4 +1,6 @@
 arv.blog:
+    exception:
+        forbidden: Vous n'êtes pas autorisé(e) à accéder à cette page.
     word:
         tag: mot-clé
         tags: mots-clés
