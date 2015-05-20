@@ -37,16 +37,22 @@ class UserRelationSubscriber implements EventSubscriber
         // the $metadata is the whole mapping info for this class
         $metadata = $eventArgs->getClassMetadata();
 
+        $namingStrategy = $eventArgs
+            ->getEntityManager()
+            ->getConfiguration()
+            ->getNamingStrategy()
+        ;
+
         // Add relation with custom entity User
         if ($metadata->getName() == 'ARV\BlogBundle\Entity\Article') {
             // Check user_class parameter
             if ($this->userClass != null) {
                 $metadata->mapManyToOne(array(
-                    'targetEntity' => $this->userClass,
-                    'fieldName' => 'user',
-                    'joinColumn' => array(
-                        'name' => 'user_id',
-                        'referencedColumnName' => 'id'
+                    'targetEntity'  => $this->userClass,
+                    'fieldName'     => 'user',
+                    'joinColumn'    => array(
+                        'name' => $namingStrategy->joinKeyColumnName($metadata->getName()),
+                        'referencedColumnName' => $namingStrategy->referenceColumnName()
                     )
                 ));
             }
@@ -57,11 +63,11 @@ class UserRelationSubscriber implements EventSubscriber
             // Check user_class parameter
             if ($this->userClass != null) {
                 $metadata->mapManyToOne(array(
-                    'targetEntity' => $this->userClass,
-                    'fieldName' => 'user',
-                    'joinColumn' => array(
-                        'name' => 'user_id',
-                        'referencedColumnName' => 'id'
+                    'targetEntity'  => $this->userClass,
+                    'fieldName'     => 'user',
+                    'joinColumn'    => array(
+                        'name' => $namingStrategy->joinKeyColumnName($metadata->getName()),
+                        'referencedColumnName' => $namingStrategy->referenceColumnName()
                     )
                 ));
             }

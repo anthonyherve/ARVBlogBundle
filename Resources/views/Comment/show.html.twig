@@ -8,8 +8,13 @@
 
     <div class="comment">
         {% if arvblog_comment_display_email %}
-            <div class="date">{{ 'arv.blog.table.comment.created_at_with_email'|trans({'%date%': comment.dateCreation|date("d/m/Y \à H:i"), '%email%': comment.email}) }}</div>
-            <div class="date">{{ 'arv.blog.table.comment.edited_at_with_email'|trans({'%date%': comment.dateModification|date("d/m/Y \à H:i"), '%email%': comment.email}) }}</div>
+            {% if comment.user %}
+                <div class="date">{{ 'arv.blog.table.comment.created_at_with_email'|trans({'%date%': comment.dateCreation|date("d/m/Y \à H:i"), '%email%': comment.user.username}) }}</div>
+                <div class="date">{{ 'arv.blog.table.comment.edited_at_with_email'|trans({'%date%': comment.dateModification|date("d/m/Y \à H:i"), '%email%': comment.user.username}) }}</div>
+            {% else %}
+                <div class="date">{{ 'arv.blog.table.comment.created_at_with_email'|trans({'%date%': comment.dateCreation|date("d/m/Y \à H:i"), '%email%': comment.email}) }}</div>
+                <div class="date">{{ 'arv.blog.table.comment.edited_at_with_email'|trans({'%date%': comment.dateModification|date("d/m/Y \à H:i"), '%email%': comment.email}) }}</div>
+            {% endif %}
         {% else %}
             <div class="date">{{ 'arv.blog.table.comment.created_at'|trans({'%date%': comment.dateCreation|date("d/m/Y \à H:i")}) }}</div>
             <div class="date">{{ 'arv.blog.table.comment.edited_at'|trans({'%date%': comment.dateModification|date("d/m/Y \à H:i")}) }}</div>

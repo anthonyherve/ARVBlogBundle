@@ -3,6 +3,7 @@
 namespace ARV\BlogBundle\Controller;
 
 use ARV\BlogBundle\ARVBlogParameters;
+use ARV\BlogBundle\ARVBlogRoles;
 use ARV\BlogBundle\ARVBlogServices;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -81,9 +82,13 @@ class ArticleController extends Controller
         if ($form->isValid()) {
             $article->setTags($this->get(ARVBlogServices::TAG_MANAGER)->setTags($article->getTags()));
 
-            $this->get(ARVBlogServices::ARTICLE_MANAGER)->save($article);
+            if ($this->get('security.authorization_checker')->isGranted(ARVBlogRoles::ROLE_USER)) {
+                $article->setUser($this->get('security.token_storage')->getToken()->getUser());
+            }
 
+            $this->get(ARVBlogServices::ARTICLE_MANAGER)->save($article);
             $this->addFlash('success', 'arv.blog.flash.success.article_created');
+
             return $this->redirect(
                 $this->generateUrl(
                     'arv_blog_article_show',

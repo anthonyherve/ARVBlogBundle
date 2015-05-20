@@ -6,6 +6,9 @@
 
     <div class="article">
         <h1>{{ article.title }}</h1>
+        {% if article.user %}
+            <div>{{ article.user.username }}</div>
+        {% endif %}
         <div class="date">
             {{ 'arv.blog.table.created_at'|trans({'%date%': article.dateCreation|date("d/m/Y \à H:i")}) }}
         </div>

@@ -104,6 +104,11 @@ class CommentController extends Controller
             // Check if a comment with this IP was posted less than $minutesToWait
             if (!$this->get(ARVBlogServices::COMMENT_MANAGER)->existByDateAndIp($minutesToWait, $ip)) {
                 $comment->setIp($ip);
+
+                if ($this->get('security.authorization_checker')->isGranted(ARVBlogRoles::ROLE_USER)) {
+                    $comment->setUser($this->get('security.token_storage')->getToken()->getUser());
+                }
+
                 $this->get(ARVBlogServices::COMMENT_MANAGER)->save($comment);
                 $this->addFlash('success', 'arv.blog.flash.success.comment_created');
 
