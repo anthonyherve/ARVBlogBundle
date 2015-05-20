@@ -47,6 +47,8 @@ class CommentController extends Controller
      */
     public function manageAction(Request $request)
     {
+        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+
         $foundComments = $this->get(ARVBlogServices::COMMENT_MANAGER)->getAll();
         $deleteForms = $this->getDeleteForms($foundComments);
 
@@ -228,6 +230,8 @@ class CommentController extends Controller
      */
     public function deleteAction(Request $request, Comment $comment)
     {
+        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+
         $form = $this->getDeleteForm($comment);
         $form->handleRequest($request);
 

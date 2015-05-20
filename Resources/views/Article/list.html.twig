@@ -28,16 +28,18 @@
         </div>
 
         {# Actions #}
-        <div>
-            <ul>
-                <li>
-                    <a href="{{ path('arv_blog_article_edit', { 'id': article.id, 'slug': article.slug }) }}">{{ 'arv.blog.action.edit'|trans }}</a>
-                </li>
-                <li>
-                    {{ form(delete_forms[article.id]) }}
-                </li>
-            </ul>
-        </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div>
+                <ul>
+                    <li>
+                        <a href="{{ path('arv_blog_article_edit', { 'id': article.id, 'slug': article.slug }) }}">{{ 'arv.blog.action.edit'|trans }}</a>
+                    </li>
+                    <li>
+                        {{ form(delete_forms[article.id]) }}
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
 
         {# Comments #}
         <div>

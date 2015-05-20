@@ -11,26 +11,28 @@
                 {{ render(controller('ARVBlogBundle:Search:form')) }}
             {% endblock %}
             {# Global actions #}
-            <ul>
-                <li>
-                    <a href="{{ path('arv_blog_article_new') }}">{{ 'arv.blog.action.add_article'|trans }}</a>
-                </li>
-                <li>
-                    <a href="{{ path('arv_blog_tag_new') }}">{{ 'arv.blog.action.add_tag'|trans }}</a>
-                </li>
-                <li>
-                    <a href="{{ path('arv_blog_comment_new') }}">{{ 'arv.blog.action.add_comment'|trans }}</a>
-                </li>
-                <li>
-                    <a href="{{ path('arv_blog_article_manage') }}">{{ 'arv.blog.action.list_article'|trans }}</a>
-                </li>
-                <li>
-                    <a href="{{ path('arv_blog_tag_manage') }}">{{ 'arv.blog.action.list_tag'|trans }}</a>
-                </li>
-                <li>
-                    <a href="{{ path('arv_blog_comment_manage') }}">{{ 'arv.blog.action.list_comment'|trans }}</a>
-                </li>
-            </ul>
+            {% if is_granted('ROLE_ADMIN') %}
+                <ul>
+                    <li>
+                        <a href="{{ path('arv_blog_article_new') }}">{{ 'arv.blog.action.add_article'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('arv_blog_tag_new') }}">{{ 'arv.blog.action.add_tag'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('arv_blog_comment_new') }}">{{ 'arv.blog.action.add_comment'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('arv_blog_article_manage') }}">{{ 'arv.blog.action.list_article'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('arv_blog_tag_manage') }}">{{ 'arv.blog.action.list_tag'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('arv_blog_comment_manage') }}">{{ 'arv.blog.action.list_comment'|trans }}</a>
+                    </li>
+                </ul>
+            {% endif %}
         </div>
         <div>
             {# Articles list #}

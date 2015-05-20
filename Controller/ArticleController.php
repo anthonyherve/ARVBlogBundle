@@ -50,6 +50,8 @@ class ArticleController extends Controller
      */
     public function manageAction(Request $request)
     {
+        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+
         $foundArticles = $this->get(ARVBlogServices::ARTICLE_MANAGER)->getAll();
         $deleteForms = $this->getDeleteForms($foundArticles);
 
@@ -72,6 +74,8 @@ class ArticleController extends Controller
      */
     public function newAction()
     {
+        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+
         $form = $this->getCreateForm(new Article());
 
         return array(
@@ -87,6 +91,8 @@ class ArticleController extends Controller
      */
     public function createAction(Request $request)
     {
+        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+
         $article = new Article();
         $form = $this->getCreateForm($article);
         $form->handleRequest($request);
@@ -140,6 +146,8 @@ class ArticleController extends Controller
      */
     public function editAction(Article $article)
     {
+        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+
         $editForm = $this->getEditForm($article);
         $deleteForm = $this->getDeleteForm($article);
 
@@ -160,6 +168,8 @@ class ArticleController extends Controller
      */
     public function updateAction(Request $request, Article $article)
     {
+        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+
         $deleteForm = $this->getDeleteForm($article);
         $editForm = $this->getEditForm($article);
         $editForm->handleRequest($request);
@@ -193,6 +203,8 @@ class ArticleController extends Controller
      */
     public function deleteAction(Request $request, Article $article)
     {
+        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        
         $form = $this->getDeleteForm($article);
         $form->handleRequest($request);
 

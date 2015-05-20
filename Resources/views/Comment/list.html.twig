@@ -38,12 +38,16 @@
                 <li>
                     <a href="{{ path('arv_blog_comment_show', { 'id': comment.id }) }}">{{ 'arv.blog.action.show'|trans }}</a>
                 </li>
-                <li>
-                    <a href="{{ path('arv_blog_comment_edit', { 'id': comment.id }) }}">{{ 'arv.blog.action.edit'|trans }}</a>
-                </li>
-                <li>
-                    {{ form(delete_forms[comment.id]) }}
-                </li>
+                {% if is_granted('ROLE_USER') and app.user = comment.user %}
+                    <li>
+                        <a href="{{ path('arv_blog_comment_edit', { 'id': comment.id }) }}">{{ 'arv.blog.action.edit'|trans }}</a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        {{ form(delete_forms[comment.id]) }}
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>

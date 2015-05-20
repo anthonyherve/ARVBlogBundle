@@ -10,17 +10,20 @@
         {{ tag.name }}
     </div>
 
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('arv_blog_tag_manage') }}">
-                {{ 'arv.blog.action.back_list'|trans }}
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('arv_blog_tag_edit', { 'id': tag.id }) }}">
-                {{ 'arv.blog.action.edit'|trans }}
-            </a>
-        </li>
-        <li>{{ form(delete_form) }}</li>
-    </ul>
+    {% if is_granted('ROLE_ADMIN') %}
+        <ul>
+            <li>
+                <a href="{{ path('arv_blog_tag_manage') }}">
+                    {{ 'arv.blog.action.back_list'|trans }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('arv_blog_tag_edit', { 'id': tag.id }) }}">
+                    {{ 'arv.blog.action.edit'|trans }}
+                </a>
+            </li>
+            <li>{{ form(delete_form) }}</li>
+        </ul>
+    {% endif %}
+
 {% endblock %}
