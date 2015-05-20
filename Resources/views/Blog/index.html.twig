@@ -6,12 +6,6 @@
 
     <div>
         <div>
-            {# Articles list #}
-            {% block articles %}
-                {{ render(controller('ARVBlogBundle:Article:list', { 'page': page })) }}
-            {% endblock %}
-        </div>
-        <div>
             {# Search block #}
             {% block search %}
                 {{ render(controller('ARVBlogBundle:Search:form')) }}
@@ -37,6 +31,12 @@
                     <a href="{{ path('arv_blog_comment_manage') }}">{{ 'arv.blog.action.list_comment'|trans }}</a>
                 </li>
             </ul>
+        </div>
+        <div>
+            {# Articles list #}
+            {% block articles %}
+                {{ render(controller('ARVBlogBundle:Article:list', { 'page': page })) }}
+            {% endblock %}
         </div>
     </div>
 
