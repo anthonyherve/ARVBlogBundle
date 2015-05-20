@@ -204,7 +204,7 @@ class ArticleController extends Controller
     public function deleteAction(Request $request, Article $article)
     {
         $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
-        
+
         $form = $this->getDeleteForm($article);
         $form->handleRequest($request);
 
