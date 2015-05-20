@@ -8,7 +8,7 @@
         <div>
             {# Articles list #}
             {% block articles %}
-                {{ render(controller('ARVBlogBundle:Article:list')) }}
+                {{ render(controller('ARVBlogBundle:Article:list', { 'page': page })) }}
             {% endblock %}
         </div>
         <div>

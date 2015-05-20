@@ -22,10 +22,16 @@ class TagController extends Controller
      * @Template
      * @return array
      */
-    public function manageAction()
+    public function manageAction(Request $request)
     {
-        $tags = $this->get(ARVBlogServices::TAG_MANAGER)->getAll();
-        $deleteForms = $this->getDeleteForms($tags);
+        $foundTags = $this->get(ARVBlogServices::TAG_MANAGER)->getAll();
+        $deleteForms = $this->getDeleteForms($foundTags);
+
+        $tags = $this->get('knp_paginator')->paginate(
+            $foundTags,
+            $request->query->get('page', 1),
+            2
+        );
 
         return array(
             'tags' => $tags,

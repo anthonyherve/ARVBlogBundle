@@ -26,10 +26,16 @@ class ArticleController extends Controller
      * @param string $search
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listAction(Request $request, $search = '')
+    public function listAction(Request $request, $search = '', $page = 1)
     {
-        $articles = $this->get(ARVBlogServices::ARTICLE_MANAGER)->search($search, true);
-        $deleteForms = $this->getDeleteForms($articles);
+        $foundArticles = $this->get(ARVBlogServices::ARTICLE_MANAGER)->search($search, true);
+        $deleteForms = $this->getDeleteForms($foundArticles);
+
+        $articles = $this->get('knp_paginator')->paginate(
+            $foundArticles,
+            $page,
+            2
+        );
 
         return array(
             'articles' => $articles,
@@ -42,10 +48,16 @@ class ArticleController extends Controller
      * @Template
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function manageAction()
+    public function manageAction(Request $request)
     {
-        $articles = $this->get(ARVBlogServices::ARTICLE_MANAGER)->getAll();
-        $deleteForms = $this->getDeleteForms($articles);
+        $foundArticles = $this->get(ARVBlogServices::ARTICLE_MANAGER)->getAll();
+        $deleteForms = $this->getDeleteForms($foundArticles);
+
+        $articles = $this->get('knp_paginator')->paginate(
+            $foundArticles,
+            $request->query->get('page', 1),
+            2
+        );
 
         return array(
             'articles' => $articles,

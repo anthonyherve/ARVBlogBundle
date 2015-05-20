@@ -45,10 +45,16 @@ class CommentController extends Controller
      * @Template
      * @return array
      */
-    public function manageAction()
+    public function manageAction(Request $request)
     {
-        $comments = $this->get(ARVBlogServices::COMMENT_MANAGER)->getAll();
-        $deleteForms = $this->getDeleteForms($comments);
+        $foundComments = $this->get(ARVBlogServices::COMMENT_MANAGER)->getAll();
+        $deleteForms = $this->getDeleteForms($foundComments);
+
+        $comments = $this->get('knp_paginator')->paginate(
+            $foundComments,
+            $request->query->get('page', 1),
+            2
+        );
 
         return array(
             'comments' => $comments,

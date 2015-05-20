@@ -4,6 +4,7 @@ namespace ARV\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class BlogController
@@ -15,9 +16,11 @@ class BlogController extends Controller
     /**
      * @Template
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return array();
+        return array(
+            'page' => $request->query->get('page', 1)
+        );
     }
 
 }

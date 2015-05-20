@@ -45,6 +45,10 @@
         </tbody>
     </table>
 
+    <div class="navigation">
+        {{ knp_pagination_render(comments) }}
+    </div>
+
     <ul>
         <li>
             <a href="{{ path('arv_blog_comment_new') }}">

@@ -3,8 +3,10 @@ arv_blog_article_manage:
     defaults: { _controller: "ARVBlogBundle:Article:manage" }
 
 arv_blog_article_list:
-    path:     /liste-{search}
-    defaults: { _controller: "ARVBlogBundle:Article:list", search: '' }
+    path:     /liste-{search}/{page}
+    defaults: { _controller: "ARVBlogBundle:Article:list", search: '', page: 1 }
+    requirements:
+        page: \d+
 
 arv_blog_article_show:
     path:     /{id}-{slug}

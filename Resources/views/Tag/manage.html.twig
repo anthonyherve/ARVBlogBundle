@@ -41,6 +41,10 @@
         </tbody>
     </table>
 
+    <div class="navigation">
+        {{ knp_pagination_render(tags) }}
+    </div>
+
     <ul>
         <li>
             <a href="{{ path('arv_blog_tag_new') }}">
@@ -49,4 +53,3 @@
         </li>
     </ul>
 {% endblock %}
-
