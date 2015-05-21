@@ -24,7 +24,9 @@ class TagController extends Controller
      */
     public function manageAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        }
 
         $foundTags = $this->get(ARVBlogServices::TAG_MANAGER)->getAll();
         $deleteForms = $this->getDeleteForms($foundTags);
@@ -48,7 +50,9 @@ class TagController extends Controller
      */
     public function newAction()
     {
-        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        }
 
         $tag = new Tag();
         $form = $this->getCreateForm($tag);
@@ -67,7 +71,9 @@ class TagController extends Controller
      */
     public function createAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        }
 
         $tag = new Tag();
         $form = $this->getCreateForm($tag);
@@ -112,7 +118,9 @@ class TagController extends Controller
      */
     public function editAction(Tag $tag)
     {
-        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        }
 
         $editForm = $this->getEditForm($tag);
         $deleteForm = $this->getDeleteForm($tag);
@@ -133,7 +141,9 @@ class TagController extends Controller
      */
     public function updateAction(Request $request, Tag $tag)
     {
-        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        }
 
         $deleteForm = $this->getDeleteForm($tag);
         $editForm = $this->getEditForm($tag);
@@ -163,7 +173,9 @@ class TagController extends Controller
      */
     public function deleteAction(Request $request, Tag $tag)
     {
-        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        }
 
         $form = $this->getDeleteForm($tag);
         $form->handleRequest($request);

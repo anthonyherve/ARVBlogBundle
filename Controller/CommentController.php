@@ -98,8 +98,10 @@ class CommentController extends Controller
     public function createAction(Request $request)
     {
         // Check if user can write anonymously a comment
-        if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
+                $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+            }
         }
 
         $comment = new Comment();
@@ -165,11 +167,13 @@ class CommentController extends Controller
     public function editAction(Comment $comment)
     {
         // Check if user can write anonymously a comment
-        if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
-            if ($comment->getUser() != $this->get('security.token_storage')->getToken()->getUser()) {
-                $this->addFlash('danger', 'arv.blog.exception.comment_edition');
-                return $this->redirect($this->generateUrl('arv_blog_home'));
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
+                $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+                if ($comment->getUser() != $this->get('security.token_storage')->getToken()->getUser()) {
+                    $this->addFlash('danger', 'arv.blog.exception.comment_edition');
+                    return $this->redirect($this->generateUrl('arv_blog_home'));
+                }
             }
         }
 
@@ -193,11 +197,13 @@ class CommentController extends Controller
     public function updateAction(Request $request, Comment $comment)
     {
         // Check if user can write anonymously a comment
-        if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
-            if ($comment->getUser() != $this->get('security.token_storage')->getToken()->getUser()) {
-                $this->addFlash('danger', 'arv.blog.exception.comment_edition');
-                return $this->redirect($this->generateUrl('arv_blog_home'));
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
+                $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+                if ($comment->getUser() != $this->get('security.token_storage')->getToken()->getUser()) {
+                    $this->addFlash('danger', 'arv.blog.exception.comment_edition');
+                    return $this->redirect($this->generateUrl('arv_blog_home'));
+                }
             }
         }
 
@@ -230,7 +236,9 @@ class CommentController extends Controller
      */
     public function deleteAction(Request $request, Comment $comment)
     {
-        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        }
 
         $form = $this->getDeleteForm($comment);
         $form->handleRequest($request);

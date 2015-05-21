@@ -28,7 +28,7 @@
         </div>
 
         {# Actions #}
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if arvblog_is_secure == false or is_granted('ROLE_ADMIN') %}
             <div>
                 <ul>
                     <li>
@@ -45,7 +45,7 @@
         <div>
             {{ 'arv.blog.text.comment.number'|trans }} : {{ article.comments|length }}
         </div>
-        {% if arvblog_comment_write_as_anonymous or is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if arvblog_is_secure == false or arvblog_comment_write_as_anonymous or is_granted('IS_AUTHENTICATED_FULLY') %}
             <li>
                 {% if article is null %}
                     <a href="{{ path('arv_blog_comment_new') }}">

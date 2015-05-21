@@ -25,7 +25,7 @@
                 {{ render(controller('ARVBlogBundle:Tag:cloud')) }}
             {% endblock %}
             {# Global actions #}
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if arvblog_is_secure == false or is_granted('ROLE_ADMIN') %}
                 <ul>
                     <li>
                         <a href="{{ path('arv_blog_article_new') }}">{{ 'arv.blog.action.add_article'|trans }}</a>

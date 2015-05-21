@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    {% if is_granted('ROLE_ADMIN') %}
+    {% if arvblog_is_secure == false or is_granted('ROLE_ADMIN') %}
         <ul>
             <li>
                 <a href="{{ path('arv_blog_article_manage') }}">
@@ -46,7 +46,7 @@
         </ul>
     {% endif %}
 
-    {% if arvblog_comment_write_as_anonymous or is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% if arvblog_is_secure == false or arvblog_comment_write_as_anonymous or is_granted('IS_AUTHENTICATED_FULLY') %}
         <li>
             {% if article is null %}
                 <a href="{{ path('arv_blog_comment_new') }}">
