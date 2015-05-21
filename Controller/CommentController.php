@@ -47,7 +47,9 @@ class CommentController extends Controller
      */
     public function manageAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
+        }
 
         $foundComments = $this->get(ARVBlogServices::COMMENT_MANAGER)->getAll();
         $deleteForms = $this->getDeleteForms($foundComments);
@@ -73,8 +75,10 @@ class CommentController extends Controller
     public function newAction(Article $article = null)
     {
         // Check if user can write anonymously a comment
-        if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
+                $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+            }
         }
 
         $comment = new Comment();

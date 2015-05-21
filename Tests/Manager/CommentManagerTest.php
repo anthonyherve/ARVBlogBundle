@@ -35,7 +35,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testCount()
+    public function test_comment_count()
     {
         $this->assertEquals(3, $this->manager->count());
     }
@@ -43,7 +43,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testGetAllOrderedWithNoArticle()
+    public function test_comment_get_all_ordered_with_no_article()
     {
         $this->assertCount(3, $this->manager->getAll());
     }
@@ -51,7 +51,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testGetAllNotOrderedWithNoArticle()
+    public function test_comment_get_all_not_ordered_with_no_article()
     {
         $this->assertCount(3, $this->manager->getAll(null, false));
     }
@@ -59,7 +59,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testGetAllOrderedWithArticle()
+    public function test_comment_get_all_ordered_with_article()
     {
         $article = $this->articleManager->getRepository()->findOneByTitle("HTML Ipsum Presents");
         $this->assertCount(1, $this->manager->getAll($article));
@@ -68,7 +68,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testGetAllNotOrderedWithArticle()
+    public function test_comment_get_all_not_ordered_with_article()
     {
         $article = $this->articleManager->getRepository()->findOneByTitle("HTML Ipsum Presents");
         $this->assertCount(1, $this->manager->getAll($article, false));
@@ -77,7 +77,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testExistByDateAndIpZero()
+    public function test_comment_exist_by_date_and_ip_zero()
     {
         $this->assertEquals(false, $this->manager->existByDateAndIp(0, '192.168.0.10'));
     }
@@ -85,7 +85,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testGetByDateAndIp()
+    public function test_comment_get_by_date_and_ip()
     {
         $this->assertEquals(true, $this->manager->existByDateAndIp(5, '192.168.0.10'));
     }
@@ -93,7 +93,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testSave()
+    public function test_comment_save()
     {
         $this->assertEquals(3, $this->manager->count());
         $article = $this->articleManager->getRepository()->findOneByTitle("HTML Ipsum Presents");
@@ -110,7 +110,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testUpdate()
+    public function test_comment_update()
     {
         $this->assertEquals(3, $this->manager->count());
         $comment = $this->manager->getRepository()->findOneByEmail("user@gmail.com");
@@ -122,7 +122,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDelete()
+    public function test_comment_delete()
     {
         $this->assertEquals(3, $this->manager->count());
         $comment = $this->manager->getRepository()->findOneByEmail("user@gmail.com");

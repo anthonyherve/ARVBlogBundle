@@ -21,7 +21,7 @@ class ArticleTypeTest extends TypeTestCase
      * @dataProvider getValidTestData
      * @param $data
      */
-    public function testSubmitData($data)
+    public function test_article_type_submit_data($data)
     {
         $type = new ArticleType();
         $form = $this->factory->create($type);

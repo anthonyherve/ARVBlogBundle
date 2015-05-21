@@ -34,7 +34,7 @@ class ArticleControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testManage()
+    public function test_article_manage()
     {
         $this->client->request('GET', $this->url . '/admin');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
@@ -43,7 +43,7 @@ class ArticleControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testList()
+    public function test_article_list()
     {
         $this->client->request('GET', $this->url . '/liste');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
@@ -52,7 +52,7 @@ class ArticleControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testSearch()
+    public function test_article_search()
     {
         $this->client->request('GET', $this->url . '/liste-recherche');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
@@ -61,7 +61,7 @@ class ArticleControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testShow()
+    public function test_article_show()
     {
         $article = $this->manager->getRepository()->findOneByTitle('HTML Ipsum Presents');
         $this->client->request('GET', $this->url . '/' . $article->getId() . '-' . $article->getSlug());
@@ -71,7 +71,7 @@ class ArticleControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testCreateOK()
+    public function test_article_create_ok()
     {
         $count = $this->countArticles();
         $crawler = $this->client->request('GET', $this->url . '/nouveau');
@@ -89,7 +89,7 @@ class ArticleControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testCreateKO()
+    public function test_article_create_ko()
     {
         $count = $this->countArticles();
         $crawler = $this->client->request('GET', $this->url . '/nouveau');
@@ -105,7 +105,7 @@ class ArticleControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testEditOK()
+    public function test_article_edit_ok()
     {
         $count = $this->countArticles();
         $article = $this->manager->getRepository()->findOneByTitle('HTML Ipsum Presents');
@@ -126,7 +126,7 @@ class ArticleControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testEditKO()
+    public function test_article_edit_ko()
     {
         $count = $this->countArticles();
         $article = $this->manager->getRepository()->findOneByTitle('HTML Ipsum Presents');
@@ -145,7 +145,7 @@ class ArticleControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDeleteOK()
+    public function test_article_delete_ok()
     {
         $count = $this->countArticles();
         $article = $this->manager->getRepository()->findOneByTitle('HTML Ipsum Presents');
@@ -161,7 +161,7 @@ class ArticleControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDeleteKO()
+    public function test_article_delete_ko()
     {
         $count = $this->countArticles();
         $article = $this->manager->getRepository()->findOneByTitle('HTML Ipsum Presents');

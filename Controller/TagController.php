@@ -2,6 +2,8 @@
 
 namespace ARV\BlogBundle\Controller;
 
+use ARV\BlogBundle\ARVBlogParameters;
+use ARV\BlogBundle\ARVBlogRoles;
 use ARV\BlogBundle\ARVBlogServices;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

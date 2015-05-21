@@ -16,7 +16,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
     /**
      * Manipulate a tag.
      */
-    public function testManipulateTag()
+    public function test_manipulate_tag()
     {
         $tag = new Tag();
         $tag->addArticle(new Article());

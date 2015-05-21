@@ -15,7 +15,7 @@ class ARVBlogExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function testLoadDefaultConfiguration()
+    public function test_load_config()
     {
         $loader = new ARVBlogExtension();
         $config = $this->getDefaultConfig();
@@ -25,7 +25,7 @@ class ARVBlogExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
-    public function testLoadConfigurationThrowsExceptionUnlessIsSecureIsValid()
+    public function test_load_config_throws_exception_unless_is_secure_is_valid()
     {
         $loader = new ARVBlogExtension();
         $config = $this->getDefaultConfig();
@@ -36,7 +36,7 @@ class ARVBlogExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
-    public function testLoadConfigurationThrowsExceptionUnlessContentEditorIsValid()
+    public function test_load_config_throws_exception_unless_content_editor_is_valid()
     {
         $loader = new ARVBlogExtension();
         $config = $this->getDefaultConfig();
@@ -47,7 +47,7 @@ class ARVBlogExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
-    public function testLoadConfigurationThrowsExceptionUnlessNeedValidationIsValid()
+    public function test_load_config_throws_exception_unless_need_validation_is_valid()
     {
         $loader = new ARVBlogExtension();
         $config = $this->getDefaultConfig();
@@ -58,7 +58,7 @@ class ARVBlogExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
-    public function testLoadConfigurationThrowsExceptionUnlessWaitingTimeIsInteger()
+    public function test_load_config_throws_exception_unless_waiting_time_is_integer()
     {
         $loader = new ARVBlogExtension();
         $config = $this->getDefaultConfig();
@@ -69,7 +69,7 @@ class ARVBlogExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
-    public function testLoadConfigurationThrowsExceptionUnlessWaitingTimeIsValid()
+    public function test_load_config_throws_exception_unless_waiting_time_is_valid()
     {
         $loader = new ARVBlogExtension();
         $config = $this->getDefaultConfig();
@@ -80,7 +80,7 @@ class ARVBlogExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
-    public function testLoadConfigurationThrowsExceptionUnlessDisplayEmailIsValid()
+    public function test_load_config_throws_exception_unless_display_email_is_valid()
     {
         $loader = new ARVBlogExtension();
         $config = $this->getDefaultConfig();
@@ -91,7 +91,7 @@ class ARVBlogExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
-    public function testLoadConfigurationThrowsExceptionUnlessWriteAsAnonymousIsValid()
+    public function test_load_config_throws_exception_unless_write_as_anonymous_is_valid()
     {
         $loader = new ARVBlogExtension();
         $config = $this->getDefaultConfig();

@@ -29,7 +29,7 @@ class BlogControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testIndex()
+    public function test_blog_index()
     {
         $this->client->request('GET', $this->url);
         $this->assertTrue($this->client->getResponse()->isSuccessful());

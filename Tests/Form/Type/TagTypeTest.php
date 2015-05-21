@@ -18,7 +18,7 @@ class TagTypeTest extends TypeTestCase
     /**
      *
      */
-    public function testSubmitData()
+    public function test_tag_type_submit_data()
     {
         $data = array(
             'name' => 'New tag'

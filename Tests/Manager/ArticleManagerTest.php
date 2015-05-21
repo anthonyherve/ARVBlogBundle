@@ -30,7 +30,7 @@ class ArticleManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testCount()
+    public function test_article_count()
     {
         $this->assertEquals(3, $this->manager->count());
     }
@@ -38,7 +38,7 @@ class ArticleManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testGetAll()
+    public function test_article_get_all()
     {
         $this->assertCount(3, $this->manager->getAll());
     }
@@ -46,7 +46,7 @@ class ArticleManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testSearchEmpty()
+    public function test_article_search_empty()
     {
         $articles = $this->manager->search();
         $this->assertCount(3, $articles);
@@ -55,7 +55,7 @@ class ArticleManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testSearchWithResults()
+    public function test_article_searc_with_results()
     {
         $articles = $this->manager->search("Presents");
         $this->assertCount(1, $articles);
@@ -64,7 +64,7 @@ class ArticleManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testSearchWithNoResult()
+    public function test_article_search_with_no_result()
     {
         $articles = $this->manager->search("Bla bla bla");
         $this->assertCount(0, $articles);
@@ -73,7 +73,7 @@ class ArticleManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testSearchEmptyPublished()
+    public function test_article_search_empty_published()
     {
         $articles = $this->manager->search("", true);
         $this->assertCount(2, $articles);
@@ -82,7 +82,7 @@ class ArticleManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testSave()
+    public function test_article_save()
     {
         $this->assertEquals(3, $this->manager->count());
         $article = new Article();
@@ -95,7 +95,7 @@ class ArticleManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testUpdate()
+    public function test_article_update()
     {
         $this->assertEquals(3, $this->manager->count());
         $article = $this->manager->getRepository()->findOneByTitle("HTML Ipsum Presents");
@@ -107,7 +107,7 @@ class ArticleManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDelete()
+    public function test_article_delete()
     {
         $this->assertEquals(3, $this->manager->count());
         $article = $this->manager->getRepository()->findOneByTitle("HTML Ipsum Presents");

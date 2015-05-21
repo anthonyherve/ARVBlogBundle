@@ -16,7 +16,7 @@ class ArticleTest extends \PHPUnit_Framework_TestCase
     /**
      * Manipulate an article.
      */
-    public function testManipulateArticle()
+    public function test_manipulate_article()
     {
         $article = new Article();
         $article->setSlug('new-slug');

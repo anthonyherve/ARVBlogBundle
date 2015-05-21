@@ -34,7 +34,7 @@ class TagControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testManage()
+    public function test_tag_manage()
     {
         $this->client->request('GET', $this->url . '/admin');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
@@ -43,7 +43,7 @@ class TagControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testShow()
+    public function test_tag_show()
     {
         $tag = $this->manager->getRepository()->findOneByName('tag3');
         $this->client->request('GET', $this->url . '/' . $tag->getId());
@@ -53,7 +53,7 @@ class TagControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testCreateOK()
+    public function test_tag_create_ok()
     {
         $count = $this->countTags();
         $crawler = $this->client->request('GET', $this->url . '/nouveau');
@@ -70,7 +70,7 @@ class TagControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testCreateKO()
+    public function test_tag_create_ko()
     {
         $count = $this->countTags();
         $crawler = $this->client->request('GET', $this->url . '/nouveau');
@@ -86,7 +86,7 @@ class TagControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testEditOK()
+    public function test_tag_edit_ok()
     {
         $count = $this->countTags();
         $tag = $this->manager->getRepository()->findOneByName('tag5');
@@ -104,7 +104,7 @@ class TagControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testEditKO()
+    public function test_tag_edit_ko()
     {
         $count = $this->countTags();
         $tag = $this->manager->getRepository()->findOneByName('tag5');
@@ -121,7 +121,7 @@ class TagControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDeleteOK()
+    public function test_tag_delete_ok()
     {
         $count = $this->countTags();
         $tag = $this->manager->getRepository()->findOneByName('tag3');
@@ -137,7 +137,7 @@ class TagControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDeleteKO()
+    public function test_tag_delete_ko()
     {
         $count = $this->countTags();
         $tag = $this->manager->getRepository()->findOneByName('tag3');

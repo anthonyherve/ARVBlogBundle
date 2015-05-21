@@ -35,7 +35,7 @@ class TagManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testCount()
+    public function test_tag_count()
     {
         $this->assertEquals(9, $this->manager->count());
     }
@@ -43,7 +43,7 @@ class TagManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testGetAll()
+    public function test_tag_get_all()
     {
         $this->assertCount(9, $this->manager->getAll());
     }
@@ -51,7 +51,7 @@ class TagManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testSetTags()
+    public function test_tag_set_tags()
     {
         $count = $this->manager->count();
         $article = $this->articleManager->getRepository()->findOneByTitle('HTML Ipsum Presents');
@@ -64,7 +64,7 @@ class TagManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testSave()
+    public function test_tag_save()
     {
         $this->assertEquals(9, $this->manager->count());
         $article = $this->articleManager->getRepository()->findOneByTitle("HTML Ipsum Presents");
@@ -77,7 +77,7 @@ class TagManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testUpdate()
+    public function test_tag_update()
     {
         $this->assertEquals(9, $this->manager->count());
         $tag = $this->manager->getRepository()->findOneByName("tag1");
@@ -89,7 +89,7 @@ class TagManagerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDelete()
+    public function test_tag_delete()
     {
         $this->assertEquals(9, $this->manager->count());
         $tag = $this->manager->getRepository()->findOneByName("tag1");

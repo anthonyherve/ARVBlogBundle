@@ -39,7 +39,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testManage()
+    public function test_comment_manage()
     {
         $this->client->request('GET', $this->url . '/admin');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
@@ -48,7 +48,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testList()
+    public function test_comment_list()
     {
         $this->client->request('GET', $this->url . '/liste');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
@@ -57,7 +57,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testListForArticle()
+    public function test_comment_list_for_article()
     {
         $article = $this->articleManager->getRepository()->findOneByTitle('Lorem Ipsum again');
         $this->client->request('GET', $this->url . '/liste/' . $article->getId());
@@ -67,7 +67,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testShow()
+    public function test_comment_show()
     {
         $comment = $this->manager->getRepository()->findOneByEmail('user@gmail.com');
         $this->client->request('GET', $this->url . '/' . $comment->getId());
@@ -77,7 +77,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testCreateOK()
+    public function test_comment_create_ok()
     {
         // First creation : no problem
         $count = $this->countComments();
@@ -107,7 +107,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testCreateKO()
+    public function test_comment_create_ko()
     {
         $count = $this->countComments();
         $crawler = $this->client->request('GET', $this->url . '/nouveau');
@@ -123,7 +123,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testCreateForArticle()
+    public function test_comment_create_for_article()
     {
         $count = $this->countComments();
         $article = $this->articleManager->getRepository()->findOneByTitle('Lorem Ipsum again');
@@ -142,7 +142,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testEditOK()
+    public function test_comment_edit_ok()
     {
         $count = $this->countComments();
         $comment = $this->manager->getRepository()->findOneByEmail('user@gmail.com');
@@ -161,7 +161,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testEditKO()
+    public function test_comment_edit_ko()
     {
         $count = $this->countComments();
         $comment = $this->manager->getRepository()->findOneByEmail('user@gmail.com');
@@ -178,7 +178,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDeleteOK()
+    public function test_comment_delete_ok()
     {
         $count = $this->countComments();
         $comment = $this->manager->getRepository()->findOneByEmail('user@gmail.com');
@@ -194,7 +194,7 @@ class CommentControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testDeleteKO()
+    public function test_comment_delete_ko()
     {
         $count = $this->countComments();
         $comment = $this->manager->getRepository()->findOneByEmail('user@gmail.com');

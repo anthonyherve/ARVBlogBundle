@@ -29,7 +29,7 @@ class SearchControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testForm()
+    public function test_search_form()
     {
         $client = static::createClient();
         $client->request('GET', $this->url . '/formulaire');
@@ -39,7 +39,7 @@ class SearchControllerTest extends AbstractFunctionalTest
     /**
      *
      */
-    public function testResult()
+    public function test_search_result()
     {
         $client = static::createClient();
         $client->request('POST', $this->url . '/');
