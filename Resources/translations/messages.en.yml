@@ -1,4 +1,7 @@
 arv.blog:
+    text:
+        comment:
+            number: Number of comments
     exception:
         forbidden: You are not allowed to access to this page.
         comment_edition: Vous n'êtes pas autorisé(e) à modifier un commentaire que vous n'avez pas écrit.
@@ -46,6 +49,7 @@ arv.blog:
             edited_at_with_email: Edited %date% by %email%
     action:
         back_list: Back to the list
+        back_article: Back to article
         add_article: Add an article
         add_comment: Add a comment
         add_tag: Add a key word

@@ -1,8 +1,6 @@
 {% extends 'ARVBlogBundle::blog.html.twig' %}
 
-{% block content %}
-
-    {{ parent() }}
+{% block content_page %}
 
     <h1>{{ 'arv.blog.title.h1.edit_comment'|trans }}</h1>
 
@@ -10,10 +8,11 @@
 
     <ul>
         <li>
-            <a href="{{ path('arv_blog_comment_manage') }}">
-                {{ 'arv.blog.action.back_list'|trans }}
+            <a href="{{ path('arv_blog_article_show', {'id': comment.article.id, 'slug': comment.article.slug}) }}">
+                {{ 'arv.blog.action.back_article'|trans }}
             </a>
         </li>
         <li>{{ form(delete_form) }}</li>
     </ul>
+
 {% endblock %}

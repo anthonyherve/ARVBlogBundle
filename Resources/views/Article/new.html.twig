@@ -1,8 +1,6 @@
 {% extends 'ARVBlogBundle::blog.html.twig' %}
 
-{% block content %}
-
-    {{ parent() }}
+{% block content_page %}
 
     <h1>{{ 'arv.blog.title.h1.add_article'|trans }}</h1>
 
@@ -10,7 +8,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('arv_blog_article_manage') }}">
+            <a href="{{ path('arv_blog_home') }}">
                 {{ 'arv.blog.action.back_list'|trans }}
             </a>
         </li>

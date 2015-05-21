@@ -14,4 +14,36 @@
         {% endfor %}
     {% endfor %}
 
+    <div>
+        <div>
+            {# Search block #}
+            {% block search %}
+                {{ render(controller('ARVBlogBundle:Search:form')) }}
+            {% endblock %}
+            {# Tags cloud #}
+            {% block tags_cloud %}
+                {{ render(controller('ARVBlogBundle:Tag:cloud')) }}
+            {% endblock %}
+            {# Global actions #}
+            {% if is_granted('ROLE_ADMIN') %}
+                <ul>
+                    <li>
+                        <a href="{{ path('arv_blog_article_new') }}">{{ 'arv.blog.action.add_article'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('arv_blog_comment_new') }}">{{ 'arv.blog.action.add_comment'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('arv_blog_article_manage') }}">{{ 'arv.blog.action.list_article'|trans }}</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+        <div>
+            {% block content_page %}
+
+            {% endblock %}
+        </div>
+    </div>
+
 {% endblock %}

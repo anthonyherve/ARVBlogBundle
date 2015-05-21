@@ -1,8 +1,6 @@
 {% extends 'ARVBlogBundle::blog.html.twig' %}
 
-{% block content %}
-
-    {{ parent() }}
+{% block content_page %}
 
     <h1>{{ 'arv.blog.title.h1.add_tag'|trans }}</h1>
 
@@ -15,4 +13,5 @@
             </a>
         </li>
     </ul>
+
 {% endblock %}

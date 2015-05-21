@@ -1,8 +1,6 @@
 {% extends 'ARVBlogBundle::blog.html.twig' %}
 
-{% block content %}
-
-    {{ parent() }}
+{% block content_page %}
 
     <div class="article">
         <h1>{{ article.title }}</h1>
@@ -22,11 +20,11 @@
                 {{ 'arv.blog.table.article.published_at'|trans({'%date%': article.datePublication|date("d/m/Y \à H:i")}) }}
             {% endif %}
         </div>
-        <ul class="tags">
+        <div>
             {% for tag in article.tags %}
-                <li>{{ tag.name }}</li>
+                <a href="{{ path('arv_blog_search_tag', { 'tag': tag.name }) }}">{{ tag.name }}</a>{% if loop.last == false %}, {% endif %}
             {% endfor %}
-        </ul>
+        </div>
         <div class="content">
             {{ article.content|raw }}
         </div>
@@ -46,6 +44,20 @@
             </li>
             <li>{{ form(delete_form) }}</li>
         </ul>
+    {% endif %}
+
+    {% if arvblog_comment_write_as_anonymous or is_granted('IS_AUTHENTICATED_FULLY') %}
+        <li>
+            {% if article is null %}
+                <a href="{{ path('arv_blog_comment_new') }}">
+                    {{ 'arv.blog.action.add_comment'|trans }}
+                </a>
+            {% else %}
+                <a href="{{ path('arv_blog_comment_new', { id_article: article.id }) }}">
+                    {{ 'arv.blog.action.add_comment'|trans }}
+                </a>
+            {% endif %}
+        </li>
     {% endif %}
 
     <div>
