@@ -2,7 +2,7 @@
 
 <div id="tag-cloud">
     {% for name, count in tags %}
-        <a href="{{ path('arv_blog_article_list', {'search': name}) }}" rel="{{ count }}">{{ name }}</a>
+        <a href="{{ path('arv_blog_search_tag', {'tag': name}) }}" rel="{{ count }}">{{ name }}</a>
     {% endfor %}
 </div>
 

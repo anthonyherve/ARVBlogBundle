@@ -71,6 +71,16 @@ class ArticleManager
     }
 
     /**
+     * Search articles by tag.
+     * @param $tag
+     * @return mixed
+     */
+    public function searchByTag($tag, $publishedOnly = false)
+    {
+        return $this->getRepository()->searchByTag($tag, $publishedOnly);
+    }
+
+    /**
      * Save / Update an $article into database.
      * @param Article $article
      */

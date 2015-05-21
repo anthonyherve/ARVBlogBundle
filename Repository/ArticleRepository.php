@@ -50,4 +50,28 @@ class ArticleRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * Search articles by $tag.
+     * @param $tag
+     * @param $publishedOnly
+     * @return array
+     */
+    public function searchByTag($tag, $publishedOnly)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('a')
+            ->from('ARVBlogBundle:Article', 'a')
+            ->join('a.tags', 't')
+            ->where("t.name = :tag")
+            ->orderBy('a.datePublication', 'DESC')
+            ->setParameter('tag', $tag);
+
+        if ($publishedOnly) {
+            $qb->andWhere('a.datePublication <= :now')
+                ->setParameter('now', new \DateTime());
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

@@ -46,16 +46,7 @@ class TagRepository extends EntityRepository
                     $tags[$tag->getName()] = 1;
                 }
             }
-//            $counts = array_count_values(explode(' ', $article->getTags()));
-//            foreach ($counts as $k => $count) {
-//                if (array_key_exists($k, $tags)) {
-//                    $tags[$k] = $count + $tags[$k];
-//                } else {
-//                    $tags[$k] = $count;
-//                }
-//            }
         }
-
 
         return $tags;
     }

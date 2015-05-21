@@ -2,6 +2,8 @@
 
 namespace ARV\BlogBundle\Controller;
 
+use ARV\BlogBundle\ARVBlogServices;
+use ARV\BlogBundle\Entity\Article;
 use ARV\BlogBundle\Form\Type\SearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,11 +42,36 @@ class SearchController extends Controller
         if ($request->isMethod("POST")) {
             $form->handleRequest($request);
             $data = $form->getData();
+
         }
 
         return array(
             'form' => $form->createView(),
             'search' => $data['query']
+        );
+    }
+
+    /**
+     * Search by tag.
+     * @Template
+     * @param $tag
+     * @return array
+     */
+    public function tagAction(Request $request, $tag)
+    {
+
+        $foundArticles = $this->get(ARVBlogServices::ARTICLE_MANAGER)->searchByTag($tag, true);
+        $deleteForms = $this->getDeleteForms($foundArticles);
+
+        $articles = $this->get('knp_paginator')->paginate(
+            $foundArticles,
+            $request->query->get('page', 1),
+            2
+        );
+
+        return array(
+            'articles' => $articles,
+            'delete_forms' => $deleteForms
         );
     }
 
@@ -58,6 +85,35 @@ class SearchController extends Controller
             'action' => $this->generateUrl('arv_blog_search_result'),
             'method' => 'POST',
         ));
+    }
+
+    /**
+     * Create list of delete forms.
+     * @param $articles
+     * @return array
+     */
+    private function getDeleteForms($articles)
+    {
+        $deleteForms = array();
+        foreach ($articles as $article) {
+            $deleteForms[$article->getId()] = $this->getDeleteForm($article)->createView();
+        }
+        return $deleteForms;
+    }
+
+    /**
+     * @param Article $article
+     * @return \Symfony\Component\Form\Form
+     */
+    private function getDeleteForm(Article $article)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('arv_blog_article_delete', array('id' => $article->getId(), 'slug' => $article->getSlug())))
+            ->setMethod('DELETE')
+            ->add('submit', 'submit',
+                array('label' => $this->get('translator')->trans('arv.blog.form.button.delete'))
+            )
+            ->getForm();
     }
 
 }

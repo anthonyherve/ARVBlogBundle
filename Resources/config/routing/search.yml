@@ -7,3 +7,8 @@ arv_blog_search_result:
     path:     /
     defaults: { _controller: "ARVBlogBundle:Search:search" }
     methods:  [POST]
+
+arv_blog_search_tag:
+    path:     /tag/{tag}
+    defaults: { _controller: "ARVBlogBundle:Search:tag" }
+    methods:  [GET]
