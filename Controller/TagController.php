@@ -51,11 +51,11 @@ class TagController extends Controller
         $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
 
         $tag = new Tag();
-        $form   = $this->getCreateForm($tag);
+        $form = $this->getCreateForm($tag);
 
         return array(
             'tag' => $tag,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -84,7 +84,7 @@ class TagController extends Controller
 
         return array(
             'tag' => $tag,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -99,7 +99,7 @@ class TagController extends Controller
         $deleteForm = $this->getDeleteForm($tag);
 
         return array(
-            'tag'      => $tag,
+            'tag' => $tag,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -118,8 +118,8 @@ class TagController extends Controller
         $deleteForm = $this->getDeleteForm($tag);
 
         return array(
-            'tag'      => $tag,
-            'edit_form'   => $editForm->createView(),
+            'tag' => $tag,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -149,8 +149,8 @@ class TagController extends Controller
         }
 
         return array(
-            'tag'         => $tag,
-            'edit_form'   => $editForm->createView(),
+            'tag' => $tag,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -176,6 +176,18 @@ class TagController extends Controller
         }
 
         return $this->redirect($this->generateUrl('arv_blog_tag_manage'));
+    }
+
+    /**
+     * Display tags cloud.
+     * @Template
+     * @return array
+     */
+    public function cloudAction()
+    {
+        return array(
+            'tags' => $this->get(ARVBlogServices::TAG_REPOSITORY)->getCloud()
+        );
     }
 
 
@@ -232,8 +244,7 @@ class TagController extends Controller
             ->add('submit', 'submit',
                 array('label' => $this->get('translator')->trans('arv.blog.form.button.delete'))
             )
-            ->getForm()
-        ;
+            ->getForm();
     }
 
     /**

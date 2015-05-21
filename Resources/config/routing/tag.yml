@@ -36,4 +36,3 @@ arv_blog_tag_delete:
     methods:  [POST, DELETE]
     requirements:
         id: \d+
-

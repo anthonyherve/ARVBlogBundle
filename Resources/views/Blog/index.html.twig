@@ -10,6 +10,10 @@
             {% block search %}
                 {{ render(controller('ARVBlogBundle:Search:form')) }}
             {% endblock %}
+            {# Tags cloud #}
+            {% block tags_cloud %}
+                {{ render(controller('ARVBlogBundle:Tag:cloud')) }}
+            {% endblock %}
             {# Global actions #}
             {% if is_granted('ROLE_ADMIN') %}
                 <ul>

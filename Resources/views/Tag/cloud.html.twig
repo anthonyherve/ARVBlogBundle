@@ -1,0 +1,11 @@
+<script type="text/javascript" src="{{ asset('bundles/arvblog/js/jquery.tagcloud.js') }}"></script>
+
+<div id="tag-cloud">
+    {% for name, count in tags %}
+        <a href="{{ path('arv_blog_article_list', {'search': name}) }}" rel="{{ count }}">{{ name }}</a>
+    {% endfor %}
+</div>
+
+<script type="text/javascript">
+    $('#tag-cloud a').tagcloud();
+</script>

@@ -26,4 +26,38 @@ class TagRepository extends EntityRepository
         return (int)$qb->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * Get tags for cloud.
+     * @return array
+     */
+    public function getCloud() {
+        // On passe par le QueryBuilder vide de l'EntityManager pour l'exemple
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb->select('a')
+            ->from('ARVBlogBundle:Article', 'a');
+        $articles = $qb->getQuery()->getResult();
+        $tags = array();
+        foreach ($articles as $key => $article) {
+            foreach($article->getTags() as $tag) {
+                if (array_key_exists($tag->getName(), $tags)) {
+                    $tags[$tag->getName()] ++;
+                } else {
+                    $tags[$tag->getName()] = 1;
+                }
+            }
+//            $counts = array_count_values(explode(' ', $article->getTags()));
+//            foreach ($counts as $k => $count) {
+//                if (array_key_exists($k, $tags)) {
+//                    $tags[$k] = $count + $tags[$k];
+//                } else {
+//                    $tags[$k] = $count;
+//                }
+//            }
+        }
+
+
+        return $tags;
+    }
+
 }
