@@ -6,6 +6,7 @@ namespace ARV\BlogBundle\Manager;
 use ARV\BlogBundle\Entity\Comment;
 use ARV\BlogBundle\Repository\CommentRepository;
 use Doctrine\ORM\EntityManager;
+use Knp\Component\Pager\Paginator;
 
 /**
  * Class CommentManager
@@ -22,15 +23,20 @@ class CommentManager
      * @var EntityManager
      */
     private $em;
+    /**
+     * @var Paginator
+     */
+    private $paginator;
 
     /**
      * @param CommentRepository $repository
      * @param EntityManager $em
      */
-    public function __construct(CommentRepository $repository, EntityManager $em)
+    public function __construct(CommentRepository $repository, EntityManager $em, Paginator $paginator)
     {
         $this->repository = $repository;
         $this->em = $em;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -43,20 +49,27 @@ class CommentManager
 
     /**
      * Get all comments from an $article $oderBy last modification date.
+     * @param integer $page
      * @param null $article
      * @param bool $orderBy
      * @return array
      */
-    public function getAll($article = null, $orderBy = true)
+    public function getAll($page = 1, $article = null, $orderBy = true)
     {
         if ($article !== null) {
-            return $this->getByArticle($article, $orderBy);
+            $comments = $this->getByArticle($article, $orderBy);
         }
         if ($orderBy) {
-            return $this->getRepository()->findBy(array(), array('dateModification' => 'DESC'));
+            $comments = $this->getRepository()->findBy(array(), array('dateModification' => 'DESC'));
         } else {
-            return $this->getRepository()->findAll();
+            $comments = $this->getRepository()->findAll();
         }
+
+        return $this->paginator->paginate(
+            $comments,
+            $page,
+            2
+        );
     }
 
     /**

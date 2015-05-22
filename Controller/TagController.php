@@ -26,18 +26,10 @@ class TagController extends Controller
      */
     public function manageAction(Request $request)
     {
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
-        }
+        $this->checkRight();
 
-        $foundTags = $this->get(ARVBlogServices::TAG_MANAGER)->getAll();
-        $deleteForms = $this->getDeleteForms($foundTags);
-
-        $tags = $this->get('knp_paginator')->paginate(
-            $foundTags,
-            $request->query->get('page', 1),
-            2
-        );
+        $tags = $this->get(ARVBlogServices::TAG_MANAGER)->getAll($request->query->get('page', 1));
+        $deleteForms = $this->get(ARVBlogServices::TAG_FORM)->deleteForms($tags);
 
         return array(
             'tags' => $tags,
@@ -52,12 +44,10 @@ class TagController extends Controller
      */
     public function newAction()
     {
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
-        }
+        $this->checkRight();
 
         $tag = new Tag();
-        $form = $this->getCreateForm($tag);
+        $form = $this->get(ARVBlogServices::TAG_FORM)->createForm($tag);
 
         return array(
             'tag' => $tag,
@@ -73,12 +63,10 @@ class TagController extends Controller
      */
     public function createAction(Request $request)
     {
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
-        }
+        $this->checkRight();
 
         $tag = new Tag();
-        $form = $this->getCreateForm($tag);
+        $form = $this->get(ARVBlogServices::TAG_FORM)->createForm($tag);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -104,7 +92,7 @@ class TagController extends Controller
      */
     public function showAction(Tag $tag)
     {
-        $deleteForm = $this->getDeleteForm($tag);
+        $deleteForm = $this->get(ARVBlogServices::TAG_FORM)->deleteForm($tag);
 
         return array(
             'tag' => $tag,
@@ -120,12 +108,10 @@ class TagController extends Controller
      */
     public function editAction(Tag $tag)
     {
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
-        }
+        $this->checkRight();
 
-        $editForm = $this->getEditForm($tag);
-        $deleteForm = $this->getDeleteForm($tag);
+        $editForm = $this->get(ARVBlogServices::TAG_FORM)->editForm($tag);
+        $deleteForm = $this->get(ARVBlogServices::TAG_FORM)->deleteForm($tag);
 
         return array(
             'tag' => $tag,
@@ -143,12 +129,10 @@ class TagController extends Controller
      */
     public function updateAction(Request $request, Tag $tag)
     {
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
-        }
+        $this->checkRight();
 
-        $deleteForm = $this->getDeleteForm($tag);
-        $editForm = $this->getEditForm($tag);
+        $deleteForm = $this->get(ARVBlogServices::TAG_FORM)->deleteForm($tag);
+        $editForm = $this->get(ARVBlogServices::TAG_FORM)->editForm($tag);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -175,11 +159,9 @@ class TagController extends Controller
      */
     public function deleteAction(Request $request, Tag $tag)
     {
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
-        }
+        $this->checkRight();
 
-        $form = $this->getDeleteForm($tag);
+        $form = $this->get(ARVBlogServices::TAG_FORM)->deleteForm($tag);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -204,75 +186,13 @@ class TagController extends Controller
         );
     }
 
-
-    // ****************
-    // PRIVATE METHODS
-    // ****************
-
     /**
-     * @param Tag $tag
-     * @return \Symfony\Component\Form\Form
+     * Check right of user.
      */
-    private function getCreateForm(Tag $tag)
-    {
-        $form = $this->createForm(new TagType(), $tag, array(
-            'action' => $this->generateUrl('arv_blog_tag_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit',
-            array('label' => $this->get('translator')->trans('arv.blog.form.button.add'))
-        );
-
-        return $form;
-    }
-
-    /**
-     *
-     * @param Tag $tag
-     * @return \Symfony\Component\Form\Form
-     */
-    private function getEditForm(Tag $tag)
-    {
-        $form = $this->createForm(new TagType(), $tag, array(
-            'action' => $this->generateUrl('arv_blog_tag_update', array('id' => $tag->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit',
-            array('label' => $this->get('translator')->trans('arv.blog.form.button.edit'))
-        );
-
-        return $form;
-    }
-
-    /**
-     * @param Tag $tag
-     * @return \Symfony\Component\Form\Form
-     */
-    private function getDeleteForm(Tag $tag)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('arv_blog_tag_delete', array('id' => $tag->getId())))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit',
-                array('label' => $this->get('translator')->trans('arv.blog.form.button.delete'))
-            )
-            ->getForm();
-    }
-
-    /**
-     * Create list of delete forms.
-     * @param $tags
-     * @return array
-     */
-    private function getDeleteForms($tags)
-    {
-        $deleteForms = array();
-        foreach ($tags as $tag) {
-            $deleteForms[$tag->getId()] = $this->getDeleteForm($tag)->createView();
+    private function checkRight() {
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
         }
-        return $deleteForms;
     }
 
 }
