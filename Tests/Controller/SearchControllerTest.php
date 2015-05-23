@@ -46,5 +46,15 @@ class SearchControllerTest extends AbstractFunctionalTest
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
+    /**
+     *
+     */
+    public function test_search_tag()
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->url . '/tag/tag2');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+    }
+
 }
 

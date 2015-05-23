@@ -58,17 +58,18 @@ class CommentManager
     {
         if ($article !== null) {
             $comments = $this->getByArticle($article, $orderBy);
-        }
-        if ($orderBy) {
-            $comments = $this->getRepository()->findBy(array(), array('dateModification' => 'DESC'));
         } else {
-            $comments = $this->getRepository()->findAll();
+            if ($orderBy) {
+                $comments = $this->getRepository()->findBy(array(), array('dateModification' => 'DESC'));
+            } else {
+                $comments = $this->getRepository()->findAll();
+            }
         }
 
         return $this->paginator->paginate(
             $comments,
             $page,
-            2
+            10
         );
     }
 

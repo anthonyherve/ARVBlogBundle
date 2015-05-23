@@ -53,7 +53,7 @@ class CommentManagerTest extends AbstractFunctionalTest
      */
     public function test_comment_get_all_not_ordered_with_no_article()
     {
-        $this->assertCount(3, $this->manager->getAll(null, false));
+        $this->assertCount(3, $this->manager->getAll(1, null, false));
     }
 
     /**
@@ -62,7 +62,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     public function test_comment_get_all_ordered_with_article()
     {
         $article = $this->articleManager->getRepository()->findOneByTitle("HTML Ipsum Presents");
-        $this->assertCount(1, $this->manager->getAll($article));
+        $this->assertCount(1, $this->manager->getAll(1, $article));
     }
 
     /**
@@ -71,7 +71,7 @@ class CommentManagerTest extends AbstractFunctionalTest
     public function test_comment_get_all_not_ordered_with_article()
     {
         $article = $this->articleManager->getRepository()->findOneByTitle("HTML Ipsum Presents");
-        $this->assertCount(1, $this->manager->getAll($article, false));
+        $this->assertCount(1, $this->manager->getAll(1, $article, false));
     }
 
     /**

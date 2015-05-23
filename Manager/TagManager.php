@@ -58,7 +58,7 @@ class TagManager
         return $this->paginator->paginate(
             $this->getRepository()->findAll(),
             $page,
-            2
+            10
         );
     }
 

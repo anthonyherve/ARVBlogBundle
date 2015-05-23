@@ -58,7 +58,7 @@ class ArticleManager
         return $this->paginator->paginate(
             $this->getRepository()->findBy(array(), array('datePublication' => 'desc')),
             $page,
-            2
+            10
         );
     }
 
@@ -83,7 +83,7 @@ class ArticleManager
         return $this->paginator->paginate(
             $this->getRepository()->search($search, $publishedOnly),
             $page,
-            2
+            10
         );
     }
 
