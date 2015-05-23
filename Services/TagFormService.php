@@ -3,9 +3,7 @@
 namespace ARV\BlogBundle\Services;
 
 
-use ARV\BlogBundle\Entity\Article;
 use ARV\BlogBundle\Entity\Tag;
-use ARV\BlogBundle\Form\Type\ArticleType;
 use ARV\BlogBundle\Form\Type\TagType;
 
 /**

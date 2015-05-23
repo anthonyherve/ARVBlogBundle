@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ARV\BlogBundle\Entity\Tag;
-use ARV\BlogBundle\Form\Type\TagType;
 
 /**
  * Class TagController

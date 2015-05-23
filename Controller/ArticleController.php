@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ARV\BlogBundle\Entity\Article;
-use ARV\BlogBundle\Form\Type\ArticleType;
 
 /**
  * Class ArticleController.

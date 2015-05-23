@@ -46,7 +46,7 @@ class UserRelationSubscriber implements EventSubscriber
         // Add relation with custom entity User
         if ($metadata->getName() == 'ARV\BlogBundle\Entity\Article') {
             // Check user_class parameter
-            if ($this->userClass != null) {
+            if ($this->userClass !== null) {
                 $metadata->mapManyToOne(array(
                     'targetEntity'  => $this->userClass,
                     'fieldName'     => 'user',
@@ -61,7 +61,7 @@ class UserRelationSubscriber implements EventSubscriber
         // Add relation with custom entity User
         if ($metadata->getName() == 'ARV\BlogBundle\Entity\Comment') {
             // Check user_class parameter
-            if ($this->userClass != null) {
+            if ($this->userClass !== null) {
                 $metadata->mapManyToOne(array(
                     'targetEntity'  => $this->userClass,
                     'fieldName'     => 'user',
