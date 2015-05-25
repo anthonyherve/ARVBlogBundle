@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ARV\BlogBundle\Entity\Comment;
-use ARV\BlogBundle\Form\Type\CommentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
@@ -25,13 +24,14 @@ class CommentController extends Controller
      * List of comments.
      * @Template
      * @ParamConverter("article", class="ARVBlogBundle:Article", options={"id"="id_article"})
+     * @param Request $request
      * @param Article $article
      * @return array
      */
-    public function listAction(Article $article = null)
+    public function listAction(Request $request, Article $article = null)
     {
-        $comments = $this->get(ARVBlogServices::COMMENT_MANAGER)->getAll($article);
-        $deleteForms = $this->getDeleteForms($comments);
+        $comments = $this->get(ARVBlogServices::COMMENT_MANAGER)->getAll($request->query->get('page', 1), $article);
+        $deleteForms = $this->get(ARVBlogServices::COMMENT_FORM)->deleteForms($comments);
 
         return array(
             'comments' => $comments,
@@ -43,22 +43,15 @@ class CommentController extends Controller
     /**
      * Manage comments.
      * @Template
+     * @param Request $request
      * @return array
      */
     public function manageAction(Request $request)
     {
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
-        }
+        $this->checkRight();
 
-        $foundComments = $this->get(ARVBlogServices::COMMENT_MANAGER)->getAll();
-        $deleteForms = $this->getDeleteForms($foundComments);
-
-        $comments = $this->get('knp_paginator')->paginate(
-            $foundComments,
-            $request->query->get('page', 1),
-            2
-        );
+        $comments = $this->get(ARVBlogServices::COMMENT_MANAGER)->getAll($request->query->get('page', 1));
+        $deleteForms = $this->get(ARVBlogServices::COMMENT_FORM)->deleteForms($comments);
 
         return array(
             'comments' => $comments,
@@ -70,22 +63,18 @@ class CommentController extends Controller
      * Display new form.
      * @Template
      * @ParamConverter("article", class="ARVBlogBundle:Article", options={"id"="id_article"})
+     * @param Article $article
      * @return array
      */
     public function newAction(Article $article = null)
     {
-        // Check if user can write anonymously a comment
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
-                $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
-            }
-        }
+        $this->checkCreateRight();
 
         $comment = new Comment();
         if ($article !== null) {
             $comment->setArticle($article);
         }
-        $form = $this->getCreateForm($comment);
+        $form = $this->get(ARVBlogServices::COMMENT_FORM)->createForm($comment);
 
         return array(
             'comment' => $comment,
@@ -101,15 +90,10 @@ class CommentController extends Controller
      */
     public function createAction(Request $request)
     {
-        // Check if user can write anonymously a comment
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
-                $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
-            }
-        }
+        $this->checkCreateRight();
 
         $comment = new Comment();
-        $form = $this->getCreateForm($comment);
+        $form = $this->get(ARVBlogServices::COMMENT_FORM)->createForm($comment);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -154,7 +138,7 @@ class CommentController extends Controller
      */
     public function showAction(Comment $comment)
     {
-        $deleteForm = $this->getDeleteForm($comment);
+        $deleteForm = $this->get(ARVBlogServices::COMMENT_FORM)->deleteForm($comment);
 
         return array(
             'comment' => $comment,
@@ -170,19 +154,13 @@ class CommentController extends Controller
      */
     public function editAction(Comment $comment)
     {
-        // Check if user can write anonymously a comment
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
-                $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
-                if ($comment->getUser() != $this->get('security.token_storage')->getToken()->getUser()) {
-                    $this->addFlash('danger', 'arv.blog.exception.comment_edition');
-                    return $this->redirect($this->generateUrl('arv_blog_home'));
-                }
-            }
+        if (!$this->checkUpdateRight($comment)) {
+            $this->addFlash('danger', 'arv.blog.exception.comment_edition');
+            return $this->redirect($this->generateUrl('arv_blog_home'));
         }
 
-        $editForm = $this->getEditForm($comment);
-        $deleteForm = $this->getDeleteForm($comment);
+        $editForm = $this->get(ARVBlogServices::COMMENT_FORM)->editForm($comment);
+        $deleteForm = $this->get(ARVBlogServices::COMMENT_FORM)->deleteForm($comment);
 
         return array(
             'comment' => $comment,
@@ -200,19 +178,13 @@ class CommentController extends Controller
      */
     public function updateAction(Request $request, Comment $comment)
     {
-        // Check if user can write anonymously a comment
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
-                $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
-                if ($comment->getUser() != $this->get('security.token_storage')->getToken()->getUser()) {
-                    $this->addFlash('danger', 'arv.blog.exception.comment_edition');
-                    return $this->redirect($this->generateUrl('arv_blog_home'));
-                }
-            }
+        if (!$this->checkUpdateRight($comment)) {
+            $this->addFlash('danger', 'arv.blog.exception.comment_edition');
+            return $this->redirect($this->generateUrl('arv_blog_home'));
         }
 
-        $deleteForm = $this->getDeleteForm($comment);
-        $editForm = $this->getEditForm($comment);
+        $deleteForm = $this->get(ARVBlogServices::COMMENT_FORM)->deleteForm($comment);
+        $editForm = $this->get(ARVBlogServices::COMMENT_FORM)->editForm($comment);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -240,11 +212,9 @@ class CommentController extends Controller
      */
     public function deleteAction(Request $request, Comment $comment)
     {
-        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
-            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
-        }
+        $this->checkRight();
 
-        $form = $this->getDeleteForm($comment);
+        $form = $this->get(ARVBlogServices::COMMENT_FORM)->deleteForm($comment);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -257,77 +227,43 @@ class CommentController extends Controller
         return $this->redirect($this->generateUrl('arv_blog_comment_manage'));
     }
 
-
-    // ****************
-    // PRIVATE METHODS
-    // ****************
-
     /**
-     * @param Comment $comment
-     * @return \Symfony\Component\Form\Form
+     * Check right of user.
      */
-    private function getCreateForm(Comment $comment)
-    {
-        $form = $this->createForm(new CommentType(), $comment, array(
-            'action' => $this->generateUrl('arv_blog_comment_create'),
-            'method' => 'POST',
-            'display_email' => $this->container->getParameter(ARVBlogParameters::DISPLAY_EMAIL)
-        ));
-
-        $form->add('submit', 'submit',
-            array('label' => $this->get('translator')->trans('arv.blog.form.button.add'))
-        );
-
-        return $form;
-    }
-
-    /**
-     * @param Comment $comment
-     * @return \Symfony\Component\Form\Form
-     */
-    private function getEditForm(Comment $comment)
-    {
-        $form = $this->createForm(new CommentType(), $comment, array(
-            'action' => $this->generateUrl('arv_blog_comment_update', array('id' => $comment->getId())),
-            'method' => 'PUT',
-            'display_email' => $this->container->getParameter(ARVBlogParameters::DISPLAY_EMAIL)
-        ));
-
-        $form->add('submit', 'submit',
-            array('label' => $this->get('translator')->trans('arv.blog.form.button.edit'))
-        );
-
-        return $form;
-    }
-
-    /**
-     * @param Comment $comment
-     * @return \Symfony\Component\Form\Form
-     */
-    private function getDeleteForm(Comment $comment)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('arv_blog_comment_delete', array('id' => $comment->getId())))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit',
-                array('label' => $this->get('translator')->trans('arv.blog.form.button.delete'))
-            )
-            ->getForm();
-    }
-
-    /**
-     * Create list of delete forms.
-     * @param $comments
-     * @return array
-     */
-    private function getDeleteForms($comments)
-    {
-        $deleteForms = array();
-        foreach ($comments as $comment) {
-            $deleteForms[$comment->getId()] = $this->getDeleteForm($comment)->createView();
+    private function checkRight() {
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_ADMIN, null, 'arv.blog.exception.forbidden');
         }
-        return $deleteForms;
+    }
+
+    /**
+     * Check right to update comment.
+     * @param Comment $comment
+     * @return bool
+     */
+    private function checkUpdateRight(Comment $comment) {
+        // Check if user can write anonymously a comment
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
+                $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+                if ($comment->getUser() != $this->get('security.token_storage')->getToken()->getUser()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check right to create comment.
+     */
+    private function checkCreateRight() {
+        // Check if user can write anonymously a comment
+        if ($this->container->getParameter(ARVBlogParameters::IS_SECURE)) {
+            if (!$this->container->getParameter(ARVBlogParameters::WRITE_AS_ANONYMOUS)) {
+                $this->denyAccessUnlessGranted(ARVBlogRoles::ROLE_USER, null, 'arv.blog.exception.forbidden');
+            }
+        }
     }
 
 }
-

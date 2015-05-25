@@ -6,6 +6,7 @@ namespace ARV\BlogBundle\Manager;
 use ARV\BlogBundle\Entity\Article;
 use ARV\BlogBundle\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManager;
+use Knp\Component\Pager\Paginator;
 
 /**
  * Class ArticleManager
@@ -22,15 +23,21 @@ class ArticleManager
      * @var EntityManager
      */
     private $em;
+    /**
+     * @var Paginator
+     */
+    private $paginator;
 
     /**
      * @param ArticleRepository $repository
      * @param EntityManager $em
+     * @param Paginator $paginator
      */
-    public function __construct(ArticleRepository $repository, EntityManager $em)
+    public function __construct(ArticleRepository $repository, EntityManager $em, Paginator $paginator)
     {
         $this->repository = $repository;
         $this->em = $em;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -43,11 +50,16 @@ class ArticleManager
 
     /**
      * Get all articles.
+     * @param integer $page
      * @return array
      */
-    public function getAll()
+    public function getAll($page = 1)
     {
-        return $this->getRepository()->findBy(array(), array('datePublication' => 'desc'));
+        return $this->paginator->paginate(
+            $this->getRepository()->findBy(array(), array('datePublication' => 'desc')),
+            $page,
+            10
+        );
     }
 
     /**
@@ -63,21 +75,32 @@ class ArticleManager
      * Search articles with $search.
      * @param string $search
      * @param boolean $publishedOnly
+     * @param integer $page
      * @return array
      */
-    public function search($search = '', $publishedOnly = false)
+    public function search($search = '', $publishedOnly = false, $page = 1)
     {
-        return $this->getRepository()->search($search, $publishedOnly);
+        return $this->paginator->paginate(
+            $this->getRepository()->search($search, $publishedOnly),
+            $page,
+            10
+        );
     }
 
     /**
      * Search articles by tag.
      * @param $tag
+     * @param integer $page
+     * @param boolean $publishedOnly
      * @return mixed
      */
-    public function searchByTag($tag, $publishedOnly = false)
+    public function searchByTag($tag, $page = 1, $publishedOnly = false)
     {
-        return $this->getRepository()->searchByTag($tag, $publishedOnly);
+        return $this->paginator->paginate(
+            $this->getRepository()->searchByTag($tag, $publishedOnly),
+            $page,
+            2
+        );
     }
 
     /**

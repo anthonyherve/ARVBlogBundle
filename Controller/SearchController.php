@@ -60,14 +60,8 @@ class SearchController extends Controller
     public function tagAction(Request $request, $tag)
     {
 
-        $foundArticles = $this->get(ARVBlogServices::ARTICLE_MANAGER)->searchByTag($tag, true);
-        $deleteForms = $this->getDeleteForms($foundArticles);
-
-        $articles = $this->get('knp_paginator')->paginate(
-            $foundArticles,
-            $request->query->get('page', 1),
-            2
-        );
+        $articles = $this->get(ARVBlogServices::ARTICLE_MANAGER)->searchByTag($tag, $request->query->get('page', 1), true);
+        $deleteForms = $this->getDeleteForms($articles);
 
         return array(
             'articles' => $articles,

@@ -16,13 +16,13 @@ services:
         arguments: ["ARVBlogBundle:Tag"]
     arv_blog_manager_article:
         class: ARV\BlogBundle\Manager\ArticleManager
-        arguments: ["@arv_blog_repo_article", "@doctrine.orm.entity_manager"]
+        arguments: ["@arv_blog_repo_article", "@doctrine.orm.entity_manager", "@knp_paginator"]
     arv_blog_manager_comment:
         class: ARV\BlogBundle\Manager\CommentManager
-        arguments: ["@arv_blog_repo_comment", "@doctrine.orm.entity_manager"]
+        arguments: ["@arv_blog_repo_comment", "@doctrine.orm.entity_manager", "@knp_paginator"]
     arv_blog_manager_tag:
         class: ARV\BlogBundle\Manager\TagManager
-        arguments: ["@arv_blog_repo_tag", "@doctrine.orm.entity_manager"]
+        arguments: ["@arv_blog_repo_tag", "@doctrine.orm.entity_manager", "@knp_paginator"]
     arv_blog_subscriber_userrelation:
         class: ARV\BlogBundle\EventListener\UserRelationSubscriber
         arguments: ["%arv_blog.user_class%"]
@@ -41,3 +41,21 @@ services:
             - "%arv_blog.comment.write_as_anonymous%"
         tags:
             - { name: twig.extension }
+    arv_blog_form_service:
+        abstract: true
+        class: ARV\BlogBundle\Services\FormService
+        calls:
+            - [setTranslator, ["@translator"]]
+            - [setRouter, ["@router"]]
+            - [setFormFactory, ["@form.factory"]]
+    arv_blog_article_form_service:
+        class: ARV\BlogBundle\Services\ArticleFormService
+        arguments: ["%arv_blog.article.content_editor%", "%arv_blog.article.need_validation%"]
+        parent: arv_blog_form_service
+    arv_blog_comment_form_service:
+        class: ARV\BlogBundle\Services\CommentFormService
+        arguments: ["%arv_blog.comment.display_email%"]
+        parent: arv_blog_form_service
+    arv_blog_tag_form_service:
+        class: ARV\BlogBundle\Services\TagFormService
+        parent: arv_blog_form_service

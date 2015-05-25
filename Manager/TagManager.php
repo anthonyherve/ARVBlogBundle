@@ -7,6 +7,7 @@ use ARV\BlogBundle\Entity\Tag;
 use ARV\BlogBundle\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use Knp\Component\Pager\Paginator;
 
 /**
  * Class TagManager
@@ -23,15 +24,20 @@ class TagManager
      * @var EntityManager
      */
     private $em;
+    /**
+     * @var Paginator
+     */
+    private $paginator;
 
     /**
      * @param TagRepository $repository
      * @param EntityManager $em
      */
-    public function __construct(TagRepository $repository, EntityManager $em)
+    public function __construct(TagRepository $repository, EntityManager $em, Paginator $paginator)
     {
         $this->repository = $repository;
         $this->em = $em;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -44,11 +50,16 @@ class TagManager
 
     /**
      * Get all tags.
+     * @param integer $page
      * @return array
      */
-    public function getAll()
+    public function getAll($page = 1)
     {
-        return $this->getRepository()->findAll();
+        return $this->paginator->paginate(
+            $this->getRepository()->findAll(),
+            $page,
+            10
+        );
     }
 
     /**
