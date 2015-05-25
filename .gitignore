@@ -1,4 +1,10 @@
 /vendor/
 composer.lock
 phpunit.xml
+phpunit
 Tests/autoload.php
+Tests/Resources/app/cache
+Tests/Resources/app/cache/*
+Tests/Resources/app/logs/*
+!Tests/Resourcesapp/cache/.gitkeep
+!Tests/Resourcesapp/logs/.gitkeep

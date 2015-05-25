@@ -1,0 +1,11 @@
+arv_blog:
+    base_template: ~
+    user_class: ~
+    is_secure: false
+    article:
+        content_editor: tinymce
+        need_validation: true
+    comment:
+        waiting_time: 5
+        display_email: true
+        write_as_anonymous: false

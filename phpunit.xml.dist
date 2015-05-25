@@ -3,12 +3,13 @@
 <phpunit bootstrap="./Tests/bootstrap.php" colors="true">
     <!-- Les fichiers de tests à lancer -->
     <testsuites>
-        <testsuite name="arvblogbundle_travis">
-            <directory suffix="Test.php">./Tests/DependencyInjection</directory>
-            <directory suffix="Test.php">./Tests/Entity</directory>
-            <directory suffix="Test.php">./Tests/Form</directory>
+        <testsuite name="arvblogbundle_unit">
+            <directory suffix="Test.php">./Tests/Unit</directory>
         </testsuite>
-        <testsuite name="arvblogbundle_all">
+        <testsuite name="arvblogbundle_functional">
+            <directory suffix="Test.php">./Tests/Functional</directory>
+        </testsuite>
+        <testsuite name="arvblogbundle">
             <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>
@@ -23,4 +24,8 @@
             </exclude>
         </whitelist>
     </filter>
+
+    <php>
+        <server name="KERNEL_DIR" value="Tests/Resources/app" />
+    </php>
 </phpunit>

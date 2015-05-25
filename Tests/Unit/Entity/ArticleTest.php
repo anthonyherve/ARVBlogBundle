@@ -1,6 +1,6 @@
 <?php
 
-namespace ARV\BlogBundle\Tests\Entity;
+namespace ARV\BlogBundle\Tests\Unit\Entity;
 
 
 use ARV\BlogBundle\Entity\Article;

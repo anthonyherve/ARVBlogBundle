@@ -1,9 +1,9 @@
 <?php
 
-namespace ARV\BlogBundle\Tests\Controller;
+namespace ARV\BlogBundle\Tests\Functional\Controller;
 
 
-use ARV\BlogBundle\Tests\AbstractFunctionalTest;
+use ARV\BlogBundle\Tests\Functional\AbstractFunctionalTest;
 
 /**
  * Class SearchControllerTest

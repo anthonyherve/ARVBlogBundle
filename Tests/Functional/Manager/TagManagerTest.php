@@ -1,10 +1,10 @@
 <?php
 
-namespace ARV\BlogBundle\Tests\Manager;
+namespace ARV\BlogBundle\Tests\Functional\Manager;
 
 
 use ARV\BlogBundle\Entity\Tag;
-use ARV\BlogBundle\Tests\AbstractFunctionalTest;
+use ARV\BlogBundle\Tests\Functional\AbstractFunctionalTest;
 
 /**
  * Class TagManagerTest

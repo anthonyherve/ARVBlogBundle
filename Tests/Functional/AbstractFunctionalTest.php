@@ -1,6 +1,6 @@
 <?php
 
-namespace ARV\BlogBundle\Tests;
+namespace ARV\BlogBundle\Tests\Functional;
 
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;

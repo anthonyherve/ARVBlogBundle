@@ -1,6 +1,6 @@
 <?php
 
-namespace ARV\BlogBundle\Tests\DependencyInjection;
+namespace ARV\BlogBundle\Tests\Unit\DependencyInjection;
 
 use ARV\BlogBundle\DependencyInjection\ARVBlogExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

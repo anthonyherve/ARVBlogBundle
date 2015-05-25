@@ -1,6 +1,6 @@
 <?php
 
-namespace ARV\BlogBundle\Tests\Form\Type;
+namespace ARV\BlogBundle\Tests\Unit\Form\Type;
 
 
 use ARV\BlogBundle\Entity\Article;
