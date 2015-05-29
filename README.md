@@ -6,7 +6,7 @@ This BlogBundle provides some features to create and manage a blog, with a front
 and a back part for admin.
 
 [![Travis CI](https://travis-ci.org/anthonyherve/ARVBlogBundle.svg)](https://travis-ci.org/anthonyherve/ARVBlogBundle)
-[![Latest Stable Version](https://poser.pugx.org/arv/blog-bundle/v/stable)](https://packagist.org/packages/arv/blog-bundle)
+[![Latest Stable Version](https://poser.pugx.org/arv/blog-bundle/version)](https://packagist.org/packages/arv/blog-bundle)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/468ed4a6-dc69-43a4-b9f6-bf58a88cffff/mini.png)](https://insight.sensiolabs.com/projects/468ed4a6-dc69-43a4-b9f6-bf58a88cffff)
 
 ## Features coming soon
