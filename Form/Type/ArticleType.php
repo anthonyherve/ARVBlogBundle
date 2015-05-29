@@ -31,7 +31,7 @@ class ArticleType extends AbstractType
         ;
 
         // Define content field depending on content_editor parameter
-        if ($options['content_editor'] == null) {
+        if ($options['content_editor'] === null) {
             $builder->add('content', 'textarea', array(
                 'label' => 'arv.blog.form.label.article.content'
             ));
