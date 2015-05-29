@@ -22,7 +22,6 @@ final class ARVBlogParameters
     const WRITE_AS_ANONYMOUS = 'arv_blog.comment.write_as_anonymous';
 
     // Values of parameters
-    const EDITOR_NONE = 'none';
     const EDITOR_TINYMCE = 'tinymce';
 
 }

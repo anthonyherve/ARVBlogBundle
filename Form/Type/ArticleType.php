@@ -31,7 +31,7 @@ class ArticleType extends AbstractType
         ;
 
         // Define content field depending on content_editor parameter
-        if ($options['content_editor'] == ARVBlogParameters::EDITOR_NONE) {
+        if ($options['content_editor'] == null) {
             $builder->add('content', 'textarea', array(
                 'label' => 'arv.blog.form.label.article.content'
             ));
@@ -57,7 +57,7 @@ class ArticleType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'ARV\BlogBundle\Entity\Article',
-            'content_editor' => 'none',
+            'content_editor' => null,
             'need_validation' => true
         ));
     }

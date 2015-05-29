@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('arv_blog');
 
-        $supportedEditors = array('none', 'tinymce');
+        $supportedEditors = array(null, 'tinymce');
 
         $rootNode
             ->children()
@@ -38,11 +38,10 @@ class Configuration implements ConfigurationInterface
                                 ->thenInvalid('The editor %s is not supported. '
                                     . 'Please choose one of ' . json_encode($supportedEditors))
                             ->end()
-                            ->defaultValue('tinymce')
-                            ->cannotBeEmpty()
+                            ->defaultNull()
                         ->end()
                         ->booleanNode('need_validation')
-                            ->defaultTrue()
+                            ->defaultFalse()
                         ->end()
                     ->end()
                 ->end()
@@ -51,14 +50,14 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->integerNode('waiting_time')
                             ->min(0)
-                            ->defaultValue(5)
+                            ->defaultValue(0)
                             ->cannotBeEmpty()
                         ->end()
                         ->booleanNode('display_email')
                             ->defaultTrue()
                         ->end()
                         ->booleanNode('write_as_anonymous')
-                            ->defaultFalse()
+                            ->defaultTrue()
                         ->end()
                     ->end()
                 ->end()

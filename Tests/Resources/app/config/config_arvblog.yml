@@ -3,7 +3,7 @@ arv_blog:
     user_class: ~
     is_secure: false
     article:
-        content_editor: tinymce
+        content_editor: ~
         need_validation: true
     comment:
         waiting_time: 5
